@@ -2,15 +2,15 @@
 <div style="font-family:monospace;">
   <h3>Das sind deine angenommenen Finanz-Inputparameter:</h3>
   <label>
-    Kaufpreis (in €): 
+    Kaufpreis [€]: 
     <input type="number" id="housing_cost" value="500000" min="0" step="1">
   </label><br>
   <label>
-    Nettojahreseinkommen (in €): 
+    Jah­res­net­to­ein­kom­men [€]: 
     <input type="number" id="netto_income_per_anno" value="60000" min="0" step="1">
   </label><br>
   <label>
-    Monatskaltmiete (in €): 
+    Monatskaltmiete [€]: 
     <input type="number" id="cold_rent_per_month" value="1500" min="0" step="1">
   </label><br><br>
   <div id="finanz-parameter"></div>
@@ -26,12 +26,12 @@
 
     document.getElementById('finanz-parameter').innerHTML = `
       - Kaufpreis:                ${(housing_cost).toLocaleString('de-DE')} €<br>
-      - Nettojahreseinkommen:     ${(netto_income_per_anno).toLocaleString('de-DE')} €<br>
+      - Jah­res­net­to­ein­kom­men:     ${(netto_income_per_anno).toLocaleString('de-DE')} €<br>
       - Monatskaltmiete:          ${cold_rent_per_month.toLocaleString('de-DE')} €
     `;
 
     const index = netto_income_per_anno > 0 ? (housing_cost / netto_income_per_anno).toFixed(2) : '—';
-    document.getElementById('index').innerHTML = `<br>Kaufpreis-Jahreseinkommen Index: ${index}`;
+    document.getElementById('index').innerHTML = `<br>Kaufpreis-Jah­res­net­to­ein­kom­men Index: ${index}`;
 
     const vervielfaeltiger = cold_rent_per_month > 0 ? (housing_cost / (cold_rent_per_month * 12)).toFixed(2) : '—';
     document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index Kaufpreis-Jahreskaltmiete: ${vervielfaeltiger}`;
