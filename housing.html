@@ -2,7 +2,7 @@
 <div style="font-family:monospace;">
   <h3>Das sind deine angenommenen Finanz-Inputparameter:</h3>
   <label>
-    Kaufpreis [€]: 
+    Kaufpreis [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="housing_cost" value="500000" min="0" step="1">
   </label><br>
   <label>
@@ -10,7 +10,7 @@
     <input type="number" id="netto_income_per_anno" value="60000" min="0" step="1">
   </label><br>
   <label>
-    Monatskaltmiete [€]: 
+    Monatskaltmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="cold_rent_per_month" value="1500" min="0" step="1">
   </label><br><br>
   <div id="finanz-parameter"></div>
@@ -25,9 +25,9 @@
     const cold_rent_per_month = Number(document.getElementById('cold_rent_per_month').value);
 
     document.getElementById('finanz-parameter').innerHTML = `
-      - Kaufpreis:                ${(housing_cost).toLocaleString('de-DE')} €<br>
-      - Jah­res­net­to­ein­kom­men:     ${(netto_income_per_anno).toLocaleString('de-DE')} €<br>
-      - Monatskaltmiete:          ${cold_rent_per_month.toLocaleString('de-DE')} €
+      -> Kaufpreis:                ${(housing_cost).toLocaleString('de-DE')} €<br>
+      -> Jah­res­net­to­ein­kom­men:     ${(netto_income_per_anno).toLocaleString('de-DE')} €<br>
+      -> Monatskaltmiete:          ${cold_rent_per_month.toLocaleString('de-DE')} €
     `;
 
     const index = netto_income_per_anno > 0 ? (housing_cost / netto_income_per_anno).toFixed(2) : '—';
@@ -55,17 +55,17 @@
 
 <!-- Neuer Abschnitt für zeitliche Dynamik -->
 <div style="font-family:monospace;">
-  <h3>Berücksichtigung des Faktors Zeit. Zeitliche Dynamik</h3>
+  <h3>Zeitliche Dynamik - Berücksichtigung des Faktors Zeit</h3>
   <label>
-    Zeitraum (Jahre): 
+    Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="years" value="10" min="1" max="50" step="1">
   </label><br>
   <label>
-    Mietsteigerung pro Jahr (%): 
+    Mietsteigerung pro Jahr [%]:&nbsp;&nbsp;&nbsp;
     <input type="number" id="average_rent_increase_rate" value="2" min="0" max="10" step="0.1">
   </label><br>
   <label>
-    Gehaltssteigerung pro Jahr (%): 
+    Gehaltssteigerung pro Jahr [%]: 
     <input type="number" id="average_salary_increase_rate" value="2" min="0" max="50" step="0.1">
   </label><br><br>
   <div id="dynamik-kaltmiete"></div>
