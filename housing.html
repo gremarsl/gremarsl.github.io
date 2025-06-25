@@ -25,9 +25,9 @@
     const cold_rent_per_month = Number(document.getElementById('cold_rent_per_month').value);
 
     document.getElementById('finanz-parameter').innerHTML = `
-      -> Kaufpreis:                ${(housing_cost).toLocaleString('de-DE')} €<br>
+      -> Kaufpreis:&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(housing_cost).toLocaleString('de-DE')} €<br>
       -> Jah­res­net­to­ein­kom­men:     ${(netto_income_per_anno).toLocaleString('de-DE')} €<br>
-      -> Monatskaltmiete:          ${cold_rent_per_month.toLocaleString('de-DE')} €
+      -> Monatskaltmiete: &nbsp;&nbsp;&nbsp;&nbsp;         ${cold_rent_per_month.toLocaleString('de-DE')} €
     `;
 
     const index = netto_income_per_anno > 0 ? (housing_cost / netto_income_per_anno).toFixed(2) : '—';
