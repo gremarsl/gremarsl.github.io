@@ -77,6 +77,67 @@
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
+
+<!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
+<div style="font-family:monospace;">
+  <h3>Gesamte Mietzahlungen</h3>
+  <label>
+    Monatsmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="number" id="miete_monat" value="1500" min="0" step="1" style="width:4em;">
+  </label><br>
+  <label>
+    Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1" style="width:4em;">
+  </label><br>
+  <label>
+    Mietsteigerung pro Jahr [%]:
+    <input type="number" id="miete_steigerung" value="2" min="0" max="10" step="0.1" style="width:4em;">
+  </label>
+  <br><br>
+  <div id="miete-ohne-steigerung"></div>
+  <div id="miete-mit-steigerung"></div>
+</div>
+
+<script>
+function updateMiete() {
+  // Input-Parameter
+  const cold_rent_per_month = Number(document.getElementById('miete_monat').value);
+  const zeitraum = Number(document.getElementById('miete_zeitraum').value);
+  const average_rent_increase_rate = Number(document.getElementById('miete_steigerung').value) / 100;
+
+  // Jahresmiete
+  const miete = cold_rent_per_month * 12;
+
+  // Gesamte Mietzahlungen ohne Steigerung
+  const miete_ohne_steigerung = miete * zeitraum;
+
+  // Gesamte Mietzahlungen mit Steigerung
+  let miete_mit_steigerung = 0;
+  for (let i = 0; i < zeitraum; i++) {
+    miete_mit_steigerung += miete * Math.pow(1 + average_rent_increase_rate, i);
+  }
+
+  document.getElementById('miete-ohne-steigerung').innerHTML =
+    `Gesamte Mietzahlungen über ${zeitraum} Jahre: ${miete_ohne_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
+
+  document.getElementById('miete-mit-steigerung').innerHTML =
+    `Gesamte Mietzahlungen über ${zeitraum} Jahre mit ${(average_rent_increase_rate*100).toFixed(1)}% Steigerung jährlich: ${miete_mit_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
+}
+
+// Initial output
+updateMiete();
+
+// Event Listener
+document.getElementById('miete_zeitraum').addEventListener('input', updateMiete);
+document.getElementById('miete_steigerung').addEventListener('input', updateMiete);
+document.getElementById('miete_monat').addEventListener('input', updateMiete);
+</script>
+
+
+<!-- Visuelle Trennung -->
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+
 <!-- Neuer Abschnitt für zeitliche Dynamik -->
 <div style="font-family:monospace;">
   <h3>Zeitliche Dynamik - Berücksichtigung des Faktors Zeit</h3>
@@ -143,58 +204,3 @@
 
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-
-<!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
-<div style="font-family:monospace;">
-  <h3>Gesamte Mietzahlungen</h3>
-  <label>
-    Monatsmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="number" id="miete_monat" value="1500" min="0" step="1" style="width:4em;">
-  </label><br>
-  <label>
-    Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1" style="width:4em;">
-  </label><br>
-  <label>
-    Mietsteigerung pro Jahr [%]:
-    <input type="number" id="miete_steigerung" value="2" min="0" max="10" step="0.1" style="width:4em;">
-  </label>
-  <br><br>
-  <div id="miete-ohne-steigerung"></div>
-  <div id="miete-mit-steigerung"></div>
-</div>
-
-<script>
-function updateMiete() {
-  // Input-Parameter
-  const cold_rent_per_month = Number(document.getElementById('miete_monat').value);
-  const zeitraum = Number(document.getElementById('miete_zeitraum').value);
-  const average_rent_increase_rate = Number(document.getElementById('miete_steigerung').value) / 100;
-
-  // Jahresmiete
-  const miete = cold_rent_per_month * 12;
-
-  // Gesamte Mietzahlungen ohne Steigerung
-  const miete_ohne_steigerung = miete * zeitraum;
-
-  // Gesamte Mietzahlungen mit Steigerung
-  let miete_mit_steigerung = 0;
-  for (let i = 0; i < zeitraum; i++) {
-    miete_mit_steigerung += miete * Math.pow(1 + average_rent_increase_rate, i);
-  }
-
-  document.getElementById('miete-ohne-steigerung').innerHTML =
-    `Gesamte Mietzahlungen über ${zeitraum} Jahre: ${miete_ohne_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
-
-  document.getElementById('miete-mit-steigerung').innerHTML =
-    `Gesamte Mietzahlungen über ${zeitraum} Jahre mit ${(average_rent_increase_rate*100).toFixed(1)}% Steigerung jährlich: ${miete_mit_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
-}
-
-// Initial output
-updateMiete();
-
-// Event Listener
-document.getElementById('miete_zeitraum').addEventListener('input', updateMiete);
-document.getElementById('miete_steigerung').addEventListener('input', updateMiete);
-document.getElementById('miete_monat').addEventListener('input', updateMiete);
-</script>
