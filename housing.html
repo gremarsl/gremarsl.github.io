@@ -39,9 +39,10 @@
   <h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
   <p>
     Preis-Einkommens-Index (Kaufpreis/Jahresnettoeinkommen): <br> 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
+    Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
+     <br>
     Vervielfältiger-Index: <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
+    Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
   </p>
   <label>
     Kaufpreis der Immobilie [€]:
@@ -81,6 +82,8 @@
   document.getElementById('netto_income_per_anno').addEventListener('input', updateOutput);
   document.getElementById('cold_rent_per_month').addEventListener('input', updateOutput);
 </script>
+
+<div style="font-family:monospace; margin-bottom:2em;">
 <p>
   Und was sagen mir diese Indizes? <br>
   Die empirica AG veröffentlicht quartalsweise einen 
@@ -89,6 +92,9 @@
   </a> für Deutschlands Großstädte. <br>
   Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
 </p>
+</div>
+
+
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
@@ -205,7 +211,7 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
       : '—';
     // Ausgabe der Ergebnisse
     document.getElementById('dynamik-vervielfaeltiger').innerHTML =
-      `Vervielfältiger nach ${years} Jahren mit ${(average_rent_increase_rate*100).toFixed(1)}% Mietsteigerung: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${typeof vervielfaeltiger_in_n_jahren === 'number' ? vervielfaeltiger_in_n_jahren.toFixed(2) : '—'}`;
+      `Vervielfältiger nach ${years} Jahren mit ${(average_rent_increase_rate*100).toFixed(1)}% Mietsteigerung: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${typeof vervielfaeltiger_in_n_jahren === 'number' ? vervielfaeltiger_in_n_jahren.toFixed(2) : '—'}`;
 
     document.getElementById('dynamik-einkommen-index').innerHTML =
       `Kaufpreis-Jahreseinkommens Index nach ${years} Jahren mit ${(average_salary_increase_rate*100).toFixed(1)}% Gehaltssteigerung: ${typeof cost_to_income_index === 'number' ? cost_to_income_index.toFixed(2) : '—'}`;
