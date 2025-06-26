@@ -81,12 +81,14 @@
   document.getElementById('netto_income_per_anno').addEventListener('input', updateOutput);
   document.getElementById('cold_rent_per_month').addEventListener('input', updateOutput);
 </script>
-  <p>
-    Und was sagen mir diese Indizes? <br>
-    Die empirica ag veröffentlich quartalsweise einen <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf">Immobilien Blasenindex (Q12025)</a> für Deutschlands Großstädte. <br>
-    Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
-  </p>
-
+<p>
+  Und was sagen mir diese Indizes? <br>
+  Die empirica AG veröffentlicht quartalsweise einen 
+  <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf" target="_blank" rel="noopener">
+    Immobilien Blasenindex (Q12025)
+  </a> für Deutschlands Großstädte. <br>
+  Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
+</p>
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
@@ -94,6 +96,10 @@
 <!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
 <div style="font-family:monospace;">
   <h3>Gesamte Mietzahlungen</h3>
+  <p>
+    Diese Berechnung zeigt die gesamten Mietzahlungen über einen bestimmten Zeitraum, sowohl ohne als auch mit jährlicher Mietsteigerung.
+    
+  </p>
   <label>
     Monatsmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="miete_monat" value="1500" min="0" step="1" style="width:4em;">
@@ -131,7 +137,7 @@ function updateMiete() {
   }
 
   document.getElementById('miete-ohne-steigerung').innerHTML =
-    `Gesamte Mietzahlungen über ${zeitraum} Jahre: ${miete_ohne_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
+    `Gesamte Mietzahlungen über ${zeitraum} Jahre: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_ohne_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
 
   document.getElementById('miete-mit-steigerung').innerHTML =
     `Gesamte Mietzahlungen über ${zeitraum} Jahre mit ${(average_rent_increase_rate*100).toFixed(1)}% Steigerung jährlich: ${miete_mit_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
