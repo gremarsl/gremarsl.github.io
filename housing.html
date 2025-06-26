@@ -6,7 +6,7 @@
     max-width: 400px;
     box-sizing: border-box;
     font-size: 1.1em;
-    padding: 0.3em;
+    padding: 0.2em;
     margin-top: 0.2em;
     margin-bottom: 0.6em;
   }
@@ -36,7 +36,11 @@
 </div>
 <!-- Financial Input Parameters and Index Calculation -->
 <div style="font-family:monospace;">
-  <h3>Inputparameter - Das sind deine Annahmen</h3>
+  <h3>Berechnung des Kaufpreis-Jahresnettoeinkommen-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
+  <p>
+    Kaufpreis-Jahresnettoeinkommen-Index: Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
+    Vervielfältiger-Index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
+  </p>
   <label>
     Kaufpreis der Immobilie [€]:
     <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
@@ -61,10 +65,10 @@
     const cold_rent_per_month = Number(document.getElementById('cold_rent_per_month').value);
 
     const index = netto_income_per_anno > 0 ? (housing_cost / netto_income_per_anno).toFixed(2) : '—';
-    document.getElementById('index').innerHTML = `<br>Kaufpreis-Jah­res­net­to­ein­kom­men Index: ${index}`;
+    document.getElementById('index').innerHTML = `<br>Kaufpreis-Jah­res­net­to­ein­kom­men-Index:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${index}`;
 
     const vervielfaeltiger = cold_rent_per_month > 0 ? (housing_cost / (cold_rent_per_month * 12)).toFixed(2) : '—';
-    document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index Kaufpreis-Jahreskaltmiete: ${vervielfaeltiger}`;
+    document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index (Kaufpreis zu Jahreskaltmiete): &nbsp;&nbsp;${vervielfaeltiger}`;
   }
 
   // Initial output
@@ -75,7 +79,10 @@
   document.getElementById('netto_income_per_anno').addEventListener('input', updateOutput);
   document.getElementById('cold_rent_per_month').addEventListener('input', updateOutput);
 </script>
+  <p>
+    Und was sagen mir diese Indizes? <br>
 
+  </p>
 
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
@@ -143,7 +150,7 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 
 <!-- Neuer Abschnitt für zeitliche Dynamik -->
 <div style="font-family:monospace;">
-  <h3>Zeitliche Dynamik - Berücksichtigung des Faktors Zeit</h3>
+  <h3>Berechnung des Kaufpreis-Jahreseinkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
   <label>
     Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="years" value="10" min="1" max="50" step="1"style="width: 3em;">
