@@ -36,10 +36,12 @@
 </div>
 <!-- Financial Input Parameters and Index Calculation -->
 <div style="font-family:monospace;">
-  <h3>Berechnung des Kaufpreis-Jahresnettoeinkommen-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
+  <h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
   <p>
-    Kaufpreis-Jahresnettoeinkommen-Index: Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
-    Vervielfältiger-Index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
+    Preis-Einkommens-Index (Kaufpreis/Jahresnettoeinkommen): <br> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
+    Vervielfältiger-Index: <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
   </p>
   <label>
     Kaufpreis der Immobilie [€]:
@@ -65,10 +67,10 @@
     const cold_rent_per_month = Number(document.getElementById('cold_rent_per_month').value);
 
     const index = netto_income_per_anno > 0 ? (housing_cost / netto_income_per_anno).toFixed(2) : '—';
-    document.getElementById('index').innerHTML = `<br>Kaufpreis-Jah­res­net­to­ein­kom­men-Index:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${index}`;
+    document.getElementById('index').innerHTML = `<br>Preis-Einkommens-Index (Kaufpreis / Jahresnettoeinkommen):&nbsp;&nbsp;${index}`;
 
     const vervielfaeltiger = cold_rent_per_month > 0 ? (housing_cost / (cold_rent_per_month * 12)).toFixed(2) : '—';
-    document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index (Kaufpreis zu Jahreskaltmiete): &nbsp;&nbsp;${vervielfaeltiger}`;
+    document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index (Kaufpreis / Jahreskaltmiete): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${vervielfaeltiger}`;
   }
 
   // Initial output
@@ -81,7 +83,8 @@
 </script>
   <p>
     Und was sagen mir diese Indizes? <br>
-
+    Die empirica ag veröffentlich quartalsweise einen <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf">Immobilien Blasenindex (Q12025)</a> für Deutschlands Großstädte. <br>
+    Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
   </p>
 
 <!-- Visuelle Trennung -->
