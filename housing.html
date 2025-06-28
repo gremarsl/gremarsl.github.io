@@ -238,89 +238,124 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
   <h3 style="text-align:left;">Purchasing Power since 2002</h3>
   <p style="max-width:900px; margin:0 0 1em 0;">
     How to read this plot:<br>
-    If you´ve earned 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
+    If you´ve earned e.g. 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
     1000€ in 2002 is equivalent in purchasing power to about ~ 1500€ today.
   </p>
-  <label>
-    Startwert [e.g. €, USD, CHF]:
-    <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
-  </label>
-  <div id="chart-container" style="width: 90vw; max-width: 900px; margin: 40px 0;">
-      <canvas id="devaluationChart"></canvas>
-  </div>
+<!-- Eingabefeld für Startwert -->
+<label>
+  Startwert [€]:
+  <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
+</label>
+
+<!-- Plot-Container -->
+<div id="chart-container1" style="width: 90vw; max-width: 900px; margin: 40px 0;">
+    <canvas id="devaluationChart1"></canvas>
 </div>
 
-<!-- Load your data exported from Python -->
 <script src="data.js"></script>
-<script src="devaluation_plot1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Chart.js expects labels and data arrays
-    const ctx = document.getElementById('devaluationChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: years1,
-            datasets: [
-                {
-                    label: 'Euro (Ger)',
-                    data: devaluation_ger,
-                    borderColor: 'darkblue',
-                    backgroundColor: 'darkblue',
-                    fill: false,
-                    pointRadius: 3
-                },
-                {
-                    label: 'USD',
-                    data: devaluation_us,
-                    borderColor: 'darkgreen',
-                    backgroundColor: 'darkgreen',
-                    fill: false,
-                    pointRadius: 3
-                },
-                {
-                    label: 'Swiss franc',
-                    data: devaluation_swiss,
-                    borderColor: 'red',
-                    backgroundColor: 'red',
-                    fill: false,
-                    pointRadius: 3
-                }
-            ]
+function calculateDevaluation(base) {
+  // Annahme: inflation_rate_germany, inflation_rate_us, inflation_rate_switzerland, years aus data.js
+  const devaluation_ger = [base];
+  for (let i = 0; i < inflation_rate_germany.length; i++) {
+    devaluation_ger.push(devaluation_ger[i] * (1 + inflation_rate_germany[i]/100));
+  }
+  devaluation_ger.length = years.length;
+
+  const devaluation_us = [base];
+  for (let i = 0; i < inflation_rate_us.length; i++) {
+    devaluation_us.push(devaluation_us[i] * (1 + inflation_rate_us[i]/100));
+  }
+  devaluation_us.length = years.length;
+
+  const devaluation_swiss = [base];
+  for (let i = 0; i < inflation_rate_switzerland.length; i++) {
+    devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_rate_switzerland[i]/100));
+  }
+  devaluation_swiss.length = years.length;
+
+  return { devaluation_ger, devaluation_us, devaluation_swiss };
+}
+
+// Initialisierung Chart
+let chart1;
+function updateChart() {
+  const base = Number(document.getElementById('base_input').value);
+  const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base);
+
+  const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
+  if (chart1) chart1.destroy();
+  chart1 = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'Euro (Ger)',
+          data: devaluation_ger,
+          borderColor: 'darkblue',
+          backgroundColor: 'darkblue',
+          fill: false,
+          pointRadius: 3
         },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Purchasing power since 2002'
-                },
-                legend: {
-                    display: true
-                }
-            },
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Year'
-                    },
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 90,
-                        minRotation: 90
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: '[Euro],[USD],[SF]'
-                    },
-                    beginAtZero: false
-                }
-            }
+        {
+          label: 'USD',
+          data: devaluation_us,
+          borderColor: 'darkgreen',
+          backgroundColor: 'darkgreen',
+          fill: false,
+          pointRadius: 3
+        },
+        {
+          label: 'Swiss franc',
+          data: devaluation_swiss,
+          borderColor: 'red',
+          backgroundColor: 'red',
+          fill: false,
+          pointRadius: 3
         }
-    });
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Purchasing power since 2002'
+        },
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Year'
+          },
+          ticks: {
+            autoSkip: false,
+            maxRotation: 90,
+            minRotation: 90
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: '[Euro],[USD],[SF]'
+          },
+          beginAtZero: false
+        }
+      }
+    }
+  });
+}
+
+// Initial anzeigen
+updateChart();
+// Event Listener für das Eingabefeld
+document.getElementById('base_input').addEventListener('input', updateChart);
 </script>
 
 <!-- STOP INSERT INFLATION  -->
