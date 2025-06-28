@@ -230,14 +230,103 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 </script>
 
 
+
+<!-- Visuelle Trennung -->
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+<!-- START INSERT INFLATION  -->
+
+<!-- Visuelle Trennung -->
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+<!-- Inflation Chart Section (from inflation.html) -->
+<div style="font-family: Arial, sans-serif;">
+  <h3>Purchasing Power since 2002</h3>
+  <p style="max-width:900px; margin:0 auto 1em auto;">
+    How to read this plot:<br>
+    If you´ve earned 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
+    1000€ in 2002 is equivalent in purchasing power to about ~ 1500€ today.
+  </p>
+  <div id="chart-container" style="width: 90vw; max-width: 900px; margin: 40px auto;">
+      <canvas id="devaluationChart"></canvas>
+  </div>
+</div>
+<!-- Load your data exported from Python -->
+<script src="devaluation_data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart.js expects labels and data arrays
+    const ctx = document.getElementById('devaluationChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: 'Euro (Ger)',
+                    data: devaluation_ger,
+                    borderColor: 'darkblue',
+                    backgroundColor: 'darkblue',
+                    fill: false,
+                    pointRadius: 3
+                },
+                {
+                    label: 'USD',
+                    data: devaluation_us,
+                    borderColor: 'darkgreen',
+                    backgroundColor: 'darkgreen',
+                    fill: false,
+                    pointRadius: 3
+                },
+                {
+                    label: 'Swiss franc',
+                    data: devaluation_swiss,
+                    borderColor: 'red',
+                    backgroundColor: 'red',
+                    fill: false,
+                    pointRadius: 3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Purchasing power since 2002'
+                },
+                legend: {
+                    display: true
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Year'
+                    },
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 90,
+                        minRotation: 90
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '[Euro],[USD],[SF]'
+                    },
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+</script>
+
+<!-- STOP INSERT INFLATION  -->
+
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 <h3>Hopefulle more to come</h3>
-
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-
-<h3>Kaufkraftverlust</h3>
 <h3>Zinszahlungen</h3>
 
 <!-- Visuelle Trennung -->
