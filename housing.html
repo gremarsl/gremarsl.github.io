@@ -273,11 +273,11 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <div style="font-family: Arial, sans-serif;">
   <h2 style="text-align:left;">Currencies devaluation since 2002</h2>
   <h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
-  <label>
+  <label style="font-family:monospace;">
     Starting value [e.g. €]:
     <input type="number" id="base_input1" value="1000" min="1" step="1" style="width:8em;">
   </label>
-  <p style="max-width:900px; margin:0 0 1em 0;">
+  <p style="font-family:monospace; margin-bottom:2em;">
     How to read this plot:<br>
     If you´ve earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~ <span id="final-value">1500</span>€ in <span id="year-end">2023</span> in order to "compensate" inflation.
   </p>
@@ -406,11 +406,12 @@ document.getElementById('base_input1').addEventListener('input', updateChart);
 
 <div style="font-family: Arial, sans-serif;">
   <h3 style="text-align:left;">Plot 2 - Purchasing power loss</h3>
-  <label>
+  <label style="font-family:monospace;">
     Starting value [e.g. €]:
     <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
   </label>
-  <p style="max-width:900px; margin:0 0 1em 0;">
+
+  <p style="font-family:monospace; margin-bottom:2em;">
     How to read this plot:<br>
     <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchaing power loss of <span id="loss-value-2">500</span> €.
     </p>
