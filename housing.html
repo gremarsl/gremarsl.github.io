@@ -241,10 +241,15 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
     If you´ve earned 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
     1000€ in 2002 is equivalent in purchasing power to about ~ 1500€ today.
   </p>
+  <label>
+    Startwert [e.g. €, USD, CHF]:
+    <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
+  </label>
   <div id="chart-container" style="width: 90vw; max-width: 900px; margin: 40px 0;">
       <canvas id="devaluationChart"></canvas>
   </div>
 </div>
+
 <!-- Load your data exported from Python -->
 <script src="data.js"></script>
 <script src="devaluation_plot1.js"></script>
