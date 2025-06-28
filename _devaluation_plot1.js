@@ -22,3 +22,10 @@ for (let i = 0; i < inflation_rate_switzerland.length; i++) {
   devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_rate_switzerland[i]/100));
 }
 
+const deval_ger = [base];
+const deval_us = [base];
+const deval_swiss = [base];
+
+deval_ger = devaluation_ger.map(x => base * base / x);
+deval_us = devaluation_us.map(x => base * base / x);
+deval_swiss = devaluation_swiss.map(x => base * base / x);
