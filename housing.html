@@ -229,29 +229,24 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
   document.getElementById('netto_income_per_anno').addEventListener('input', updateDynamik);
 </script>
 
-
-
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 <!-- START INSERT INFLATION  -->
-
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
 <!-- Inflation Chart Section (from inflation.html) -->
 <div style="font-family: Arial, sans-serif;">
-  <h3>Purchasing Power since 2002</h3>
-  <p style="max-width:900px; margin:0 auto 1em auto;">
+  <h3 style="text-align:left;">Purchasing Power since 2002</h3>
+  <p style="max-width:900px; margin:0 0 1em 0;">
     How to read this plot:<br>
     If you´ve earned 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
     1000€ in 2002 is equivalent in purchasing power to about ~ 1500€ today.
   </p>
-  <div id="chart-container" style="width: 90vw; max-width: 900px; margin: 40px auto;">
+  <div id="chart-container" style="width: 90vw; max-width: 900px; margin: 40px 0;">
       <canvas id="devaluationChart"></canvas>
   </div>
 </div>
 <!-- Load your data exported from Python -->
-<script src="devaluation_data.js"></script>
+<script src="devaluation_plot1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Chart.js expects labels and data arrays
@@ -324,10 +319,3 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 
 <!-- STOP INSERT INFLATION  -->
 
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-<h3>Hopefulle more to come</h3>
-<h3>Zinszahlungen</h3>
-
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
