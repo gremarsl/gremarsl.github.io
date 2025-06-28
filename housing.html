@@ -115,7 +115,7 @@
   </label><br>
   <label>
     Mietsteigerung pro Jahr [%]:
-    <input type="number" id="miete_steigerung" value="2" min="0" max="10" step="0.1" style="width:4em;">
+    <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1" style="width:4em;">
   </label>
   <br><br>
   <div id="miete-kaltmiete-in-n-jahren"></div>
@@ -235,10 +235,11 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 
 <!-- Inflation Chart Section (from inflation.html) -->
 <div style="font-family: Arial, sans-serif;">
-  <h3 style="text-align:left;">Purchasing Power since 2002</h3>
+  <h3 style="text-align:left;">Currencies devaluation since 2002</h3>
+  <h2 style="text-align:left;">Purchasing power - Inflation adjusted - Plot 1</h2>
   <label>
-    Startwert [€]:
-    <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
+    Starting value [e.g. €]:
+    <input type="number" id="base_input1" value="1000" min="1" step="1" style="width:8em;">
   </label>
   <p style="max-width:900px; margin:0 0 1em 0;">
     How to read this plot:<br>
@@ -280,7 +281,7 @@ function calculateDevaluation(base) {
 // Initialisierung Chart
 let chart1;
 function updateChart() {
-  const base = Number(document.getElementById('base_input').value);
+  const base = Number(document.getElementById('base_input1').value);
   const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base);
 
   const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
@@ -360,7 +361,7 @@ function updateChart() {
 // Initial anzeigen
 updateChart();
 // Event Listener für das Eingabefeld
-document.getElementById('base_input').addEventListener('input', updateChart);
+document.getElementById('base_input1').addEventListener('input', updateChart);
 </script>
 
 <!-- STOP INSERT INFLATION  -->
