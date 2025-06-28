@@ -146,13 +146,13 @@ function updateMiete() {
   }
 
   document.getElementById('miete-kaltmiete-in-n-jahren').innerHTML =
-    `Kaltmiete in ${zeitraum} Jahren: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
+    `Kaltmiete in ${zeitraum} Jahren: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {minimumFractionDigits: 2},{maximumFractionDigits: 2})} €`;
 
   document.getElementById('miete-ohne-steigerung').innerHTML =
-    `Mietzahlungen über ${zeitraum} J.: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ${miete_ohne_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2})} €`;
+    `Mietzahlungen über ${zeitraum} J.: &nbsp;&nbsp;&nbsp;  ${miete_ohne_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2})} €`;
 
   document.getElementById('miete-mit-steigerung').innerHTML =
-    `Mietzahlungen über ${zeitraum} J. mit ${(average_rent_increase_rate*100).toFixed(1)}% Steigerung jähr.: ${miete_mit_steigerung.toLocaleString('de-DE', {maximumFractionDigits: 2})} €`;
+    `Mietzahlungen über ${zeitraum} J. <br> mit ${(average_rent_increase_rate*100).toFixed(1)}% Steigerung jährlich: ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2}, {maximumFractionDigits: 2})} €`;
 }
 
 // Initial output
