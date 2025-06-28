@@ -25,20 +25,22 @@
   }
 
   /* Responsive input fields for mobile */
-  input[type="number"] {
-    min-width: 120px;
+  input[type="number"], input[type="text"] {
+    font-size: 1.22rem;
+    padding: 0.4em 0.7em;
+    min-width: 140px;
     width: 100%;
     max-width: 400px;
     box-sizing: border-box;
-    font-size: 1.1em;
-    padding: 0.2em;
     margin-top: 0.2em;
-    margin-bottom: 0.6em;
+    margin-bottom: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid #bbb;
   }
   label {
     display: block;
-    margin-bottom: 0.6em;
-    font-size: 1.15rem;
+    margin-bottom: 0.8em;
+    font-size: 1.22rem;
     font-family: inherit;
     font-weight: 500;
     line-height: 1.5;
@@ -60,13 +62,13 @@
     div[style*="font-family:monospace;"] {
       font-size: 1em;
     }
-    input[type="number"] {
-      font-size: 1.2em;
+    label {
+      font-size: 1.28rem;
+    }
+    input[type="number"], input[type="text"] {
+      font-size: 1.28rem;
       min-width: 120px;
       max-width: 100%;
-    }
-    label {
-    font-size: 1.22rem;
     }
     #vervielfaeltiger,
     #index,
