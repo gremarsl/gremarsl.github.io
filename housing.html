@@ -45,7 +45,12 @@
   }
   #vervielfaeltiger,
   #index,
-  #finanz-parameter {
+  #finanz-parameter,
+  #miete-kaltmiete-in-n-jahren,
+  #miete-ohne-steigerung,
+  #miete-mit-steigerung,
+  #dynamik-vervielfaeltiger,
+  #dynamik-einkommen-index {
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 0.5em;
@@ -63,7 +68,14 @@
     label {
     font-size: 1.22rem;
     }
-    #vervielfaeltiger {
+    #vervielfaeltiger,
+    #index,
+    #finanz-parameter,
+    #miete-kaltmiete-in-n-jahren,
+    #miete-ohne-steigerung,
+    #miete-mit-steigerung,
+    #dynamik-vervielfaeltiger,
+    #dynamik-einkommen-index {
     font-size: 1.35rem;
   }
     h2 {
@@ -80,32 +92,32 @@
 </style>
 
 <!-- Einleitung und Beschreibung -->
-<div style="font-family:monospace; margin-bottom:2em;">
-  <h2>Miet- und Kaufrechner</h2>
-  <p>
-    Diese Webseite ist ein Versuch, verschiedene Mietkosten- und Immobilienkauf-Szenarien zu berechnen.<br>
-    Die Interpretation der Ergebnisse bleibt dir überlassen.<br>
-  </p>
-</div>
+
+<h2>Miet- und Kaufrechner</h2>
+<p>
+  Diese Webseite ist ein Versuch, verschiedene Mietkosten- und Immobilienkauf-Szenarien zu berechnen.<br>
+  Die Interpretation der Ergebnisse bleibt dir überlassen.<br>
+</p>
+
 <!-- Financial Input Parameters and Index Calculation -->
-<div style="font-family:monospace;">
-  <h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
-  <label>
-    Kaufpreis der Immobilie [€]:
-    <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
-  </label><br>
-  <label>
-    Jah­res­net­to­ein­kom­men [€]:&nbsp;&nbsp;&nbsp;
-    <input type="number" id="netto_income_per_anno" value="20000" min="0" step="1" style="width:8em;">
-  </label><br>
-  <label>
-    Monatskaltmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="number" id="cold_rent_per_month" value="1000" min="0" step="1" style="width:8em;">
-  </label><br><br>
-  <div id="finanz-parameter"></div>
-  <div id="index"></div>
-  <div id="vervielfaeltiger"></div>
-</div>
+
+<h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
+<label>
+  Kaufpreis der Immobilie [€]:
+  <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
+</label><br>
+<label>
+  Jah­res­net­to­ein­kom­men [€]:&nbsp;&nbsp;&nbsp;
+  <input type="number" id="netto_income_per_anno" value="20000" min="0" step="1" style="width:8em;">
+</label><br>
+<label>
+  Monatskaltmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="number" id="cold_rent_per_month" value="1000" min="0" step="1" style="width:8em;">
+</label><br><br>
+<div id="finanz-parameter"></div>
+<div id="index"></div>
+<div id="vervielfaeltiger"></div>
+
 
 <script>
   function updateOutput() {
@@ -118,6 +130,13 @@
 
     const vervielfaeltiger = cold_rent_per_month > 0 ? (housing_cost / (cold_rent_per_month * 12)).toFixed(2) : '—';
     document.getElementById('vervielfaeltiger').innerHTML = `Vervielfältiger-Index (Kaufpreis / Jahreskaltmiete): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${vervielfaeltiger}`;
+    // Update dynamic output
+    document.getElementById('index-base').textContent = housing_cost.toLocaleString('de-DE');
+    document.getElementById('income-base').textContent = netto_income_per_anno.toLocaleString('de-DE');
+    document.getElementById('index-value').textContent = index;
+    document.getElementById('rent-base').textContent = cold_rent_per_month.toLocaleString('de-DE');
+    document.getElementById('vervielfaeltiger-value').textContent = vervielfaeltiger;
+    
   }
 
   // Initial output
@@ -129,14 +148,13 @@
   document.getElementById('cold_rent_per_month').addEventListener('input', updateOutput);
 </script>
 
-<div style="font-family:monospace; margin-bottom:2em;">
+
 <p>
-  Preis-Einkommens-Index (Kaufpreis/Jahresnettoeinkommen): <br> 
-  Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
-    <br>
-  Vervielfältiger-Index: <br>
-  Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
+  Bei einem Kaufpreis von <span id="index-base">500,000</span> € und <span id="income-base">20,000</span> € Jahresnettoeinkommen ergibt sich einen Preis-Einkommens-Index von <span id="index-value">25.00</span>.<br>
+  und ein Vervielfältiger-Index von <span id="vervielfaeltiger-value">41.67</span>.
+  Du benötigst also <span id="index-value">25.00</span> Jahresnettoeinkommen, um den Kaufpreis zu decken, oder <span id="vervielfaeltiger-value">41.67</span> Jahreskaltmieten, um den Kaufpreis zu decken.
 </p>
+
 <p>
   Und was sagen mir diese Indizes? <br>
   Die empirica AG veröffentlicht quartalsweise einen 
@@ -145,8 +163,6 @@
   </a> für Deutschlands Großstädte. <br>
   Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
 </p>
-</div>
-
 
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
@@ -223,24 +239,24 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 
 
 <!-- Neuer Abschnitt für zeitliche Dynamik -->
-<div style="font-family:monospace;">
-  <h3>Berechnung des Kaufpreis-Jahreseinkommens-Index & des Vervielfältiger-Index - Mit Dynamik</h3>
-  <label>
-    Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="number" id="years" value="10" min="1" max="50" step="1"style="width: 3em;">
-  </label><br>
-  <label>
-    Mietsteigerung pro Jahr [%]:&nbsp;&nbsp;&nbsp;
-    <input type="number" id="average_rent_increase_rate" value="2" min="0" max="10" step="0.1"style="width: 3em;">
-  </label><br>
-  <label>
-    Gehaltssteigerung pro Jahr [%]: 
-    <input type="number" id="average_salary_increase_rate" value="2" min="0" max="50" step="0.1"style="width: 3em;">
-  </label><br><br>
-  <div id="dynamik-kaltmiete"></div>
-  <div id="dynamik-vervielfaeltiger"></div>
-  <div id="dynamik-einkommen-index"></div>
-</div>
+
+<h3>Berechnung des Kaufpreis-Jahreseinkommens-Index & des Vervielfältiger-Index - Mit Dynamik</h3>
+<label>
+  Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="number" id="years" value="10" min="1" max="50" step="1"style="width: 3em;">
+</label><br>
+<label>
+  Mietsteigerung pro Jahr [%]:&nbsp;&nbsp;&nbsp;
+  <input type="number" id="average_rent_increase_rate" value="2" min="0" max="10" step="0.1"style="width: 3em;">
+</label><br>
+<label>
+  Gehaltssteigerung pro Jahr [%]: 
+  <input type="number" id="average_salary_increase_rate" value="2" min="0" max="50" step="0.1"style="width: 3em;">
+</label><br><br>
+<div id="dynamik-kaltmiete"></div>
+<div id="dynamik-vervielfaeltiger"></div>
+<div id="dynamik-einkommen-index"></div>
+
 <script>
   // ...existing updateOutput() and event listeners...
 
@@ -291,17 +307,17 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
 <!-- Inflation Chart Section (from inflation.html) -->
-<div style="font-family: Arial, sans-serif;">
-  <h2 style="text-align:left;">Currencies devaluation since 2002</h2>
-  <h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
-  <label style="font-family:monospace;">
-    Starting value [e.g. €]:
-    <input type="number" id="base_input1" value="1000" min="1" step="1" style="width:8em;">
-  </label>
-  <p style="font-family:monospace; margin-bottom:2em;">
-    How to read this plot:<br>
-    If you´ve earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~ <span id="final-value">1500</span>€ in <span id="year-end">2023</span> in order to "compensate" inflation.
-  </p>
+
+<h2 style="text-align:left;">Currencies devaluation since 2002</h2>
+<h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
+<label>
+  Starting value [e.g. €]:
+  <input type="number" id="base_input1" value="1000" min="1" step="1" style="width:8em;">
+</label>
+<p>
+  How to read this plot:<br>
+  If you´ve earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~ <span id="final-value">1500</span>€ in <span id="year-end">2023</span> in order to "compensate" inflation.
+</p>
 <!-- Eingabefeld für Startwert -->
 
 <!-- Plot-Container -->
@@ -425,17 +441,17 @@ document.getElementById('base_input1').addEventListener('input', updateChart);
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
-<div style="font-family: Arial, sans-serif;">
-  <h3 style="text-align:left;">Plot 2 - Purchasing power loss</h3>
-  <label style="font-family:monospace;">
-    Starting value [e.g. €]:
-    <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
-  </label>
 
-  <p style="font-family:monospace; margin-bottom:2em;">
-    How to read this plot:<br>
-    <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchaing power loss of <span id="loss-value-2">500</span> €.
-    </p>
+<h3 style="text-align:left;">Plot 2 - Purchasing power loss</h3>
+<label>
+  Starting value [e.g. €]:
+  <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
+</label>
+
+<p>
+  How to read this plot:<br>
+  <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchaing power loss of <span id="loss-value-2">500</span> €.
+</p>
 <!-- Eingabefeld für Startwert -->
 
 <!-- Plot-Container -->
