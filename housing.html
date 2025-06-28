@@ -1,4 +1,7 @@
 <style>
+  body {
+  font-family: monospace;
+}
   /* Make h2 and h3 bigger and responsive */
   h2 {
     font-size: 2.2rem;
@@ -34,7 +37,19 @@
   }
   label {
     display: block;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.6em;
+    font-size: 1.15rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  #vervielfaeltiger,
+  #index,
+  #finanz-parameter {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
   }
   @media (max-width: 600px) {
     div[style*="font-family:monospace;"] {
@@ -45,6 +60,12 @@
       min-width: 120px;
       max-width: 100%;
     }
+    label {
+    font-size: 1.22rem;
+    }
+    #vervielfaeltiger {
+    font-size: 1.35rem;
+  }
     h2 {
       font-size: 1.5rem;
     }
@@ -69,13 +90,6 @@
 <!-- Financial Input Parameters and Index Calculation -->
 <div style="font-family:monospace;">
   <h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
-  <p>
-    Preis-Einkommens-Index (Kaufpreis/Jahresnettoeinkommen): <br> 
-    Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
-     <br>
-    Vervielfältiger-Index: <br>
-    Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
-  </p>
   <label>
     Kaufpreis der Immobilie [€]:
     <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
@@ -117,6 +131,13 @@
 
 <div style="font-family:monospace; margin-bottom:2em;">
 <p>
+  Preis-Einkommens-Index (Kaufpreis/Jahresnettoeinkommen): <br> 
+  Gibt an, wie viele Jahresnettoeinkommen benötigt werden, um den Kaufpreis der Immobilie zu decken. <br>
+    <br>
+  Vervielfältiger-Index: <br>
+  Gibt an, wie viele Jahreskaltmieten dem Kaufpreis der Immobilie entsprechen.
+</p>
+<p>
   Und was sagen mir diese Indizes? <br>
   Die empirica AG veröffentlicht quartalsweise einen 
   <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf" target="_blank" rel="noopener">
@@ -132,7 +153,7 @@
 
 
 <!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
-<div style="font-family:monospace;">
+
   <h3>Gesamte Mietzahlungen</h3>
   <p>
     Diese Berechnung zeigt die gesamten Mietzahlungen über einen bestimmten Zeitraum, <br> sowohl ohne als auch mit jährlicher Mietsteigerung.
@@ -153,7 +174,7 @@
   <div id="miete-kaltmiete-in-n-jahren"></div>
   <div id="miete-ohne-steigerung"></div>
   <div id="miete-mit-steigerung"></div>
-</div>
+
 
 <script>
 function updateMiete() {
