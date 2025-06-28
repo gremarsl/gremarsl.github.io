@@ -236,16 +236,15 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <!-- Inflation Chart Section (from inflation.html) -->
 <div style="font-family: Arial, sans-serif;">
   <h3 style="text-align:left;">Purchasing Power since 2002</h3>
+  <label>
+    Startwert [€]:
+    <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
+  </label>
   <p style="max-width:900px; margin:0 0 1em 0;">
     How to read this plot:<br>
-    If you´ve earned e.g. 1000€ in 2002, you would need to earn ~ 1500€ 2024 in order to "compensate" inflation.
-    1000€ in 2002 is equivalent in purchasing power to about ~ 1500€ today.
+    If you´ve earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~ <span id="final-value">1500</span>€ in <span id="year-end">2023</span> in order to "compensate" inflation.
   </p>
 <!-- Eingabefeld für Startwert -->
-<label>
-  Startwert [€]:
-  <input type="number" id="base_input" value="1000" min="1" step="1" style="width:8em;">
-</label>
 
 <!-- Plot-Container -->
 <div id="chart-container1" style="width: 90vw; max-width: 900px; margin: 40px 0;">
@@ -350,6 +349,12 @@ function updateChart() {
       }
     }
   });
+  // Dynamische Beschreibung aktualisieren
+  document.getElementById('base-value').textContent = base.toLocaleString('de-DE');
+  document.getElementById('final-value').textContent = devaluation_ger[devaluation_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
+  const yearStart = years[0];
+  const yearEnd = years[years.length - 1];
+
 }
 
 // Initial anzeigen
