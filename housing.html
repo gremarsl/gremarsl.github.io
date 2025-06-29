@@ -413,10 +413,17 @@ document.getElementById('base_input1').addEventListener('input', updateChart);
   Starting value [e.g. €]:
   <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
 </label>
-
+<label>
+  Start year:
+  <select id="start_year_select"></select>
+</label>
+<label>
+  End year:
+  <select id="end_year_select"></select>
+</label>
 <p>
   How to read this plot:<br>
-  <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchaing power loss of <span id="loss-value-2">500</span> €.
+  <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchasing power loss of <span id="loss-value-2">500</span> €.
 </p>
 <!-- Eingabefeld für Startwert -->
 
@@ -426,8 +433,30 @@ document.getElementById('base_input1').addEventListener('input', updateChart);
 </div>
 
 <script>
-function calculateDevaluation2(base) {
-  // Annahme: inflation_rate_germany, inflation_rate_us, inflation_rate_switzerland, years aus data.js
+
+  // Populate year selects
+function populateYearSelects() {
+  const startSelect = document.getElementById('start_year_select');
+  const endSelect = document.getElementById('end_year_select');
+  startSelect.innerHTML = '';
+  endSelect.innerHTML = '';
+  years.forEach((year, idx) => {
+    const opt1 = document.createElement('option');
+    opt1.value = idx;
+    opt1.textContent = year;
+    startSelect.appendChild(opt1);
+
+    const opt2 = document.createElement('option');
+    opt2.value = idx;
+    opt2.textContent = year;
+    endSelect.appendChild(opt2);
+  });
+  // Default: first and last year
+  startSelect.value = 0;
+  endSelect.value = years.length - 1;
+}
+function calculateDevaluation2(base, startIdx, endIdx) {
+  // Calculate cumulative inflation for each currency
   const devaluation_ger = [base];
   for (let i = 0; i < inflation_rate_germany.length; i++) {
     devaluation_ger.push(devaluation_ger[i] * (1 + inflation_rate_germany[i]/100));
@@ -446,25 +475,36 @@ function calculateDevaluation2(base) {
   }
   devaluation_swiss.length = years.length;
 
-  const deval_ger = devaluation_ger.map(x => base * base / x);
-  const deval_us = devaluation_us.map(x => base * base / x);
-  const deval_swiss = devaluation_swiss.map(x => base * base / x);
+  // Slice to selected years
+  // Array handling - und "abschnei
+  const deval_ger = devaluation_ger.slice(startIdx, endIdx + 1);
+  const deval_us = devaluation_us.slice(startIdx, endIdx + 1);
+  const deval_swiss = devaluation_swiss.slice(startIdx, endIdx + 1);
 
-  return { deval_ger, deval_us, deval_swiss };
+  return { deval_ger, deval_us, deval_swiss, devaluation_ger, devaluation_us, devaluation_swiss };
 }
 
 // Initialisierung Chart
 let chart2;
 function updateChart2() {
   const base = Number(document.getElementById('base_input2').value);
-  const { deval_ger, deval_us, deval_swiss } = calculateDevaluation2(base);
+  const startIdx = Number(document.getElementById('start_year_select').value);
+  const endIdx = Number(document.getElementById('end_year_select').value);
+
+  // Ensure startIdx <= endIdx
+  if (startIdx > endIdx) {
+    // Optionally, swap or show error
+    return;
+  }
+
+  const { deval_ger, deval_us, deval_swiss, devaluation_ger } = calculateDevaluation2(base, startIdx, endIdx);
 
   const ctx2 = document.getElementById('devaluationChart2').getContext('2d');
   if (chart2) chart2.destroy();
   chart2 = new Chart(ctx2, {
     type: 'line',
     data: {
-      labels: years,
+      labels: years.slice(startIdx, endIdx + 1),
       datasets: [
         {
           label: 'Euro (Ger)',
@@ -497,7 +537,7 @@ function updateChart2() {
       plugins: {
         title: {
           display: true,
-          text: 'Purchasing power since 2002'
+          text: 'Purchasing power for selected period'
         },
         legend: {
           display: true
@@ -525,21 +565,23 @@ function updateChart2() {
       }
     }
   });
-  // Dynamische Beschreibung aktualisieren
-  document.getElementById('base-value-2').textContent = base.toLocaleString('de-DE');
-  const finalValue = deval_ger[deval_ger.length - 1];
 
-  document.getElementById('final-value-2').textContent = deval_ger[deval_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
-  document.getElementById('year-start-2').textContent = years[0];
-  document.getElementById('year-end-2').textContent = years[years.length - 1];
-  const loss = base - finalValue;
-  document.getElementById('loss-value-2').textContent = loss.toLocaleString('de-DE', {maximumFractionDigits: 0});
+  // Update dynamic description
+  document.getElementById('base-value-2').textContent = base.toLocaleString('de-DE');
+  document.getElementById('year-start-2').textContent = years[startIdx];
+  document.getElementById('year-end-2').textContent = years[endIdx];
+  const startValue = devaluation_ger[startIdx];
+  const finalValue = devaluation_ger[endIdx];
+  document.getElementById('final-value-2').textContent = finalValue.toLocaleString('de-DE', {maximumFractionDigits: 0});
+  document.getElementById('loss-value-2').textContent = (startValue - finalValue).toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
 
-// Initial anzeigen
+// Initialize
+populateYearSelects();
 updateChart2();
-// Event Listener für das Eingabefeld
 document.getElementById('base_input2').addEventListener('input', updateChart2);
+document.getElementById('start_year_select').addEventListener('change', updateChart2);
+document.getElementById('end_year_select').addEventListener('change', updateChart2);
 </script>
 
 <!-- STOP INSERT INFLATION 2  -->
