@@ -278,11 +278,19 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
 <label>
   Starting value [e.g. €]:
-  <input type="number" id="base_input1" value="1000" min="1" step="1" style="width:8em;">
+  <input type="number" id="base_input1" value="1000" min="1" step="1">
+</label>
+<label>
+  Start year:
+  <select id="start_year_select1"></select>
+</label>
+<label>
+  End year:
+  <select id="end_year_select1"></select>
 </label>
 <p>
   How to read this plot:<br>
-  If you´ve earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~ <span id="final-value">1500</span>€ in <span id="year-end">2023</span> in order to "compensate" inflation.
+  If you earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~<span id="final-value">1500</span>€ in <span id="year-end">2023</span> to "compensate" inflation.
 </p>
 <!-- Eingabefeld für Startwert -->
 
@@ -292,6 +300,26 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 </div>
 
 <script>
+function populateYearSelects1() {
+  const startSelect = document.getElementById('start_year_select1');
+  const endSelect = document.getElementById('end_year_select1');
+  startSelect.innerHTML = '';
+  endSelect.innerHTML = '';
+  years.forEach((year, idx) => {
+    const opt1 = document.createElement('option');
+    opt1.value = idx;
+    opt1.textContent = year;
+    startSelect.appendChild(opt1);
+
+    const opt2 = document.createElement('option');
+    opt2.value = idx;
+    opt2.textContent = year;
+    endSelect.appendChild(opt2);
+  });
+  // Default: first and last year
+  startSelect.value = 0;
+  endSelect.value = years.length - 1;
+}
 function calculateDevaluation(base) {
   // Annahme: inflation_rate_germany, inflation_rate_us, inflation_rate_switzerland, years aus data.js
   const devaluation_ger = [base];
@@ -319,18 +347,29 @@ function calculateDevaluation(base) {
 let chart1;
 function updateChart() {
   const base = Number(document.getElementById('base_input1').value);
+  const startIdx = Number(document.getElementById('start_year_select1').value);
+  const endIdx = Number(document.getElementById('end_year_select1').value);
+
+  if (startIdx > endIdx) return;
+
+  // Calculate devaluation for the full period
   const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base);
+
+  // Slice to selected years
+  const deval_ger = devaluation_ger.slice(startIdx, endIdx + 1);
+  const deval_us = devaluation_us.slice(startIdx, endIdx + 1);
+  const deval_swiss = devaluation_swiss.slice(startIdx, endIdx + 1);
 
   const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
   if (chart1) chart1.destroy();
   chart1 = new Chart(ctx1, {
     type: 'line',
     data: {
-      labels: years,
+      labels: years.slice(startIdx, endIdx + 1),
       datasets: [
         {
           label: 'Euro (Ger)',
-          data: devaluation_ger,
+          data: deval_ger,
           borderColor: 'darkblue',
           backgroundColor: 'darkblue',
           fill: false,
@@ -338,7 +377,7 @@ function updateChart() {
         },
         {
           label: 'USD',
-          data: devaluation_us,
+          data: deval_us,
           borderColor: 'darkgreen',
           backgroundColor: 'darkgreen',
           fill: false,
@@ -346,7 +385,7 @@ function updateChart() {
         },
         {
           label: 'Swiss franc',
-          data: devaluation_swiss,
+          data: deval_swiss,
           borderColor: 'red',
           backgroundColor: 'red',
           fill: false,
@@ -359,7 +398,7 @@ function updateChart() {
       plugins: {
         title: {
           display: true,
-          text: 'Purchasing power since 2002'
+          text: 'Purchasing power for selected period'
         },
         legend: {
           display: true
@@ -387,18 +426,22 @@ function updateChart() {
       }
     }
   });
-  // Dynamische Beschreibung aktualisieren
-  document.getElementById('base-value').textContent = base.toLocaleString('de-DE');
-  document.getElementById('final-value').textContent = devaluation_ger[devaluation_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
-  const yearStart = years[0];
-  const yearEnd = years[years.length - 1];
 
+  // Update dynamic description
+  document.getElementById('base-value').textContent = base.toLocaleString('de-DE');
+  document.getElementById('year-start').textContent = years[startIdx];
+  document.getElementById('year-end').textContent = years[endIdx];
+  document.getElementById('final-value').textContent = deval_ger[deval_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
 
 // Initial anzeigen
+populateYearSelects1();
 updateChart();
 // Event Listener für das Eingabefeld
 document.getElementById('base_input1').addEventListener('input', updateChart);
+document.getElementById('start_year_select1').addEventListener('change', updateChart);
+document.getElementById('end_year_select1').addEventListener('change', updateChart);
+
 </script>
 
 <!-- STOP INSERT INFLATION 1 -->
