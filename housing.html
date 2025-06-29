@@ -295,7 +295,7 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 </label>
 <p>
   How to read this plot:<br>
-  If you earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn ~<span id="final-value">1500</span>€ in <span id="year-end">2023</span> to "compensate" inflation.
+  If you earned <span id="base-value">1000</span>€ in <span id="year-start">2002</span>, you would need to earn <span id="final-value">1500</span>€ in <span id="year-end">2023</span> to "compensate" inflation.
 </p>
 <!-- Eingabefeld für Startwert -->
 
@@ -504,37 +504,39 @@ function populateYearSelects() {
   endSelect.value = years.length - 1;
 }
 function calculateDevaluation2(base, startIdx, endIdx) {
-  // Calculate cumulative inflation for each currency
-  const devaluation_ger = [base];
-  for (let i = 0; i < inflation_rate_germany.length; i++) {
-    devaluation_ger.push(devaluation_ger[i] * (1 + inflation_rate_germany[i]/100));
-  }
-  devaluation_ger.length = years.length;
+  // 1. Slice the inflation rates for the selected period
+  const inflation_ger = inflation_rate_germany.slice(startIdx, endIdx + 1);
+  const inflation_us = inflation_rate_us.slice(startIdx, endIdx + 1);
+  const inflation_swiss = inflation_rate_switzerland.slice(startIdx, endIdx + 1);
 
-  const devaluation_us = [base];
-  for (let i = 0; i < inflation_rate_us.length; i++) {
-    devaluation_us.push(devaluation_us[i] * (1 + inflation_rate_us[i]/100));
+  // 2. Recalculate cumulative devaluation for the selected period, starting from base
+  const deval_ger1 = [base];
+  for (let i = 0; i < inflation_ger.length; i++) {
+    deval_ger1.push(deval_ger1[i] * (1 + inflation_ger[i] / 100));
   }
-  devaluation_us.length = years.length;
+  deval_ger1.length = inflation_ger.length + 1;
 
-  const devaluation_swiss = [base];
-  for (let i = 0; i < inflation_rate_switzerland.length; i++) {
-    devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_rate_switzerland[i]/100));
+  const deval_us1 = [base];
+  for (let i = 0; i < inflation_us.length; i++) {
+    deval_us1.push(deval_us1[i] * (1 + inflation_us[i] / 100));
   }
-  devaluation_swiss.length = years.length;
+  deval_us1.length = inflation_us.length + 1;
 
-  // Slice to selected years
-  // Array handling - und "abschnei
-  // First, slice the arrays for the selected period
-  const deval_ger1 = devaluation_ger.slice(startIdx, endIdx + 1);
-  const deval_us1 = devaluation_us.slice(startIdx, endIdx + 1);
-  const deval_swiss1 = devaluation_swiss.slice(startIdx, endIdx + 1);
+  const deval_swiss1 = [base];
+  for (let i = 0; i < inflation_swiss.length; i++) {
+    deval_swiss1.push(deval_swiss1[i] * (1 + inflation_swiss[i] / 100));
+  }
+  deval_swiss1.length = inflation_swiss.length + 1;
+
   // Then, perform your calculation on the sliced arrays
   const deval_ger = deval_ger1.map(x => base * base / x);
   const deval_us = deval_us1.map(x => base * base / x);
   const deval_swiss = deval_swiss1.map(x => base * base / x);
 
-  return { deval_ger, deval_us, deval_swiss, devaluation_ger, devaluation_us, devaluation_swiss };
+  // Remove the initial base value if you want only the period (optional)
+  // deval_ger.shift(); deval_us.shift(); deval_swiss.shift();
+
+  return { deval_ger, deval_us, deval_swiss };
 }
 
 // Initialisierung Chart
