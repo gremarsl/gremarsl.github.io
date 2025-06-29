@@ -525,10 +525,15 @@ function calculateDevaluation2(base, startIdx, endIdx) {
 
   // Slice to selected years
   // Array handling - und "abschnei
-  const deval_ger = devaluation_ger.slice(startIdx, endIdx + 1);
-  const deval_us = devaluation_us.slice(startIdx, endIdx + 1);
-  const deval_swiss = devaluation_swiss.slice(startIdx, endIdx + 1);
+  // First, slice the arrays for the selected period
+  const sliced_ger = devaluation_ger.slice(startIdx, endIdx + 1);
+  const sliced_us = devaluation_us.slice(startIdx, endIdx + 1);
+  const sliced_swiss = devaluation_swiss.slice(startIdx, endIdx + 1);
 
+  // Then, perform your calculation on the sliced arrays
+  const deval_ger = sliced_ger.map(x => base * base / x);
+  const deval_us = sliced_us.map(x => base * base / x);
+  const deval_swiss = sliced_swiss.map(x => base * base / x);
   return { deval_ger, deval_us, deval_swiss, devaluation_ger, devaluation_us, devaluation_swiss };
 }
 
