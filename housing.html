@@ -1,7 +1,7 @@
 <style>
   body {
   font-family: monospace;
-}
+  }
   /* Make h2 and h3 bigger and responsive */
   h2 {
     font-size: 2.2rem;
@@ -10,7 +10,7 @@
     margin-bottom: 0.5em;
     line-height: 1.2;
   }
-
+  
   h3 {
     font-size: 1.5rem;
     font-weight: 600;
@@ -23,9 +23,9 @@
     font-size: 1.1rem;
     line-height: 1.6;
   }
-
+  
   /* Responsive input fields for mobile */
-  input[type="number"], input[type="text"] {
+  input[type="number"], input[type="text"], select{
     font-size: 1.6rem;      /* much bigger font */
     padding: 0.7em 1em;     /* more height and horizontal space */
     min-width: 140px;
@@ -36,6 +36,11 @@
     margin-bottom: 0.8em;
     border-radius: 0.3em;
     border: 1px solid #bbb;
+  }
+  select {
+  width: 7em;      /* or any value you prefer */
+  max-width: 6em;
+  min-width: 6em;
   }
   label {
     display: block;
@@ -83,7 +88,7 @@
     label {
       font-size: 1.28rem;
     }
-    input[type="number"], input[type="text"] {
+    input[type="number"], input[type="text"],select {
       font-size: 1.28rem;
       min-width: 120px;
       max-width: 100%;
@@ -281,11 +286,11 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
   <input type="number" id="base_input1" value="1000" min="1" step="1">
 </label>
 <label>
-  Start year:
+  Start year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <select id="start_year_select1"></select>
 </label>
 <label>
-  End year:
+  End year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <select id="end_year_select1"></select>
 </label>
 <p>
@@ -457,11 +462,11 @@ document.getElementById('end_year_select1').addEventListener('change', updateCha
   <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
 </label>
 <label>
-  Start year:
+  Start year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <select id="start_year_select"></select>
 </label>
 <label>
-  End year:
+  End year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <select id="end_year_select"></select>
 </label>
 <p>
