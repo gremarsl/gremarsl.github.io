@@ -95,25 +95,25 @@
 
 <!-- Einleitung und Beschreibung -->
 
-<h2>Miet- und Kaufrechner</h2>
+<h2>Rent- and Purchase Calculator</h2>
 <p>
-  Diese Webseite ist ein Versuch, verschiedene Mietkosten- und Immobilienkauf-Szenarien zu berechnen.<br>
-  Die Interpretation der Ergebnisse bleibt dir überlassen.<br>
+  This website is an attempt to calculate various rental and property purchase scenarios.<br>
+  The interpretation of the results is up to you.<br>
 </p>
 
 <!-- Financial Input Parameters and Index Calculation -->
 
-<h3>Berechnung des Preis-Einkommens-Index & des Vervielfältiger-Index - Ohne Dynamik</h3>
+<h3>Calculation of the Price-Income Index & the Multiplier Index - Without Dynamics</h3>
 <label>
-  Kaufpreis der Immobilie [€]:
+  Purchase Price of the Property [€]:
   <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
 </label><br>
 <label>
-  Jah­res­net­to­ein­kom­men [€]:&nbsp;&nbsp;&nbsp;
+  Annual Net Income [€]:&nbsp;&nbsp;&nbsp;
   <input type="number" id="netto_income_per_anno" value="20000" min="0" step="1" style="width:8em;">
 </label><br>
 <label>
-  Monatskaltmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Monthly Cold Rent [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <input type="number" id="cold_rent_per_month" value="1000" min="0" step="1" style="width:8em;">
 </label><br><br>
 <div id="finanz-parameter"></div>
@@ -152,18 +152,18 @@
 
 
 <p>
-  Bei einem Kaufpreis von <span id="index-base">500,000</span> € und <span id="income-base">20,000</span> € Jahresnettoeinkommen ergibt sich einen Preis-Einkommens-Index von <span id="index-value">25.00</span>.<br>
-  und ein Vervielfältiger-Index von <span id="vervielfaeltiger-value">41.67</span>.
-  Du benötigst also <span id="index-value">25.00</span> Jahresnettoeinkommen, um den Kaufpreis zu decken, oder <span id="vervielfaeltiger-value">41.67</span> Jahreskaltmieten, um den Kaufpreis zu decken.
+  With a purchase price of <span id="index-base">500,000</span> € and an annual net income of <span id="income-base">20,000</span> €, the price-income index is <span id="index-value">25.00</span>.<br>
+  The multiplier index is <span id="vervielfaeltiger-value">41.67</span>.<br>
+  So you would need <span id="index-value">25.00</span> years of net income to cover the purchase price, or <span id="vervielfaeltiger-value">41.67</span> years of cold rent to cover the purchase price.
 </p>
 
 <p>
-  Und was sagen mir diese Indizes? <br>
-  Die empirica AG veröffentlicht quartalsweise einen 
+  And what do these indices tell me? <br>
+  The empirica AG publishes a quarterly 
   <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf" target="_blank" rel="noopener">
     Immobilien Blasenindex (Q12025)
-  </a> für Deutschlands Großstädte. <br>
-  Hier kannst du die Indizes vergleichen und dich davor schützen, dass du einen zu hohen Preis zahlst.<br>
+  </a> for Germany's major cities. <br>
+  Here you can compare the indices and protect yourself from overpaying.<br>
 </p>
 
 <!-- Visuelle Trennung -->
@@ -172,20 +172,20 @@
 
 <!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
 
-  <h3>Gesamte Mietzahlungen</h3>
+  <h3>Total Rent Payments</h3>
   <p>
-    Diese Berechnung zeigt die gesamten Mietzahlungen über einen bestimmten Zeitraum, <br> sowohl ohne als auch mit jährlicher Mietsteigerung.
+    This calculation shows the total rent payments over a certain period,<br> both without and with annual rent increases.
   </p>
   <label>
-    Monatsmiete [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Monthly rent [€]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="miete_monat" value="1000" min="0" step="1" style="width:4em;">
   </label><br>
   <label>
-    Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    Period [years]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1" style="width:4em;">
   </label><br>
   <label>
-    Mietsteigerung pro Jahr [%]:
+    Rent increase per year [%]:
     <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1" style="width:4em;">
   </label>
   <br><br>
@@ -242,18 +242,18 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 
 <!-- Neuer Abschnitt für zeitliche Dynamik -->
 
-<h3>Berechnung des Kaufpreis-Jahreseinkommens-Index & des Vervielfältiger-Index - Mit Dynamik</h3>
+<h3>Calculation of the Price-Income Index & the Multiplier Index – With Dynamics</h3>
 <label>
-  Zeitraum [Jahre]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <input type="number" id="years" value="10" min="1" max="50" step="1"style="width: 3em;">
+  Period [years]:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <input type="number" id="years" value="10" min="1" max="50" step="1" style="width: 3em;">
 </label><br>
 <label>
-  Mietsteigerung pro Jahr [%]:&nbsp;&nbsp;&nbsp;
-  <input type="number" id="average_rent_increase_rate" value="2" min="0" max="10" step="0.1"style="width: 3em;">
+  Rent increase per year [%]:&nbsp;&nbsp;&nbsp;
+  <input type="number" id="average_rent_increase_rate" value="2" min="0" max="10" step="0.1" style="width: 3em;">
 </label><br>
 <label>
-  Gehaltssteigerung pro Jahr [%]: 
-  <input type="number" id="average_salary_increase_rate" value="2" min="0" max="50" step="0.1"style="width: 3em;">
+  Salary increase per year [%]: 
+  <input type="number" id="average_salary_increase_rate" value="2" min="0" max="50" step="0.1" style="width: 3em;">
 </label><br><br>
 <div id="dynamik-kaltmiete"></div>
 <div id="dynamik-vervielfaeltiger"></div>
@@ -579,8 +579,6 @@ document.getElementById('base_input2').addEventListener('input', updateChart2);
 </script>
 
 <!-- STOP INSERT INFLATION 2  -->
-
-
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
 <div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
