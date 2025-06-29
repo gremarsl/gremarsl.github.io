@@ -623,8 +623,8 @@ function updateChart2() {
   document.getElementById('base-value-2').textContent = base.toLocaleString('de-DE');
   document.getElementById('year-start-2').textContent = years[startIdx];
   document.getElementById('year-end-2').textContent = years[endIdx];
-  const startValue = devaluation_ger[startIdx];
-  const finalValue = devaluation_ger[endIdx];
+  const startValue = deval_ger[startIdx];
+  const finalValue = deval_ger[endIdx];
   document.getElementById('final-value-2').textContent = finalValue.toLocaleString('de-DE', {maximumFractionDigits: 0});
   document.getElementById('loss-value-2').textContent = (startValue - finalValue).toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
