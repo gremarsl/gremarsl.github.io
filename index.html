@@ -37,6 +37,14 @@
     </style>
   <body>
     <h1>Welcome to my little, basic website!</h1>
+    <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+<script>
+  // Set this to your actual last update date, or use new Date() for today
+  const lastUpdate = new Date(document.lastModified);
+  document.getElementById('last-updated').textContent =
+    "Last updated: " + lastUpdate.toLocaleDateString();
+</script>
+
     <p>
       I created this little page to help me & you to explore and compare different renting or buying property scenarios.
       With these simple calculators my goal is to help us get a better feeling for the effects of inflation and time on the currencies. And hopefully make better decisions.
@@ -52,12 +60,6 @@
     </p>
   </body>
 
-<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
-<script>
-  // Set this to your actual last update date, or use new Date() for today
-  const lastUpdate = new Date(document.lastModified);
-  document.getElementById('last-updated').textContent =
-    "Last updated: " + lastUpdate.toLocaleDateString();
-</script>
+
 
 </html>

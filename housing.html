@@ -130,6 +130,14 @@ h2, h3, p, label, .info-box {
 <!-- Einleitung und Beschreibung -->
 
 <h2>Rent- and Purchase Calculator</h2>
+<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+<script>
+  // Set this to your actual last update date, or use new Date() for today
+  const lastUpdate = new Date(document.lastModified);
+  document.getElementById('last-updated').textContent =
+    "Last updated: " + lastUpdate.toLocaleDateString();
+</script>
+
 <p>
   This website is an attempt to calculate various rental and property purchase scenarios.<br>
   The interpretation of the results is up to you.<br>

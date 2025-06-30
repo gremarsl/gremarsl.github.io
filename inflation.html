@@ -131,6 +131,14 @@
 <!-- Inflation Chart Section (from inflation.html) -->
 
 <h2 style="text-align:left;">Currencies devaluation since 2002</h2>
+<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+<script>
+  // Set this to your actual last update date, or use new Date() for today
+  const lastUpdate = new Date(document.lastModified);
+  document.getElementById('last-updated').textContent =
+    "Last updated: " + lastUpdate.toLocaleDateString();
+</script>
+
 <h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
 <label>
   Starting value [e.g. €]:<br>
