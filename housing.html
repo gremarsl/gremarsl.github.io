@@ -127,8 +127,88 @@ h2, h3, p, label, .info-box {
 }
 </style>
 
-<!-- Einleitung und Beschreibung -->
+<h2>Rent-/ Purchase- and Loan Calculator</h2>
+<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+<script>
+  // Set this to your actual last update date, or use new Date() for today
+  const lastUpdate = new Date(document.lastModified);
+  document.getElementById('last-updated').textContent =
+    "Last updated: " + lastUpdate.toLocaleDateString();
+</script>
 
+<p>
+  This website is an attempt to calculate various rental and property purchase scenarios.<br>
+  The interpretation of the results is up to you.<br>
+</p>
+
+<!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
+
+  <h3>Total Rent Payments</h3>
+  <p>
+    This calculation shows the total rent payments over a certain period,<br> both without and with annual rent increases.
+  </p>
+  <label>
+    Monthly rent [€]:<br>
+    <input type="number" id="miete_monat" value="1000" min="0" step="1">
+  </label><br>
+  <label>
+    Period [years]:<br>
+    <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1">
+  </label><br>
+  <label>
+    Rent increase per year [%]:<br>
+    <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1">
+  </label>
+  <br><br>
+  <div id="miete-kaltmiete-in-n-jahren"></div>
+  <div id="miete-ohne-steigerung"></div>
+  <div id="miete-mit-steigerung"></div>
+
+
+<script>
+function updateMiete() {
+  // Input-Parameter
+  const cold_rent_per_month = Number(document.getElementById('miete_monat').value);
+  const zeitraum = Number(document.getElementById('miete_zeitraum').value);
+  const average_rent_increase_rate = Number(document.getElementById('miete_steigerung').value) / 100;
+
+  // Jahresmiete
+  const miete = cold_rent_per_month * 12;
+
+  // Kaltmiete in n Jahren
+  const kaltmiete_in_n_jahren = cold_rent_per_month * Math.pow(1 + average_rent_increase_rate, zeitraum);
+
+  // Gesamte Mietzahlungen ohne Steigerung
+  const miete_ohne_steigerung = miete * zeitraum;
+
+  // Gesamte Mietzahlungen mit Steigerung
+  let miete_mit_steigerung = 0;
+  for (let i = 0; i < zeitraum; i++) {
+    miete_mit_steigerung += miete * Math.pow(1 + average_rent_increase_rate, i);
+  }
+
+  document.getElementById('miete-kaltmiete-in-n-jahren').innerHTML =
+    `Cold Rent in ${zeitraum} years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {minimumFractionDigits: 2},{maximumFractionDigits: 2})} €`;
+
+  document.getElementById('miete-ohne-steigerung').innerHTML =
+    `Total Rent Payments over ${zeitraum} years:  ${miete_ohne_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2})} €`;
+
+  document.getElementById('miete-mit-steigerung').innerHTML =
+    `Total Rent Payments over ${zeitraum} years <br> with ${(average_rent_increase_rate*100).toFixed(1)}% increase per year: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2}, {maximumFractionDigits: 2})} €`;
+}
+
+// Initial output
+updateMiete();
+
+// Event Listener
+document.getElementById('miete_zeitraum').addEventListener('input', updateMiete);
+document.getElementById('miete_steigerung').addEventListener('input', updateMiete);
+document.getElementById('miete_monat').addEventListener('input', updateMiete);
+</script>
+
+<!-- Visuelle Trennung -->
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+<!-- Kredit-Tilgungsrechner -->
 
   <h2>Loan Repayment Simulation</h2>
   <label>
@@ -197,19 +277,7 @@ document.getElementById('repayment').addEventListener('input', simulateLoan);
 document.getElementById('years').addEventListener('input', simulateLoan);
 </script>
 
-<h2>Rent- and Purchase Calculator</h2>
-<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
-<script>
-  // Set this to your actual last update date, or use new Date() for today
-  const lastUpdate = new Date(document.lastModified);
-  document.getElementById('last-updated').textContent =
-    "Last updated: " + lastUpdate.toLocaleDateString();
-</script>
 
-<p>
-  This website is an attempt to calculate various rental and property purchase scenarios.<br>
-  The interpretation of the results is up to you.<br>
-</p>
 
 <!-- Financial Input Parameters and Index Calculation -->
 
@@ -280,78 +348,7 @@ document.getElementById('years').addEventListener('input', simulateLoan);
     Here you can compare the indices and protect yourself from overpaying.
   </div>
 </div>
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
-
-<!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
-
-  <h3>Total Rent Payments</h3>
-  <p>
-    This calculation shows the total rent payments over a certain period,<br> both without and with annual rent increases.
-  </p>
-  <label>
-    Monthly rent [€]:<br>
-    <input type="number" id="miete_monat" value="1000" min="0" step="1">
-  </label><br>
-  <label>
-    Period [years]:<br>
-    <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1">
-  </label><br>
-  <label>
-    Rent increase per year [%]:<br>
-    <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1">
-  </label>
-  <br><br>
-  <div id="miete-kaltmiete-in-n-jahren"></div>
-  <div id="miete-ohne-steigerung"></div>
-  <div id="miete-mit-steigerung"></div>
-
-
-<script>
-function updateMiete() {
-  // Input-Parameter
-  const cold_rent_per_month = Number(document.getElementById('miete_monat').value);
-  const zeitraum = Number(document.getElementById('miete_zeitraum').value);
-  const average_rent_increase_rate = Number(document.getElementById('miete_steigerung').value) / 100;
-
-  // Jahresmiete
-  const miete = cold_rent_per_month * 12;
-
-  // Kaltmiete in n Jahren
-  const kaltmiete_in_n_jahren = cold_rent_per_month * Math.pow(1 + average_rent_increase_rate, zeitraum);
-
-  // Gesamte Mietzahlungen ohne Steigerung
-  const miete_ohne_steigerung = miete * zeitraum;
-
-  // Gesamte Mietzahlungen mit Steigerung
-  let miete_mit_steigerung = 0;
-  for (let i = 0; i < zeitraum; i++) {
-    miete_mit_steigerung += miete * Math.pow(1 + average_rent_increase_rate, i);
-  }
-
-  document.getElementById('miete-kaltmiete-in-n-jahren').innerHTML =
-    `Cold Rent in ${zeitraum} years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {minimumFractionDigits: 2},{maximumFractionDigits: 2})} €`;
-
-  document.getElementById('miete-ohne-steigerung').innerHTML =
-    `Total Rent Payments over ${zeitraum} years:  ${miete_ohne_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2})} €`;
-
-  document.getElementById('miete-mit-steigerung').innerHTML =
-    `Total Rent Payments over ${zeitraum} years <br> with ${(average_rent_increase_rate*100).toFixed(1)}% increase per year: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2}, {maximumFractionDigits: 2})} €`;
-}
-
-// Initial output
-updateMiete();
-
-// Event Listener
-document.getElementById('miete_zeitraum').addEventListener('input', updateMiete);
-document.getElementById('miete_steigerung').addEventListener('input', updateMiete);
-document.getElementById('miete_monat').addEventListener('input', updateMiete);
-</script>
-
-<!-- Visuelle Trennung -->
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-<!-- Kredit-Tilgungsrechner -->
 
 
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
