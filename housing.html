@@ -303,27 +303,27 @@ function simulateLoan() {
 
   const months = years * 12;
   const interest_month = interest_year / 12;
-  let restschuld = credit;
+  let remaining_debt = credit;
   let i = 0;
   let log = '';
   let paid = 0;
 
-  while (restschuld >= 0) {
-    restschuld = restschuld * (1 + interest_month) - repayment;
+  while (remaining_debt >= 0) {
+    remaining_debt = remaining_debt * (1 + interest_month) - repayment;
     paid += repayment;
-    log += `Restschuld nach ${i+1} Monaten: ${Math.max(restschuld,0).toFixed(2)} €\n`;
+    log += `Remaining debt after ${i+1} months: ${Math.max(remaining_debt,0).toFixed(2)} €\n`;
     i++;
-    if (restschuld <= 0) {
-      const gezahlteZinsen = paid + restschuld - credit;
-      log += `Kredit abbezahlt nach ${i} Monaten.\nGezahlte Zinsen: ${gezahlteZinsen.toFixed(2)} €\n`;
+    if (remaining_debt <= 0) {
+      const total_interest = paid + remaining_debt - credit;
+      log += `Loan paid off after ${i} months.\nTotal interest paid: ${total_interest.toFixed(2)} €\n`;
       document.getElementById('loan-result').innerHTML =
-        `<b>Kredit abbezahlt nach:</b> ${i} Monaten (${(i/12).toFixed(2)} Jahre)<br>
-         <b>Gezahlte Zinsen:</b> ${gezahlteZinsen.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
+        `<b>Loan paid off after:</b> ${i} months (${(i/12).toFixed(2)} years)<br>
+         <b>Total interest paid:</b> ${total_interest.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
       break;
     }
     if (i > months) {
       document.getElementById('loan-result').innerHTML =
-        `<b>Nach ${months} Monaten verbleibende Restschuld:</b> ${restschuld.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
+        `<b>Remaining debt after ${months} months:</b> ${remaining_debt.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
       break;
     }
   }
