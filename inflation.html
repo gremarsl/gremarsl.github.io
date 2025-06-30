@@ -403,7 +403,7 @@ function updateChart2() {
     return;
   }
 
-  const { deval_ger, deval_us, deval_swiss, devaluation_ger } = calculateDevaluation2(base, startIdx, endIdx);
+  const { deval_ger, deval_us, deval_swiss } = calculateDevaluation2(base, startIdx, endIdx);
 
   const ctx2 = document.getElementById('devaluationChart2').getContext('2d');
   if (chart2) chart2.destroy();
