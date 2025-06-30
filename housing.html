@@ -129,6 +129,74 @@ h2, h3, p, label, .info-box {
 
 <!-- Einleitung und Beschreibung -->
 
+
+  <h2>Loan Repayment Simulation</h2>
+  <label>
+    Credit amount [€]:<br>
+    <input type="number" id="credit" value="5000" min="0" step="100">
+  </label><br>
+  <label>
+    Interest per year [%]:<br>
+    <input type="number" id="interest" value="1" min="0" step="0.01">
+  </label><br>
+  <label>
+    Repayment per month [€]:<br>
+    <input type="number" id="repayment" value="1000" min="1" step="1">
+  </label><br>
+  <label>
+    Period [years]:<br>
+    <input type="number" id="years" value="4" min="1" step="1">
+  </label><br><br>
+  <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
+  <pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
+
+
+<script>
+function simulateLoan() {
+  const credit = Number(document.getElementById('credit').value);
+  const interest_year = Number(document.getElementById('interest').value) / 100;
+  const repayment = Number(document.getElementById('repayment').value);
+  const years = Number(document.getElementById('years').value);
+
+  const months = years * 12;
+  const interest_month = interest_year / 12;
+  let remaining_debt = credit;
+  let i = 0;
+  let log = '';
+  let paid = 0;
+
+  while (remaining_debt >= 0) {
+    remaining_debt = remaining_debt * (1 + interest_month) - repayment;
+    paid += repayment;
+    log += `Remaining debt after ${i+1} months: ${Math.max(remaining_debt,0).toFixed(2)} €\n`;
+    i++;
+    if (remaining_debt <= 0) {
+      const total_interest = paid + remaining_debt - credit;
+      log += `Loan paid off after ${i} months.\nTotal interest paid: ${total_interest.toFixed(2)} €\n`;
+      document.getElementById('loan-result').innerHTML =
+        `<b>Loan paid off after:</b> ${i} months (${(i/12).toFixed(2)} years)<br>
+         <b>Total interest paid:</b> ${total_interest.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
+      break;
+    }
+    if (i > months) {
+      document.getElementById('loan-result').innerHTML =
+        `<b>Remaining debt after ${months} months:</b> ${remaining_debt.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
+      break;
+    }
+  }
+  document.getElementById('loan-log').textContent = log;
+}
+
+// Initial output
+simulateLoan();
+
+// Event listeners for live update
+document.getElementById('credit').addEventListener('input', simulateLoan);
+document.getElementById('interest').addEventListener('input', simulateLoan);
+document.getElementById('repayment').addEventListener('input', simulateLoan);
+document.getElementById('years').addEventListener('input', simulateLoan);
+</script>
+
 <h2>Rent- and Purchase Calculator</h2>
 <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
 <script>
@@ -285,72 +353,6 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 <!-- Kredit-Tilgungsrechner -->
 
-  <h3>Loan Repayment Simulation</h3>
-  <label>
-    Credit amount [€]:<br>
-    <input type="number" id="credit" value="5000" min="0" step="100">
-  </label><br>
-  <label>
-    Interest per year [%]:<br>
-    <input type="number" id="interest" value="1" min="0" step="0.01">
-  </label><br>
-  <label>
-    Repayment per month [€]:<br>
-    <input type="number" id="repayment" value="1000" min="1" step="1">
-  </label><br>
-  <label>
-    Period [years]:<br>
-    <input type="number" id="years" value="4" min="1" step="1">
-  </label><br><br>
-  <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
-  <pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
-
-
-<script>
-function simulateLoan() {
-  const credit = Number(document.getElementById('credit').value);
-  const interest_year = Number(document.getElementById('interest').value) / 100;
-  const repayment = Number(document.getElementById('repayment').value);
-  const years = Number(document.getElementById('years').value);
-
-  const months = years * 12;
-  const interest_month = interest_year / 12;
-  let remaining_debt = credit;
-  let i = 0;
-  let log = '';
-  let paid = 0;
-
-  while (remaining_debt >= 0) {
-    remaining_debt = remaining_debt * (1 + interest_month) - repayment;
-    paid += repayment;
-    log += `Remaining debt after ${i+1} months: ${Math.max(remaining_debt,0).toFixed(2)} €\n`;
-    i++;
-    if (remaining_debt <= 0) {
-      const total_interest = paid + remaining_debt - credit;
-      log += `Loan paid off after ${i} months.\nTotal interest paid: ${total_interest.toFixed(2)} €\n`;
-      document.getElementById('loan-result').innerHTML =
-        `<b>Loan paid off after:</b> ${i} months (${(i/12).toFixed(2)} years)<br>
-         <b>Total interest paid:</b> ${total_interest.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
-      break;
-    }
-    if (i > months) {
-      document.getElementById('loan-result').innerHTML =
-        `<b>Remaining debt after ${months} months:</b> ${remaining_debt.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
-      break;
-    }
-  }
-  document.getElementById('loan-log').textContent = log;
-}
-
-// Initial output
-simulateLoan();
-
-// Event listeners for live update
-document.getElementById('credit').addEventListener('input', simulateLoan);
-document.getElementById('interest').addEventListener('input', simulateLoan);
-document.getElementById('repayment').addEventListener('input', simulateLoan);
-document.getElementById('years').addEventListener('input', simulateLoan);
-</script>
 
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
