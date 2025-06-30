@@ -187,19 +187,16 @@ function calculateDevaluation(base, startIdx, endIdx) {
   for (let i = 0; i < inflation_ger.length; i++) {
     devaluation_ger.push(devaluation_ger[i] * (1 + inflation_ger[i]/100));
   }
-  devaluation_ger.length = years.length;
 
   const devaluation_us = [base];
   for (let i = 0; i < inflation_us.length; i++) {
     devaluation_us.push(devaluation_us[i] * (1 + inflation_us[i]/100));
   }
-  devaluation_us.length = years.length;
 
   const devaluation_swiss = [base];
   for (let i = 0; i < inflation_swiss.length; i++) {
     devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_swiss[i]/100));
   }
-  devaluation_swiss.length = years.length;
 
   return { devaluation_ger, devaluation_us, devaluation_swiss };
 }
