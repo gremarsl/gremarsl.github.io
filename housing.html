@@ -290,7 +290,6 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
     Period [years]:<br>
     <input type="number" id="years" value="4" min="1" step="1">
   </label><br><br>
-  <button onclick="simulateLoan()">Simulate</button>
   <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
   <pre id="loan-log" style="background:#eef3fa;padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
 </div>
@@ -330,4 +329,13 @@ function simulateLoan() {
   }
   document.getElementById('loan-log').textContent = log;
 }
+
+// Initial output
+simulateLoan();
+
+// Event listeners for live update
+document.getElementById('credit').addEventListener('input', simulateLoan);
+document.getElementById('interest').addEventListener('input', simulateLoan);
+document.getElementById('repayment').addEventListener('input', simulateLoan);
+document.getElementById('years').addEventListener('input', simulateLoan);
 </script>
