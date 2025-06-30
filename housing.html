@@ -1,7 +1,11 @@
 <style>
   body {
   font-family: monospace;
+  text-align: left !important;
   }
+h2, h3, p, label, .info-box {
+  text-align: left !important;
+}
   /* Make h2 and h3 bigger and responsive */
   h2 {
     font-size: 2.2rem;
@@ -272,7 +276,7 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <!-- Visuelle Trennung -->
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 <!-- Kredit-Tilgungsrechner -->
-<div style="max-width:440px;padding:1em 1.5em;border-radius:1em;background:#f7fafd;margin:2em auto;">
+
   <h3>Loan Repayment Simulation</h3>
   <label>
     Credit amount [€]:<br>
@@ -291,8 +295,8 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
     <input type="number" id="years" value="4" min="1" step="1">
   </label><br><br>
   <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
-  <pre id="loan-log" style="background:#eef3fa;padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
-</div>
+  <pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
+
 
 <script>
 function simulateLoan() {
