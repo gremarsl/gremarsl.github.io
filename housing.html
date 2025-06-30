@@ -254,13 +254,13 @@ function simulateLoan() {
       const total_interest = paid + remaining_debt - credit;
       log += `Loan paid off after ${i} months.\nTotal interest paid: ${total_interest.toFixed(2)} €\n`;
       document.getElementById('loan-result').innerHTML =
-        `<b>Loan paid off after:</b> ${i} months (${(i/12).toFixed(2)} years)<br>
+        `<span style="font-size:1.5rem;"><b>Loan paid off after:</b> ${i} months (${(i/12).toFixed(2)} years)<br>
          <b>Total interest paid:</b> ${total_interest.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
       break;
     }
     if (i > months) {
       document.getElementById('loan-result').innerHTML =
-        `<b>Remaining debt after ${months} months:</b> ${remaining_debt.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €`;
+        `<span style="font-size:1.5rem;"><b>Remaining debt after ${months} months:</b> ${remaining_debt.toLocaleString('de-DE', {minimumFractionDigits:2, maximumFractionDigits:2})} €</span>`;
       break;
     }
   }
