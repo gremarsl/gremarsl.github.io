@@ -176,23 +176,28 @@ function populateYearSelects1() {
   startSelect.value = 0;
   endSelect.value = years.length - 1;
 }
-function calculateDevaluation(base) {
+function calculateDevaluation(base, startIdx, endIdx) {
+    // 1. Slice the inflation rates for the selected period
+  const inflation_ger = inflation_rate_germany.slice(startIdx, endIdx + 1);
+  const inflation_us = inflation_rate_us.slice(startIdx, endIdx + 1);
+  const inflation_swiss = inflation_rate_switzerland.slice(startIdx, endIdx + 1);
+  
   // Annahme: inflation_rate_germany, inflation_rate_us, inflation_rate_switzerland, years aus data.js
   const devaluation_ger = [base];
-  for (let i = 0; i < inflation_rate_germany.length; i++) {
-    devaluation_ger.push(devaluation_ger[i] * (1 + inflation_rate_germany[i]/100));
+  for (let i = 0; i < inflation_ger.length; i++) {
+    devaluation_ger.push(devaluation_ger[i] * (1 + inflation_ger[i]/100));
   }
   devaluation_ger.length = years.length;
 
   const devaluation_us = [base];
-  for (let i = 0; i < inflation_rate_us.length; i++) {
-    devaluation_us.push(devaluation_us[i] * (1 + inflation_rate_us[i]/100));
+  for (let i = 0; i < inflation_us.length; i++) {
+    devaluation_us.push(devaluation_us[i] * (1 + inflation_us[i]/100));
   }
   devaluation_us.length = years.length;
 
   const devaluation_swiss = [base];
-  for (let i = 0; i < inflation_rate_switzerland.length; i++) {
-    devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_rate_switzerland[i]/100));
+  for (let i = 0; i < inflation_swiss.length; i++) {
+    devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_swiss[i]/100));
   }
   devaluation_swiss.length = years.length;
 
@@ -209,12 +214,7 @@ function updateChart() {
   if (startIdx > endIdx) return;
 
   // Calculate devaluation for the full period
-  const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base);
-
-  // Slice to selected years
-  const deval_ger = devaluation_ger.slice(startIdx, endIdx + 1);
-  const deval_us = devaluation_us.slice(startIdx, endIdx + 1);
-  const deval_swiss = devaluation_swiss.slice(startIdx, endIdx + 1);
+  const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base, startIdx, endIdx);
 
   const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
   if (chart1) chart1.destroy();
@@ -225,7 +225,7 @@ function updateChart() {
       datasets: [
         {
           label: 'Euro (Ger)',
-          data: deval_ger,
+          data: devaluation_ger,
           borderColor: 'darkblue',
           backgroundColor: 'darkblue',
           fill: false,
@@ -233,7 +233,7 @@ function updateChart() {
         },
         {
           label: 'USD',
-          data: deval_us,
+          data: devaluation_us,
           borderColor: 'darkgreen',
           backgroundColor: 'darkgreen',
           fill: false,
@@ -241,7 +241,7 @@ function updateChart() {
         },
         {
           label: 'Swiss franc',
-          data: deval_swiss,
+          data: devaluation_swiss,
           borderColor: 'red',
           backgroundColor: 'red',
           fill: false,
@@ -287,7 +287,7 @@ function updateChart() {
   document.getElementById('base-value').textContent = base.toLocaleString('de-DE');
   document.getElementById('year-start').textContent = years[startIdx];
   document.getElementById('year-end').textContent = years[endIdx];
-  document.getElementById('final-value').textContent = deval_ger[deval_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
+  document.getElementById('final-value').textContent = devaluation_ger[devaluation_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
 
 // Initial anzeigen
@@ -383,9 +383,6 @@ function calculateDevaluation2(base, startIdx, endIdx) {
   const deval_ger = deval_ger1.map(x => base * base / x);
   const deval_us = deval_us1.map(x => base * base / x);
   const deval_swiss = deval_swiss1.map(x => base * base / x);
-
-  // Remove the initial base value if you want only the period (optional)
-  // deval_ger.shift(); deval_us.shift(); deval_swiss.shift();
 
   return { deval_ger, deval_us, deval_swiss };
 }
