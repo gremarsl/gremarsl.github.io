@@ -2,3 +2,4 @@ tax:
 
 - ansprechen des steuersatzen
 - dotted line
+- Spitzensteuersatz reichensteur erklären
