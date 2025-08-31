@@ -176,6 +176,28 @@
     <div class="stats-display" id="currentInflationAdjusted">Current inflation-adjusted (2024): €66,760</div>
     <div class="stats-display" id="realValueChange">Real value change since 1990: -45.5%</div>
 
+    <h3>Durchschnittseinkommen zu Start der Spitzengrenze TODO </h3>
+
+    <div class="info-box">
+        <div class="info-icon">📊</div>
+        <div>
+            TODO
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="comparisonChart"></canvas>
+    </div>
+    
+    <h3>Tarifzone Statistics</h3>
+    
+    <div class="stats-display" id="currentNominal">Current nominal (2024): €66,760</div>
+    <div class="stats-display" id="currentInflationAdjusted">Current inflation-adjusted (2024): €66,760</div>
+    <div class="stats-display" id="realValueChange">Real value change since 1990: -45.5%</div>
+
+
+
+<!-- Paypal start-->
     <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
     <div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
@@ -194,7 +216,7 @@
             </button>
         </form>
     </div>
-
+<!-- Paypal end -->
     <script>
         // Set last updated date
         const lastUpdate = new Date(document.lastModified);
@@ -246,40 +268,40 @@
 
         // Parse the new Tarifzone data
         const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsbereinigt (Basis 2025)
-1990,61376,122392
-1991,61376,118025
-1992,61376,118025
-1993,61376,118025
-1994,61376,118025
-1995,61376,118025
-1996,61376,101663
-1997,61376,101663
-1998,61376,98781
-1999,61376,98192
-2000,58643,92524
-2001,54998,85072
-2002,55008,83995
-2003,55008,83995
-2004,52152,77451
-2005,52152,76306
-2006,52152,76306
-2007,52152,73417
-2008,52152,73417
-2009,52552,71890
-2010,52882,71553
-2011,52882,71553
-2013,52882,67758
-2014,52882,67087
-2015,52882,66754
-2016,53666,67406
-2017,54057,66894
-2018,54950,66797
-2019,55961,67086
-2020,57051,68053
-2021,57918,67010
-2022,58596,63418
-2023,62809,64191
-2024,66760,66760`;
+        1990,61376,122392
+        1991,61376,118025
+        1992,61376,118025
+        1993,61376,118025
+        1994,61376,118025
+        1995,61376,118025
+        1996,61376,101663
+        1997,61376,101663
+        1998,61376,98781
+        1999,61376,98192
+        2000,58643,92524
+        2001,54998,85072
+        2002,55008,83995
+        2003,55008,83995
+        2004,52152,77451
+        2005,52152,76306
+        2006,52152,76306
+        2007,52152,73417
+        2008,52152,73417
+        2009,52552,71890
+        2010,52882,71553
+        2011,52882,71553
+        2013,52882,67758
+        2014,52882,67087
+        2015,52882,66754
+        2016,53666,67406
+        2017,54057,66894
+        2018,54950,66797
+        2019,55961,67086
+        2020,57051,68053
+        2021,57918,67010
+        2022,58596,63418
+        2023,62809,64191
+        2024,66760,66760`;
 
         const tarifzoneLines = tarifzoneData.trim().split('\n').slice(1); // Skip header
         const tarifzoneYears = [];
@@ -548,6 +570,133 @@
                 }
             }
         });
+
+        // Create the comparison chart (Nominal vs. Inflation-adjusted Tarifzone)
+        const ctx3 = document.getElementById('comparisonChart3').getContext('2d');
+        const comparisonChart3 = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: tarifzoneYears,
+                datasets: [
+                    {
+                        label: 'ruttojahresverdienst (€)',
+                        data: salaries,
+                        borderColor: 'darkblue',
+                        backgroundColor: 'darkblue',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'darkblue',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 1,
+                        pointHoverBackgroundColor: 'red',
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2
+                    },
+                    {
+                        label: 'Inflationsbereinigt (Basis 2025) [€]',
+                        data: nominalValues,
+                        borderColor: 'darkgreen',
+                        backgroundColor: 'darkgreen',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'darkgreen',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 1,
+                        pointHoverBackgroundColor: 'red',
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Vergleich Nominal Durchschnittliches Einkommen - Spitzensteuersatz',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'darkblue',
+                        borderWidth: 1,
+                        cornerRadius: 4,
+                        displayColors: true,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': €' + context.parsed.y.toLocaleString('de-DE');
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90,
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Beginn der letzten Tarifzone (€)',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            callback: function(value) {
+                                return '€' + value.toLocaleString('de-DE');
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        beginAtZero: false
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+
     </script>
 </body>
 </html>
