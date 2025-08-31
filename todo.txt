@@ -4,3 +4,5 @@ tax:
 - dotted line
 - Spitzensteuersatz reichensteur erklären
 - data.ods, .txt strukturieren & ordnen
+
+- Wie sind die steuereinnahmen über die lohnsteuer angestiegen seit 1990?
