@@ -1,333 +1,348 @@
-<style>
-  body {
-  font-family: monospace;
-  padding-left: 2em;
-  padding-right: 2em;
-  /* Optional: für oben/unten auch */
-  padding-top: 1.5em;
-  padding-bottom: 1.5em;
-  }
-  /* Make h2 and h3 bigger and responsive */
-  h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-top: 1.2em;
-    margin-bottom: 0.5em;
-    line-height: 1.2;
-  }
-  
-  h3 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-top: 1em;
-    margin-bottom: 0.5em;
-    color: #1a237e;
-    line-height: 1.2;
-  }
-  p {
-    font-size: 1.5rem;
-    line-height: 1.6;
-  }
-  
-  /* Responsive input fields for mobile */
-  input[type="number"], input[type="text"], select{
-    font-size: 2.5rem;      /* much bigger font */
-    padding: 0.7em 1em;     /* more height and horizontal space */
-    min-width: 140px;
-    width: 100%;
-    max-width: 400px;
-    box-sizing: border-box;
-    margin-top: 0.2em;
-    margin-bottom: 0.8em;
-    border-radius: 0.3em;
-    border: 1px solid #bbb;
-  }
-  select {
-  width: 7em;      /* or any value you prefer */
-  max-width: 6em;
-  min-width: 6em;
-  }
-  label {
-    display: block;
-    margin-bottom: 0.8em;
-    font-size: 1.22rem;
-    font-family: inherit;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  #vervielfaeltiger,
-  #index,
-  #finanz-parameter,
-  #miete-kaltmiete-in-n-jahren,
-  #miete-ohne-steigerung,
-  #miete-mit-steigerung,
-  #dynamik-vervielfaeltiger,
-  #dynamik-einkommen-index {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  }
-  .info-box {
-  background: #e3f2fd;
-  border-left: 5px solid #1976d2;
-  border-radius: 0.7em;
-  padding: 1.1em 1.3em;
-  margin: 1.5em 0;
-  box-shadow: 0 2px 8px #0001;
-  font-size: 1.13rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1em;
-}
-.info-box .info-icon {
-  font-size: 1.7em;
-  color: #1976d2;
-  flex-shrink: 0;
-  margin-top: 0.1em;
-}
-  @media (max-width: 600px) {
-    div[style*="font-family:monospace;"] {
-      font-size: 1em;
-    }
-    label {
-      font-size: 1.28rem;
-    }
-    input[type="number"], input[type="text"],select {
-      font-size: 1.28rem;
-      min-width: 120px;
-      max-width: 100%;
-    }
-    #vervielfaeltiger,
-    #index,
-    #finanz-parameter,
-    #miete-kaltmiete-in-n-jahren,
-    #miete-ohne-steigerung,
-    #miete-mit-steigerung,
-    #dynamik-vervielfaeltiger,
-    #dynamik-einkommen-index {
-    font-size: 1.35rem;
-  }
-    h2 {
-      font-size: 1.5rem;
-    }
-    h3 {
-      font-size: 1.15rem;
-    }
-      p {
-      font-size: 1.18rem;
-      line-height: 1.7;
-    }
-    .info-box {
-    font-size: 1.08rem;
-    padding: 1em 0.7em;
-  }
-  .info-box .info-icon {
-    font-size: 1.3em;
-  }
-}
-</style>
-
-<!-- START INSERT INFLATION  -->
-<script src="tax_data.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- START INSERT INFLATION 1  -->
-<!-- Inflation Chart Section (from inflation.html) -->
-
-<h2 style="text-align:left;">Currencies devaluation since 2002</h2>
-<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
-<script>
-  // Set this to your actual last update date, or use new Date() for today
-  const lastUpdate = new Date(document.lastModified);
-  document.getElementById('last-updated').textContent =
-    "Last updated: " + lastUpdate.toLocaleDateString();
-</script>
-
-<h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
-<label>
-  Starting value [e.g. €]:<br>
-  <input type="number" id="base_input1" value="1000" min="1" step="1">
-</label>
-<label>
-  Start year:<br>
-  <select id="start_year_select1"></select>
-</label>
-<label>
-  End year:<br>
-  <select id="end_year_select1"></select>
-</label>
-<p>
-  How to read this plot:<br>
-  <span id="base-value">1000</span>€ in <span id="year-start">2002</span> has the same purchasing power of <span id="final-value">1500</span>€ in <span id="year-end">2023</span>.
-</p>
-<!-- Eingabefeld für Startwert -->
-
-<!-- Plot-Container -->
-<div id="chart-container1" style="width: 90vw; max-width: 900px; margin: 40px 0;">
-    <canvas id="devaluationChart1"></canvas>
-</div>
-
-<script>
-function populateYearSelects1() {
-  const startSelect = document.getElementById('start_year_select1');
-  const endSelect = document.getElementById('end_year_select1');
-  startSelect.innerHTML = '';
-  endSelect.innerHTML = '';
-  years.forEach((year, idx) => {
-    const opt1 = document.createElement('option');
-    opt1.value = idx;
-    opt1.textContent = year;
-    startSelect.appendChild(opt1);
-
-    const opt2 = document.createElement('option');
-    opt2.value = idx;
-    opt2.textContent = year;
-    endSelect.appendChild(opt2);
-  });
-  // Default: first and last year
-  startSelect.value = 0;
-  endSelect.value = years.length - 1;
-}
-function calculateDevaluation(base, startIdx, endIdx) {
-    // 1. Slice the inflation rates for the selected period
-  const inflation_ger = inflation_rate_germany.slice(startIdx, endIdx + 1);
-  const inflation_us = inflation_rate_us.slice(startIdx, endIdx + 1);
-  const inflation_swiss = inflation_rate_switzerland.slice(startIdx, endIdx + 1);
-  
-  // Annahme: inflation_rate_germany, inflation_rate_us, inflation_rate_switzerland, years aus data.js
-  const devaluation_ger = [base];
-  for (let i = 0; i < inflation_ger.length; i++) {
-    devaluation_ger.push(devaluation_ger[i] * (1 + inflation_ger[i]/100));
-  }
-
-  const devaluation_us = [base];
-  for (let i = 0; i < inflation_us.length; i++) {
-    devaluation_us.push(devaluation_us[i] * (1 + inflation_us[i]/100));
-  }
-
-  const devaluation_swiss = [base];
-  for (let i = 0; i < inflation_swiss.length; i++) {
-    devaluation_swiss.push(devaluation_swiss[i] * (1 + inflation_swiss[i]/100));
-  }
-
-  return { devaluation_ger, devaluation_us, devaluation_swiss };
-}
-
-// Initialisierung Chart
-let chart1;
-function updateChart() {
-  const base = Number(document.getElementById('base_input1').value);
-  const startIdx = Number(document.getElementById('start_year_select1').value);
-  const endIdx = Number(document.getElementById('end_year_select1').value);
-
-  if (startIdx > endIdx) return;
-
-  // Calculate devaluation for the full period
-  const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base, startIdx, endIdx);
-
-  const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
-  if (chart1) chart1.destroy();
-  chart1 = new Chart(ctx1, {
-    type: 'line',
-    data: {
-      labels: years.slice(startIdx, endIdx + 1),
-      datasets: [
-        {
-          label: 'Euro (Ger)',
-          data: devaluation_ger,
-          borderColor: 'darkblue',
-          backgroundColor: 'darkblue',
-          fill: false,
-          pointRadius: 3
-        },
-        {
-          label: 'USD',
-          data: devaluation_us,
-          borderColor: 'darkgreen',
-          backgroundColor: 'darkgreen',
-          fill: false,
-          pointRadius: 3
-        },
-        {
-          label: 'Swiss franc',
-          data: devaluation_swiss,
-          borderColor: 'red',
-          backgroundColor: 'red',
-          fill: false,
-          pointRadius: 3
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruttomonatsverdienst 1991-2024</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: monospace;
+            padding-left: 2em;
+            padding-right: 2em;
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
         }
-      ]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Purchasing power for selected period'
-        },
-        legend: {
-          display: true
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 1.2em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
         }
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Year'
-          },
-          ticks: {
-            autoSkip: false,
-            maxRotation: 90,
-            minRotation: 90
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: '[Euro],[USD],[SF]'
-          },
-          beginAtZero: false
+        
+        h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            color: #1a237e;
+            line-height: 1.2;
         }
-      }
-    }
-  });
+        
+        p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        input[type="number"], input[type="text"], select {
+            font-size: 2.5rem;
+            padding: 0.7em 1em;
+            min-width: 140px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-top: 0.2em;
+            margin-bottom: 0.8em;
+            border-radius: 0.3em;
+            border: 1px solid #bbb;
+        }
+        
+        select {
+            width: 7em;
+            max-width: 6em;
+            min-width: 6em;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8em;
+            font-size: 1.22rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #1976d2;
+            border-radius: 0.7em;
+            padding: 1.1em 1.3em;
+            margin: 1.5em 0;
+            box-shadow: 0 2px 8px #0001;
+            font-size: 1.13rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1em;
+        }
+        
+        .info-box .info-icon {
+            font-size: 1.7em;
+            color: #1976d2;
+            flex-shrink: 0;
+            margin-top: 0.1em;
+        }
+        
+        .chart-container {
+            width: 90vw;
+            max-width: 900px;
+            margin: 40px 0;
+            height: 400px;
+        }
+        
+        .stats-display {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        @media (max-width: 600px) {
+            label {
+                font-size: 1.28rem;
+            }
+            input[type="number"], input[type="text"], select {
+                font-size: 1.28rem;
+                min-width: 120px;
+                max-width: 100%;
+            }
+            .stats-display {
+                font-size: 1.35rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.15rem;
+            }
+            p {
+                font-size: 1.18rem;
+                line-height: 1.7;
+            }
+            .info-box {
+                font-size: 1.08rem;
+                padding: 1em 0.7em;
+            }
+            .info-box .info-icon {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Bruttomonatsverdienst Development</h2>
+    <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+    
+    <h3>Salary Growth Analysis 1991-2024</h3>
+    
+    <div class="info-box">
+        <div class="info-icon">ℹ️</div>
+        <div>
+            This chart shows the development of gross monthly earnings (Bruttomonatsverdienst) over a 33-year period. 
+            The data demonstrates steady wage growth with some acceleration in recent years.
+        </div>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="salaryChart"></canvas>
+    </div>
+    
+    <h3>Key Statistics</h3>
+    
+    <div class="stats-display" id="currentSalary">Current salary (2024): €4,701</div>
+    <div class="stats-display" id="totalGrowth">Total growth since 1991: +157%</div>
+    <div class="stats-display" id="avgGrowth">Average annual growth: +2.9%</div>
+    <div class="stats-display" id="recentGrowth">Recent growth (2023-2024): +5.0%</div>
+    <div class="stats-display" id="salaryRange">Salary range: €1,832 - €4,701</div>
 
-  // Update dynamic description
-  document.getElementById('base-value').textContent = base.toLocaleString('de-DE');
-  document.getElementById('year-start').textContent = years[startIdx];
-  document.getElementById('year-end').textContent = years[endIdx];
-  document.getElementById('final-value').textContent = devaluation_ger[devaluation_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
-}
+    <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 
-// Initial anzeigen
-populateYearSelects1();
-updateChart();
-// Event Listener für das Eingabefeld
-document.getElementById('base_input1').addEventListener('input', updateChart);
-document.getElementById('start_year_select1').addEventListener('change', updateChart);
-document.getElementById('end_year_select1').addEventListener('change', updateChart);
+    <div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
+        <h3 style="margin-top:0;">Support this project</h3>
+        <p style="font-size:1.15rem; margin-bottom:1.2em;">
+            This website is a private, non-commercial project.<br>
+            If the calculations have helped you or you want to support the development,<br>
+            I would be happy about a small donation via PayPal!
+        </p>
+        
+        <form action="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" method="post" target="_blank">
+            <input type="hidden" name="business" value="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" />
+            <input type="hidden" name="currency_code" value="EUR" />
+            <button type="submit" style="background:#0070ba;color:#fff;border:none;padding:0.7em 2em;border-radius:0.4em;font-size:1.1rem;cursor:pointer;">
+                Support via PayPal
+            </button>
+        </form>
+    </div>
 
-</script>
+    <script>
+        // Set last updated date
+        const lastUpdate = new Date(document.lastModified);
+        document.getElementById('last-updated').textContent = "Last updated: " + lastUpdate.toLocaleDateString();
 
-<!-- STOP INSERT INFLATION 1 -->
- 
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+        const bruttomonatsverdienste = [
+            { "Jahr": 2024, "Bruttomonatsverdienst": 4701 },
+            { "Jahr": 2023, "Bruttomonatsverdienst": 4479 },
+            { "Jahr": 2022, "Bruttomonatsverdienst": 4244 },
+            { "Jahr": 2021, "Bruttomonatsverdienst": 4100 },
+            { "Jahr": 2020, "Bruttomonatsverdienst": 3975 },
+            { "Jahr": 2019, "Bruttomonatsverdienst": 3994 },
+            { "Jahr": 2018, "Bruttomonatsverdienst": 3880 },
+            { "Jahr": 2017, "Bruttomonatsverdienst": 3771 },
+            { "Jahr": 2016, "Bruttomonatsverdienst": 3703 },
+            { "Jahr": 2015, "Bruttomonatsverdienst": 3612 },
+            { "Jahr": 2014, "Bruttomonatsverdienst": 3527 },
+            { "Jahr": 2013, "Bruttomonatsverdienst": 3449 },
+            { "Jahr": 2012, "Bruttomonatsverdienst": 3391 },
+            { "Jahr": 2011, "Bruttomonatsverdienst": 3311 },
+            { "Jahr": 2010, "Bruttomonatsverdienst": 3227 },
+            { "Jahr": 2009, "Bruttomonatsverdienst": 3141 },
+            { "Jahr": 2008, "Bruttomonatsverdienst": 3103 },
+            { "Jahr": 2007, "Bruttomonatsverdienst": 3023 },
+            { "Jahr": 2006, "Bruttomonatsverdienst": 2950 },
+            { "Jahr": 2005, "Bruttomonatsverdienst": 2901 },
+            { "Jahr": 2004, "Bruttomonatsverdienst": 2846 },
+            { "Jahr": 2003, "Bruttomonatsverdienst": 2783 },
+            { "Jahr": 2002, "Bruttomonatsverdienst": 2701 },
+            { "Jahr": 2001, "Bruttomonatsverdienst": 2617 },
+            { "Jahr": 2000, "Bruttomonatsverdienst": 2551 },
+            { "Jahr": 1999, "Bruttomonatsverdienst": 2518 },
+            { "Jahr": 1998, "Bruttomonatsverdienst": 2447 },
+            { "Jahr": 1997, "Bruttomonatsverdienst": 2389 },
+            { "Jahr": 1996, "Bruttomonatsverdienst": 2344 },
+            { "Jahr": 1995, "Bruttomonatsverdienst": 2281 },
+            { "Jahr": 1994, "Bruttomonatsverdienst": 2185 },
+            { "Jahr": 1993, "Bruttomonatsverdienst": 2103 },
+            { "Jahr": 1992, "Bruttomonatsverdienst": 2003 },
+            { "Jahr": 1991, "Bruttomonatsverdienst": 1832 }
+        ];
 
-<div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
-  <h3 style="margin-top:0;">Support this project</h3>
-  <p style="font-size:1.15rem; margin-bottom:1.2em;">
-    This website is a private, non-commercial project.<br>
-    If the calculations have helped you or you want to support the development,<br>
-    I would be happy about a small donation via PayPal!
-  </p>
+        // Sort data by year for proper visualization
+        bruttomonatsverdienste.sort((a, b) => a.Jahr - b.Jahr);
 
-  <form action="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" method="post" target="_blank">
-    <input type="hidden" name="business" value="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" />
-    <input type="hidden" name="currency_code" value="EUR" />
-    <button type="submit" style="background:#0070ba;color:#fff;border:none;padding:0.7em 2em;border-radius:0.4em;font-size:1.1rem;cursor:pointer;">
-      Support via PayPal
-    </button>
-  </form>
-</div>
+        // Extract data for chart
+        const years = bruttomonatsverdienste.map(item => item.Jahr);
+        const salaries = bruttomonatsverdienste.map(item => item.Bruttomonatsverdienst);
 
+        // Calculate statistics
+        const firstSalary = salaries[0];
+        const lastSalary = salaries[salaries.length - 1];
+        const totalGrowthPercent = ((lastSalary - firstSalary) / firstSalary * 100).toFixed(1);
+        const avgGrowthPercent = (Math.pow(lastSalary / firstSalary, 1 / (years.length - 1)) - 1) * 100;
+        const recentGrowthPercent = ((salaries[salaries.length - 1] - salaries[salaries.length - 2]) / salaries[salaries.length - 2] * 100).toFixed(1);
+
+        // Update stat displays
+        document.getElementById('totalGrowth').textContent = `Total growth since 1991: +${totalGrowthPercent}%`;
+        document.getElementById('avgGrowth').textContent = `Average annual growth: +${avgGrowthPercent.toFixed(1)}%`;
+        document.getElementById('recentGrowth').textContent = `Recent growth (2023-2024): +${recentGrowthPercent}%`;
+        document.getElementById('salaryRange').textContent = `Salary range: €${firstSalary.toLocaleString('de-DE')} - €${lastSalary.toLocaleString('de-DE')}`;
+
+        // Create the chart
+        const ctx = document.getElementById('salaryChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Bruttomonatsverdienst (€)',
+                    data: salaries,
+                    borderColor: 'darkblue',
+                    backgroundColor: 'darkblue',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: 'darkblue',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 1,
+                    pointHoverBackgroundColor: 'red',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Bruttomonatsverdienst Development 1991-2024',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: 'darkblue',
+                        borderWidth: 1,
+                        cornerRadius: 4,
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return `€${context.parsed.y.toLocaleString('de-DE')}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Year',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90,
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Bruttomonatsverdienst (€)',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 10
+                            },
+                            callback: function(value) {
+                                return '€' + value.toLocaleString('de-DE');
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        beginAtZero: false
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    </script>
+</body>
+</html>
