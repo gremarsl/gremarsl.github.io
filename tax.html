@@ -167,7 +167,7 @@
     </div>
     
     <div class="chart-container">
-        <canvas id="comparisonChart"></canvas>
+        <canvas id="comparisonChart2"></canvas>
     </div>
     
     <h3>Tarifzone Statistics</h3>
@@ -186,7 +186,7 @@
     </div>
     
     <div class="chart-container">
-        <canvas id="comparisonChart"></canvas>
+        <canvas id="comparisonChart3"></canvas>
     </div>
     
     <h3>Tarifzone Statistics</h3>
@@ -446,7 +446,7 @@
         });
 
         // Create the comparison chart (Nominal vs. Inflation-adjusted Tarifzone)
-        const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+        const ctx2 = document.getElementById('comparisonChart2').getContext('2d');
         const comparisonChart = new Chart(ctx2, {
             type: 'line',
             data: {
@@ -579,7 +579,7 @@
                 labels: tarifzoneYears,
                 datasets: [
                     {
-                        label: 'ruttojahresverdienst (€)',
+                        label: 'Bruttojahresverdienst (€)',
                         data: salaries,
                         borderColor: 'darkblue',
                         backgroundColor: 'darkblue',
