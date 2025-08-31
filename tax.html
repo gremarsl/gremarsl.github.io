@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bruttomonatsverdienst 1991-2024</title>
+    <title>Bruttojahresverdienst 1991-2024</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         body {
@@ -131,7 +131,7 @@
     </style>
 </head>
 <body>
-    <h2>Bruttomonatsverdienst Development</h2>
+    <h2>Bruttojahresverdienst Development</h2>
     <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
     
     <h3>Salary Growth Analysis 1991-2024</h3>
@@ -139,7 +139,7 @@
     <div class="info-box">
         <div class="info-icon">ℹ️</div>
         <div>
-            This chart shows the development of gross monthly earnings (Bruttomonatsverdienst) over a 33-year period. 
+            This chart shows the development of gross monthly earnings (Bruttojahresverdienst) over a 33-year period. 
             The data demonstrates steady wage growth with some acceleration in recent years.
         </div>
     </div>
@@ -180,49 +180,49 @@
         const lastUpdate = new Date(document.lastModified);
         document.getElementById('last-updated').textContent = "Last updated: " + lastUpdate.toLocaleDateString();
 
-        const bruttomonatsverdienste = [
-            { "Jahr": 2024, "Bruttomonatsverdienst": 4701 },
-            { "Jahr": 2023, "Bruttomonatsverdienst": 4479 },
-            { "Jahr": 2022, "Bruttomonatsverdienst": 4244 },
-            { "Jahr": 2021, "Bruttomonatsverdienst": 4100 },
-            { "Jahr": 2020, "Bruttomonatsverdienst": 3975 },
-            { "Jahr": 2019, "Bruttomonatsverdienst": 3994 },
-            { "Jahr": 2018, "Bruttomonatsverdienst": 3880 },
-            { "Jahr": 2017, "Bruttomonatsverdienst": 3771 },
-            { "Jahr": 2016, "Bruttomonatsverdienst": 3703 },
-            { "Jahr": 2015, "Bruttomonatsverdienst": 3612 },
-            { "Jahr": 2014, "Bruttomonatsverdienst": 3527 },
-            { "Jahr": 2013, "Bruttomonatsverdienst": 3449 },
-            { "Jahr": 2012, "Bruttomonatsverdienst": 3391 },
-            { "Jahr": 2011, "Bruttomonatsverdienst": 3311 },
-            { "Jahr": 2010, "Bruttomonatsverdienst": 3227 },
-            { "Jahr": 2009, "Bruttomonatsverdienst": 3141 },
-            { "Jahr": 2008, "Bruttomonatsverdienst": 3103 },
-            { "Jahr": 2007, "Bruttomonatsverdienst": 3023 },
-            { "Jahr": 2006, "Bruttomonatsverdienst": 2950 },
-            { "Jahr": 2005, "Bruttomonatsverdienst": 2901 },
-            { "Jahr": 2004, "Bruttomonatsverdienst": 2846 },
-            { "Jahr": 2003, "Bruttomonatsverdienst": 2783 },
-            { "Jahr": 2002, "Bruttomonatsverdienst": 2701 },
-            { "Jahr": 2001, "Bruttomonatsverdienst": 2617 },
-            { "Jahr": 2000, "Bruttomonatsverdienst": 2551 },
-            { "Jahr": 1999, "Bruttomonatsverdienst": 2518 },
-            { "Jahr": 1998, "Bruttomonatsverdienst": 2447 },
-            { "Jahr": 1997, "Bruttomonatsverdienst": 2389 },
-            { "Jahr": 1996, "Bruttomonatsverdienst": 2344 },
-            { "Jahr": 1995, "Bruttomonatsverdienst": 2281 },
-            { "Jahr": 1994, "Bruttomonatsverdienst": 2185 },
-            { "Jahr": 1993, "Bruttomonatsverdienst": 2103 },
-            { "Jahr": 1992, "Bruttomonatsverdienst": 2003 },
-            { "Jahr": 1991, "Bruttomonatsverdienst": 1832 }
+        const Bruttojahresverdienste = [
+            { "Jahr": 2024, "Bruttojahresverdienst": 4701*12 },
+            { "Jahr": 2023, "Bruttojahresverdienst": 4479*12 },
+            { "Jahr": 2022, "Bruttojahresverdienst": 4244*12 },
+            { "Jahr": 2021, "Bruttojahresverdienst": 4100*12 },
+            { "Jahr": 2020, "Bruttojahresverdienst": 3975*12 },
+            { "Jahr": 2019, "Bruttojahresverdienst": 3994*12 },
+            { "Jahr": 2018, "Bruttojahresverdienst": 3880*12 },
+            { "Jahr": 2017, "Bruttojahresverdienst": 3771*12 },
+            { "Jahr": 2016, "Bruttojahresverdienst": 3703*12 },
+            { "Jahr": 2015, "Bruttojahresverdienst": 3612*12 },
+            { "Jahr": 2014, "Bruttojahresverdienst": 3527*12 },
+            { "Jahr": 2013, "Bruttojahresverdienst": 3449*12 },
+            { "Jahr": 2012, "Bruttojahresverdienst": 3391*12 },
+            { "Jahr": 2011, "Bruttojahresverdienst": 3311*12 },
+            { "Jahr": 2010, "Bruttojahresverdienst": 3227*12 },
+            { "Jahr": 2009, "Bruttojahresverdienst": 3141*12 },
+            { "Jahr": 2008, "Bruttojahresverdienst": 3103*12 },
+            { "Jahr": 2007, "Bruttojahresverdienst": 3023*12 },
+            { "Jahr": 2006, "Bruttojahresverdienst": 2950*12 },
+            { "Jahr": 2005, "Bruttojahresverdienst": 2901*12 },
+            { "Jahr": 2004, "Bruttojahresverdienst": 2846*12 },
+            { "Jahr": 2003, "Bruttojahresverdienst": 2783*12 },
+            { "Jahr": 2002, "Bruttojahresverdienst": 2701*12 },
+            { "Jahr": 2001, "Bruttojahresverdienst": 2617*12 },
+            { "Jahr": 2000, "Bruttojahresverdienst": 2551*12 },
+            { "Jahr": 1999, "Bruttojahresverdienst": 2518*12 },
+            { "Jahr": 1998, "Bruttojahresverdienst": 2447*12 },
+            { "Jahr": 1997, "Bruttojahresverdienst": 2389*12 },
+            { "Jahr": 1996, "Bruttojahresverdienst": 2344*12 },
+            { "Jahr": 1995, "Bruttojahresverdienst": 2281*12 },
+            { "Jahr": 1994, "Bruttojahresverdienst": 2185*12 },
+            { "Jahr": 1993, "Bruttojahresverdienst": 2103*12 },
+            { "Jahr": 1992, "Bruttojahresverdienst": 2003*12 },
+            { "Jahr": 1991, "Bruttojahresverdienst": 1832*12 }
         ];
 
         // Sort data by year for proper visualization
-        bruttomonatsverdienste.sort((a, b) => a.Jahr - b.Jahr);
+        Bruttojahresverdienste.sort((a, b) => a.Jahr - b.Jahr);
 
         // Extract data for chart
-        const years = bruttomonatsverdienste.map(item => item.Jahr);
-        const salaries = bruttomonatsverdienste.map(item => item.Bruttomonatsverdienst);
+        const years = Bruttojahresverdienste.map(item => item.Jahr);
+        const salaries = Bruttojahresverdienste.map(item => item.Bruttojahresverdienst);
 
         // Calculate statistics
         const firstSalary = salaries[0];
@@ -244,7 +244,7 @@
             data: {
                 labels: years,
                 datasets: [{
-                    label: 'Bruttomonatsverdienst (€)',
+                    label: 'Bruttojahresverdienst (€)',
                     data: salaries,
                     borderColor: 'darkblue',
                     backgroundColor: 'darkblue',
@@ -267,7 +267,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Bruttomonatsverdienst Development 1991-2024',
+                        text: 'Durchschnittliches Bruttojahresverdienst Development 1991-2024',
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -317,7 +317,7 @@
                     y: {
                         title: {
                             display: true,
-                            text: 'Bruttomonatsverdienst (€)',
+                            text: 'Bruttojahresverdienst (€)',
                             font: {
                                 size: 12,
                                 weight: 'bold'
