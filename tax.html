@@ -146,7 +146,7 @@
     <div class="info-box">
         <div class="info-icon">⚠️</div>
         <div>
-            WORK IN PROGRESS. Alle Graphen werden in Euro dargestellt. In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
+            Alle Graphen werden in Euro dargestellt. In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
         </div>
     </div>
     <h3>Gehaltswachstumsanalyse 1991-2024</h3>
@@ -181,7 +181,7 @@
     <div class="info-box">
         <div class="info-icon">📊</div>
         <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet. <br> <br> In Blau ist der nominelle Bruttoverdienst ab der der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkrafbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet. <br> <br> In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
         </div>
     </div>
 
@@ -202,15 +202,25 @@
     <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
     <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
 
-    <h3>Gegenüberstellung ⌀ Jahresbruttoverdienst mit Beginn des Spitzensteuersatzes (42%)</h3>
+    <h3>Gegenüberstellung: ⌀ Jahresbruttoverdienst & Beginn der letzten Tarifzone</h3>
 
     <div class="info-box">
         <div class="info-icon">📊</div>
         <div>
-            TODO
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. <br> <br> In Blau ist die Entwicklung des durchschnittlichen, nominellen Bruttojahresverdienstes in Deutschland dargestellt. <br> <br> In Grün ist die Einkommensgrenze eingezeichnet, ab der in Deutschland der Spitzensteuersatz auf das Bruttojahresgehalt erhoben wird. <br> <br>
         </div>
     </div>
-    
+
+    <div class="info-box">
+        <div class="info-icon">📊</div>
+        <div>
+            Wie ist dieser Graph zu verstehen?<br><br>
+            Beispiel 1: Im Jahr 190 lag der durchschnittliche Jahresbruttoverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
+            Beispiel 2: Im Jahr 2010 lag der durchschnittliche Jahresbruttoverdienst bei 39.732€. <br> Der Beginn der letzten Tarifzone lag bei 52.882€. <br> Der Spitzensteuersatz griff also bei einem ~1.33fachen des durchschnittlichen Einkommens.<br><br>
+            Beispiel 3: Im Jahr 2024 lag der durchschnittliche Jahresbruttoverdienst bei 56.412€. <br> Der Beginn der letzten Tarifzone lag bei 66.760€. <br> Der Spitzensteuersatz griff also bei einem ~1.183fachen des durchschnittlichen Einkommens.<br><br>
+        </div>
+    </div>
+
     <div class="chart-container">
         <canvas id="comparisonChart3"></canvas>
     </div>
@@ -516,7 +526,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Beginn der letzten Tarifzone: Nominal vs. Inflationsbereinigt',
+                        text: 'Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt',
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -618,7 +628,7 @@
                         pointHoverBorderWidth: 2
                     },
                     {
-                        label: 'Inflationsbereinigt (Basis 2024) [€]',
+                        label: 'Spitzensteuersatz [€]',
                         data: nominalValues,
                         borderColor: 'darkgreen',
                         backgroundColor: 'darkgreen',
@@ -642,7 +652,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Vergleich Nominal Durchschnittliches Einkommen - Spitzensteuersatz',
+                        text: 'Gegenüberstellung ⌀ Jahresbruttoverdienst mit Beginn des Spitzensteuersatzes (42%)',
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -692,7 +702,7 @@
                     y: {
                         title: {
                             display: true,
-                            text: 'Beginn der letzten Tarifzone (€)',
+                            text: '⌀ Jahreseinkommen | Beginn des Spitzensteuersatzes (€)',
                             font: {
                                 size: 12,
                                 weight: 'bold'
