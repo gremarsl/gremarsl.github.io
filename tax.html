@@ -131,34 +131,39 @@
     </style>
 </head>
 <body>
-    <h2>Bruttojahresverdienst Development</h2>
+    <h2>Betrachtung des Bruttojahresverdienstes in Deutschland seit 1990</h2>
     <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
     <div class="info-box">
         <div class="info-icon">ℹ️</div>
         <div>
-            WORK IN PROGRESS!!! 
+            WORK IN PROGRESS!!!
         </div>
     </div>
-    <h3>Salary Growth Analysis 1991-2024</h3>
-    
+    <h3>Gehaltswachstumsanalyse 1991-2024</h3>
+
     <div class="info-box">
         <div class="info-icon">ℹ️</div>
         <div>
-            This chart shows the development of gross monthly earnings (Bruttojahresverdienst) over a 33-year period. 
-            The data demonstrates steady wage growth with some acceleration in recent years.
+            Dieser Graph zeigt die Entwicklung des durchschnittlichen Bruttojahresverdienstes in Deutschland zwischen 1991 und 2024.
+            Die Daten zeigen ein stetiges Lohnwachstum mit einem Knick im Jahr 2020, der auf die wirtschaftlichen Unsicherheiten durch die Corona-Pandemie zurückgeführt werden kann. Der Graph zeigt den nominalen, nicht-inflationsbereinigten Verlauf des Bruttojahresverdienstes in Deutschland.
         </div>
     </div>
-    
+    <div class="info-box">
+        <div class="info-icon">🔎</div>
+        <div>
+            Dieser Graph zeigt den Durchschnittsverdienst. Daten zum Median-Einkommen (mittleres Einkommen) konnte ich leider nicht finden. Der Durchschnitt kann durch extrem hohe Einkommen verzerrt werden und spiegelt die Einkommenssituation der meisten Menschen möglicherweise nicht genau wider. Trotzdem wird der Durchschnitt oft genutzt, um einen allgemeinen Überblick über das Wachstum und die wirtschaftliche Leistung zu geben.
+        </div>
+    </div>
     <div class="chart-container">
         <canvas id="salaryChart"></canvas>
     </div>
-    
-    <h3>Key Statistics</h3>
-    
-    <div class="stats-display" id="currentSalary">Current salary (2024): €4,701</div>
-    <div class="stats-display" id="totalGrowth">Total growth since 1991: +157%</div>
-    <div class="stats-display" id="avgGrowth">Average annual growth: +2.9%</div>
-    <div class="stats-display" id="recentGrowth">Recent growth (2023-2024): +5.0%</div>
+
+    <h3>Hauptstatistiken</h3>
+
+    <div class="stats-display" id="currentSalary">Aktuelles Gehalt (2024): €4,701</div>
+    <div class="stats-display" id="totalGrowth">Gesamtwachstum seit 1991: +157%</div>
+    <div class="stats-display" id="avgGrowth">Durchschnittliches jährliches Wachstum: +2.9%</div>
+    <div class="stats-display" id="recentGrowth">Aktuelles Wachstum (2023-2024): +5.0%</div>
     <div class="stats-display" id="salaryRange">Salary range: €1,832 - €4,701</div>
 
     <h3>Beginn der letzten Tarifzone (Spitzensteuersatz) (=! Reichensteuer) - Nominal vs. Inflationsbereinigt</h3>
@@ -373,7 +378,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Bruttojahresverdienst Development 1991-2024',
+                        text: 'Entwicklung des Bruttojahresverdienstes 1991-2024',
                         font: {
                             size: 16,
                             weight: 'bold'
