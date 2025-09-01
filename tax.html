@@ -207,11 +207,9 @@
         <canvas id="comparisonChart3"></canvas>
     </div>
     
-    <h3>Tarifzone Statistics</h3>
-    
-    <div class="stats-display" id="currentNominal">Current nominal (2024): €66,760</div>
-    <div class="stats-display" id="currentInflationAdjusted">Current inflation-adjusted (2024): €66,760</div>
-    <div class="stats-display" id="realValueChange">Real value change since 1990: -45.5%</div>
+    <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
+    <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
+    <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
 
 
 <!-- Paypal start-->
@@ -352,7 +350,6 @@
         const realValueChangePercent = ((lastInflationAdjusted - firstInflationAdjusted) / firstInflationAdjusted * 100).toFixed(1);
         
         document.getElementById('currentNominal').textContent = `Current nominal (2024): €${lastNominal.toLocaleString('de-DE')}`;
-        document.getElementById('currentInflationAdjusted').textContent = `Current inflation-adjusted (2024): €${lastInflationAdjusted.toLocaleString('de-DE')}`;
         document.getElementById('realValueChange').textContent = `Real value change since 1990: ${realValueChangePercent}%`;
 
         // Create the chart
