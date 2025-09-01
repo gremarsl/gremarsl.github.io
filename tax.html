@@ -181,15 +181,16 @@
     <div class="info-box">
         <div class="info-icon">📊</div>
         <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet. <br> <br> In Blau ist der nominelle Bruttoverdienst ab der der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkrafbereinigte) Bruttoverdienst dargestellt (Basis 2025). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet. <br> <br> In Blau ist der nominelle Bruttoverdienst ab der der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkrafbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
         </div>
     </div>
 
     <div class="info-box">
         <div class="info-icon">📊</div>
         <div>
-            Wie ist dieser Graph zu verstehen?<br>
-            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei (in € umgerechnet) 61.376€.
+            Wie ist dieser Graph zu verstehen?<br><br>
+            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
+            Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
         </div>
     </div>
 
@@ -201,7 +202,7 @@
     <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
     <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
 
-    <h3>Durchschnittseinkommen zu Start der Spitzengrenze TODO </h3>
+    <h3>Gegenüberstellung ⌀ Jahresbruttoverdienst mit Beginn des Spitzensteuersatzes (42%)</h3>
 
     <div class="info-box">
         <div class="info-icon">📊</div>
@@ -289,7 +290,7 @@
         const salaries = Bruttojahresverdienste.map(item => item.Bruttojahresverdienst);
 
         // Parse the new Tarifzone data
-        const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsbereinigt (Basis 2025)
+        const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsbereinigt (Basis 2024)
         1990,61376,122392
         1991,61376,118025
         1992,61376,118025
@@ -491,7 +492,7 @@
                         pointHoverBorderWidth: 2
                     },
                     {
-                        label: 'Inflationsbereinigt (Basis 2025) [€]',
+                        label: 'Inflationsbereinigt (Basis 2024) [€]',
                         data: inflationAdjustedValues,
                         borderColor: 'darkgreen',
                         backgroundColor: 'darkgreen',
@@ -617,7 +618,7 @@
                         pointHoverBorderWidth: 2
                     },
                     {
-                        label: 'Inflationsbereinigt (Basis 2025) [€]',
+                        label: 'Inflationsbereinigt (Basis 2024) [€]',
                         data: nominalValues,
                         borderColor: 'darkgreen',
                         backgroundColor: 'darkgreen',
