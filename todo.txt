@@ -1,5 +1,9 @@
 tax:
 
+
+- auf der handydarstellung etwas zu groß. 
+- infozeichen weg - stattdessen INFO: in dem text
+- move wie ist dieser graph zu verstehen unter den graph 	
 - englisch / deutsch
 - ansprechen des steuersatzen
 - dotted line
