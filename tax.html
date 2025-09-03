@@ -311,36 +311,8 @@
     <div class="stats-display" id="currentSalary">Aktuelles Gehalt (2024): €4,701</div>
     <div class="stats-display" id="totalGrowth">Gesamtwachstum seit 1991: +157%</div>
     <div class="stats-display" id="avgGrowth">Durchschnittliches jährliches Wachstum: +2.9%</div>
-    <div class="stats-display" id="recentGrowth">Aktuelles Wachstum (2023-2024): +5.0%</div>
-    <div class="stats-display" id="salaryRange">Salary range: €1,832 - €4,701</div>
 
 <div class="thin-black-line"></div>
-    <h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
-    <div class="info-box">
-        <div class="info-icon">ℹ</div>
-        <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint.
-         </div>
-    </div>
-
- In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet.
-
-
-    <div class="chart-container">
-        <canvas id="comparisonChart2"></canvas>
-    </div>
-    <div class="info-box">
-        <div class="info-icon"></div>
-        <div>
-            Wie ist dieser Graph zu verstehen?<br><br>
-            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
-            Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
-        </div>
-    </div>
-    
-    <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
-    <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
 
     <h3>Gegenüberstellung: ⌀ Jahresbruttoverdienst & Beginn der letzten Tarifzone</h3>
 
@@ -361,6 +333,34 @@
             Beispiel 1: Im Jahr 190 lag der durchschnittliche Jahresbruttoverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 2: Im Jahr 2010 lag der durchschnittliche Jahresbruttoverdienst bei 39.732€. <br> Der Beginn der letzten Tarifzone lag bei 52.882€. <br> Der Spitzensteuersatz griff also bei einem ~1.33fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 3: Im Jahr 2024 lag der durchschnittliche Jahresbruttoverdienst bei 56.412€. <br> Der Beginn der letzten Tarifzone lag bei 66.760€. <br> Der Spitzensteuersatz griff also bei einem ~1.183fachen des durchschnittlichen Einkommens.<br><br>
+        </div>
+    </div>
+    
+    <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
+    <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
+    <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
+
+    <div class="thin-black-line"></div>
+<h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
+    <div class="info-box">
+        <div class="info-icon">ℹ</div>
+        <div>
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint.
+         </div>
+    </div>
+
+ In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet.
+
+
+    <div class="chart-container">
+        <canvas id="comparisonChart2"></canvas>
+    </div>
+    <div class="info-box">
+        <div class="info-icon"></div>
+        <div>
+            Wie ist dieser Graph zu verstehen?<br><br>
+            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
+            Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
         </div>
     </div>
     
@@ -495,20 +495,17 @@
         const recentGrowthPercent = ((salaries[salaries.length - 1] - salaries[salaries.length - 2]) / salaries[salaries.length - 2] * 100).toFixed(1);
 
         // Update stat displays
-        document.getElementById('totalGrowth').textContent = `Total growth since 1991: +${totalGrowthPercent}%`;
-        document.getElementById('avgGrowth').textContent = `Average annual growth: +${avgGrowthPercent.toFixed(1)}%`;
-        document.getElementById('recentGrowth').textContent = `Recent growth (2023-2024): +${recentGrowthPercent}%`;
-        document.getElementById('salaryRange').textContent = `Salary range: €${firstSalary.toLocaleString('de-DE')} - €${lastSalary.toLocaleString('de-DE')}`;
-        
+        document.getElementById('totalGrowth').textContent = `Gesamter Anstieg seit 1991: +${totalGrowthPercent}%`;
+        document.getElementById('avgGrowth').textContent = `Durchschnittliches jährliches Wachstum: +${avgGrowthPercent.toFixed(1)}%`;
+
         // Update Tarifzone stats
         const firstInflationAdjusted = inflationAdjustedValues[0];
         const lastInflationAdjusted = inflationAdjustedValues[inflationAdjustedValues.length - 1];
         const lastNominal = nominalValues[nominalValues.length - 1];
         const realValueChangePercent = ((lastInflationAdjusted - firstInflationAdjusted) / firstInflationAdjusted * 100).toFixed(1);
         
-        document.getElementById('currentNominal').textContent = `Current nominal (2024): €${lastNominal.toLocaleString('de-DE')}`;
+        document.getElementById('currentNominal').textContent = `Jahresgehalt (2024): €${lastNominal.toLocaleString('de-DE')}`;
         document.getElementById('realValueChange').textContent = `Real value change since 1990: ${realValueChangePercent}%`;
-
         // Create the chart
         const ctx = document.getElementById('salaryChart').getContext('2d');
         const chart = new Chart(ctx, {
