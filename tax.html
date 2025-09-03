@@ -307,8 +307,6 @@
     </div>
 
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-
-    <div class="stats-display" id="currentSalary">Aktuelles Gehalt (2024): €4,701</div>
     <div class="stats-display" id="totalGrowth">Gesamtwachstum seit 1991: +157%</div>
     <div class="stats-display" id="avgGrowth">Durchschnittliches jährliches Wachstum: +2.9%</div>
 
@@ -337,8 +335,8 @@
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
-    <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
+    <div class="stats-display" id="currentNominal">Bruttojahresgehalt (2024): €66,760</div>
+    <div class="stats-display" id="realValueChange">Prozentuale Veränderung seit 1990: -45.5%</div>
 
     <div class="thin-black-line"></div>
 <h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
@@ -365,8 +363,8 @@
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="currentNominal">Aktuell nominal (2024): €66,760</div>
-    <div class="stats-display" id="realValueChange">Kaufkraftveränderung seit 1990: -45.5%</div>
+    <div class="stats-display" id="currentNominal">Bruttojahresgehalt (2024): €66,760</div>
+    <div class="stats-display" id="realValueChange">Prozentuale Veränderung seit 1990: -45.5%</div>
 
 
 <!-- Paypal start-->
@@ -503,9 +501,9 @@
         const lastInflationAdjusted = inflationAdjustedValues[inflationAdjustedValues.length - 1];
         const lastNominal = nominalValues[nominalValues.length - 1];
         const realValueChangePercent = ((lastInflationAdjusted - firstInflationAdjusted) / firstInflationAdjusted * 100).toFixed(1);
-        
-        document.getElementById('currentNominal').textContent = `Jahresgehalt (2024): €${lastNominal.toLocaleString('de-DE')}`;
-        document.getElementById('realValueChange').textContent = `Real value change since 1990: ${realValueChangePercent}%`;
+
+        document.getElementById('currentNominal').textContent = `Bruttojahresgehalt (2024): €${lastNominal.toLocaleString('de-DE')}`;
+        document.getElementById('realValueChange').textContent = `Prozentuale Veränderung seit 1990: ${realValueChangePercent}%`;
         // Create the chart
         const ctx = document.getElementById('salaryChart').getContext('2d');
         const chart = new Chart(ctx, {
