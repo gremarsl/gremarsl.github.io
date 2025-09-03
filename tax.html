@@ -74,16 +74,16 @@
             border-left: 5px solid #1976d2;
             border-radius: 0.7em;
             padding: 1.1em 1.3em;
-            margin: 1.5em 0;
+            margin: 1.0em 0;
             box-shadow: 0 2px 8px #0001;
-            font-size: 1.13rem;
+            font-size: 1rem;
             display: flex;
             align-items: flex-start;
             gap: 1em;
         }
         
         .info-box .info-icon {
-            font-size: 1.7em;
+            font-size: 1.0em;
             color: #1976d2;
             flex-shrink: 0;
             margin-top: 0.1em;
@@ -131,12 +131,10 @@
                 line-height: 1.7;
             }
             .info-box {
-                font-size: 1.08rem;
+                font-size: 1.00rem;
                 padding: 1em 0.7em;
             }
-            .info-box .info-icon {
-                font-size: 1.3em;
-            }
+
         }
     </style>
 </head>
@@ -144,26 +142,18 @@
     <h2>Betrachtung des Bruttojahresverdienstes in Deutschland seit 1990</h2>
     <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
     <div class="info-box">
-        <div class="info-icon">⚠️</div>
+        <div class="info-icon">ℹ</div>
         <div>
-            Alle Graphen werden in Euro dargestellt. In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
+            Alle Graphen werden in Euro dargestellt. <br> In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
         </div>
     </div>
     <h3>Gehaltswachstumsanalyse 1991-2024</h3>
 
-    <div class="info-box">
-        <div class="info-icon">ℹ️</div>
-        <div>
             Dieser Graph zeigt die Entwicklung des durchschnittlichen Bruttojahresverdienstes in Deutschland zwischen 1991 und 2024.
             Die Daten zeigen ein stetiges Lohnwachstum mit einem Knick im Jahr 2020, der auf die wirtschaftlichen Unsicherheiten durch die Corona-Pandemie zurückgeführt werden kann. Der Graph zeigt den nominalen, nicht-inflationsbereinigten Verlauf des Bruttojahresverdienstes in Deutschland.
-        </div>
-    </div>
-    <div class="info-box">
-        <div class="info-icon">🔎</div>
-        <div>
+
             Dieser Graph zeigt den Durchschnittsverdienst. Daten zum Median-Einkommen (mittleres Einkommen) konnte ich leider nicht finden. Der Durchschnitt kann durch extrem hohe Einkommen verzerrt werden und spiegelt die Einkommenssituation der meisten Menschen möglicherweise nicht genau wider. Trotzdem wird der Durchschnitt oft genutzt, um einen allgemeinen Überblick über das Wachstum und die wirtschaftliche Leistung zu geben.
-        </div>
-    </div>
+
     <div class="chart-container">
         <canvas id="salaryChart"></canvas>
     </div>
@@ -179,23 +169,25 @@
 <div class="thin-black-line"></div>
     <h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
     <div class="info-box">
-        <div class="info-icon">📊</div>
+        <div class="info-icon">ℹ</div>
         <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet. <br> <br> In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
-        </div>
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet.        
+         </div>
     </div>
 
+ In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar.
+
+
+    <div class="chart-container">
+        <canvas id="comparisonChart2"></canvas>
+    </div>
     <div class="info-box">
-        <div class="info-icon">📊</div>
+        <div class="info-icon"></div>
         <div>
             Wie ist dieser Graph zu verstehen?<br><br>
             Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
             Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
         </div>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="comparisonChart2"></canvas>
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
@@ -205,24 +197,23 @@
     <h3>Gegenüberstellung: ⌀ Jahresbruttoverdienst & Beginn der letzten Tarifzone</h3>
 
     <div class="info-box">
-        <div class="info-icon">📊</div>
+        <div class="info-icon"></div>
         <div>
             Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. <br> <br> In Blau ist die Entwicklung des durchschnittlichen, nominellen Bruttojahresverdienstes in Deutschland dargestellt. <br> <br> In Grün ist die Einkommensgrenze eingezeichnet, ab der in Deutschland der Spitzensteuersatz auf das Bruttojahresgehalt erhoben wird. <br> <br>
         </div>
     </div>
 
+    <div class="chart-container">
+        <canvas id="comparisonChart3"></canvas>
+    </div>
     <div class="info-box">
-        <div class="info-icon">📊</div>
+        <div class="info-icon"></div>
         <div>
             Wie ist dieser Graph zu verstehen?<br><br>
             Beispiel 1: Im Jahr 190 lag der durchschnittliche Jahresbruttoverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 2: Im Jahr 2010 lag der durchschnittliche Jahresbruttoverdienst bei 39.732€. <br> Der Beginn der letzten Tarifzone lag bei 52.882€. <br> Der Spitzensteuersatz griff also bei einem ~1.33fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 3: Im Jahr 2024 lag der durchschnittliche Jahresbruttoverdienst bei 56.412€. <br> Der Beginn der letzten Tarifzone lag bei 66.760€. <br> Der Spitzensteuersatz griff also bei einem ~1.183fachen des durchschnittlichen Einkommens.<br><br>
         </div>
-    </div>
-
-    <div class="chart-container">
-        <canvas id="comparisonChart3"></canvas>
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>

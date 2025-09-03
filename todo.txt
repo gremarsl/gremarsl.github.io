@@ -1,9 +1,7 @@
 tax:
 
 
-- auf der handydarstellung etwas zu groß. 
-- infozeichen weg - stattdessen INFO: in dem text
-- move wie ist dieser graph zu verstehen unter den graph 	
+- auf der handydarstellung etwas zu groß.
 - englisch / deutsch
 - ansprechen des steuersatzen
 - dotted line
@@ -11,3 +9,8 @@ tax:
 - data.ods, .txt strukturieren & ordnen
 
 - Wie sind die steuereinnahmen über die lohnsteuer angestiegen seit 1990?
+
+
+⚠️
+ℹ️
+📊
