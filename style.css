@@ -42,6 +42,34 @@ p {
     text-align: left !important;
 }
 
+input[type="number"], input[type="text"], select {
+    font-size: 2.5rem;
+    padding: 0.7em 1em;
+    min-width: 140px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    margin-top: 0.2em;
+    margin-bottom: 0.8em;
+    border-radius: 0.3em;
+    border: 1px solid #bbb;
+}
+
+        select {
+            width: 7em;
+            max-width: 6em;
+            min-width: 6em;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.8em;
+            font-size: 1.22rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
 .navmenu {
     font-size: 1.5rem;
     display: block;
