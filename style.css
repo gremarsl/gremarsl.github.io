@@ -162,13 +162,188 @@ label {
 }
 
 
+/* Specific ID styles from other sheets */
+#vervielfaeltiger,
+#index,
+#finanz-parameter,
+#miete-kaltmiete-in-n-jahren,
+#miete-ohne-steigerung,
+#miete-mit-steigerung,
+#dynamik-vervielfaeltiger,
+#dynamik-einkommen-index {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+#loan-log {
+    font-size: 1.5rem;
+    font-family: inherit;
+}
+
+/* Support section styling */
+.support-section {
+    max-width: 500px;
+    margin: 2em auto;
+    padding: 1.5em;
+    background: #f7fafd;
+    border-radius: 1em;
+    box-shadow: 0 2px 8px #0001;
+    text-align: center;
+}
+
+.support-section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.support-section p {
+    font-size: 1.15rem;
+    margin-bottom: 1.2em;
+}
+
+.paypal-button {
+    background: #0070ba;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 0.4em;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.paypal-button:hover {
+    background: #005ea6;
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
+    body {
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+        margin-top: 0.8em;
+        margin-bottom: 0.4em;
+    }
+    
+    h3 {
+        font-size: 1.4rem;
+        margin-top: 0.8em;
+        margin-bottom: 0.4em;
+    }
+    
+    p {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        margin: 0.8em 0;
+    }
+    
+    .kleinere-ueberschrift {
+        font-size: 1.3rem;
+    }
+    
+    .info-box {
+        font-size: 0.95rem;
+        padding: 0.8em 1em;
+        margin: 0.8em 0;
+        gap: 0.8em;
+    }
+    
+    .stats-display {
+        font-size: 0.9rem;
+        margin: 0.4em 0;
+    }
+    
+    .chart-container {
+        width: 95vw;
+        height: 300px;
+        margin: 20px 0;
+    }
+    
+    label {
+        font-size: 1.05rem;
+        margin-bottom: 0.6em;
+    }
+    
+    input[type="number"], input[type="text"], select {
+        font-size: 1.1rem;
+        padding: 0.5em 0.8em;
+        min-width: 100px;
+        margin-bottom: 0.6em;
+    }
+    
+    .support-section {
+        margin: 1.5em auto;
+        padding: 1.2em;
+    }
 
-.navmenu {
-    font-size: 1.5rem;
-    display: block;
-    margin: 0 auto 0 0;
-    max-width: 50%;
+    .support-section p {
+        font-size: 1rem;
+    }
+
+    .paypal-button {
+        font-size: 1rem;
+        padding: 0.6em 1.5em;
+    }
 }
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    body {
+        padding-left: 0.8em;
+        padding-right: 0.8em;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+        line-height: 1.3;
+    }
+    
+    p {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+    
+    .kleinere-ueberschrift {
+        font-size: 1.1rem;
+    }
+    
+    .info-box {
+        font-size: 0.9rem;
+        padding: 0.7em 0.8em;
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    
+    .stats-display {
+        font-size: 0.85rem;
+    }
+    
+    .chart-container {
+        width: 98vw;
+        height: 250px;
+        margin: 15px 0;
+    }
+    
+    .support-section p {
+        font-size: 0.9rem;
+        margin-bottom: 1em;
+    }
+
+    .paypal-button {
+        font-size: 0.9rem;
+        padding: 0.5em 1.2em;
+    }
 }
