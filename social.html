@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sozialversicherungsbeiträge-Analyse</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navmenu">
+        <div class="navlink">
+            <a href="index.html">Home</a>
+            <a href="housing.html">Housing Calculator</a>
+            <a href="inflation.html">Inflation Calculator</a>
+            <a href="tax.html">Bruttoverdienst-Analyse</a>
+            <a href="social.html">Sozialversicherungsbeiträge-Analyse</a>
+        </div>
+    </nav>
+
+    <h2>Sozialversicherungsbeiträge-Analyse für Deutschland 2025</h2>
+    <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+    
+    <div class="info-box">
+        <div class="info-icon">ℹ</div>
+        <div>
+            Diese Analyse zeigt die Sozialversicherungsbeiträge für verschiedene Einkommensklassen in Deutschland. 
+            Berücksichtigt werden Renten-, Kranken-, Pflege- und Arbeitslosenversicherung mit den aktuellen Beitragssätzen 2025.
+        </div>
+    </div>
+
+    <div style="margin: 2em 0;">
+        <label style="display: flex; align-items: center; gap: 0.5em; font-weight: bold;">
+            <input type="checkbox" id="hasChild" style="transform: scale(1.2);">
+            Mit Kind (3.6% vs 4.2% Pflegeversicherung)
+        </label>
+    </div>
+
+    <h3>Sozialversicherungsbeiträge nach Einkommensklasse</h3>
+    
+    <div class="info-box">
+        <div class="info-icon"></div>
+        <div>
+            In der folgenden Tabelle werden die Sozialversicherungsbeiträge für vier verschiedene Bruttojahreseinkommen dargestellt: 40.000€, 70.000€, 100.000€ und 150.000€. 
+            <br><br>
+            <strong>RV</strong> = Rentenversicherung (18.6%) <br>
+            <strong>KV</strong> = Krankenversicherung (14.6%) <br>
+            <strong>PV</strong> = Pflegeversicherung (3.6% mit Kind / 4.2% ohne Kind) <br>
+            <strong>AV</strong> = Arbeitslosenversicherung (2.4%)
+        </div>
+    </div>
+
+    <!-- Summary Table -->
+    <div style="overflow-x: auto; margin: 2em 0;">
+        <table id="contributionsTable" style="width: 100%; border-collapse: collapse; background: white; border: 1px solid #ddd;">
+            <thead style="background: #f5f5f5;">
+                <tr>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">Bruttoeinkommen</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">RV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">KV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">PV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">AV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">Gesamt SV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">Netto nach SV (€)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: right;">SV Anteil (%)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="contributionsChart"></canvas>
+    </div>
+
+    <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
+    <div class="stats-display" id="stat1">Höchste SV-Belastung: Bei 40k Einkommen</div>
+    <div class="stats-display" id="stat2">Niedrigste SV-Belastung: Bei 150k Einkommen (durch Beitragsbemessungsgrenzen)</div>
+
+    <div class="thin-black-line"></div>
+
+    <h3>Brutto vs. Netto nach Sozialversicherung</h3>
+    
+    <div class="chart-container">
+        <canvas id="nettoChart"></canvas>
+    </div>
+
+    <div class="thin-black-line"></div>
+
+    <div class="info-box">
+        <div class="info-icon">ℹ</div>
+        <div>
+            <h3 style="margin-top:0;">Beitragsbemessungsgrenzen 2025:</h3>
+            <strong>Renten-/Arbeitslosenversicherung:</strong> €96.600<br>
+            <strong>Kranken-/Pflegeversicherung:</strong> €66.150<br><br>
+            
+            <h3>Beitragssätze 2025:</h3>
+            <strong>Rentenversicherung:</strong> 18.6%<br>
+            <strong>Krankenversicherung:</strong> 14.6%<br>
+            <strong>Pflegeversicherung:</strong> 3.6% (mit Kind) / 4.2% (ohne Kind)<br>
+            <strong>Arbeitslosenversicherung:</strong> 2.4%
+        </div>
+    </div>
+
+    <!-- Paypal start-->
+    <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+    <div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
+        <h3 style="margin-top:0;">Support this project</h3>
+        <p style="font-size:1.15rem; margin-bottom:1.2em;">
+            This website is a private, non-commercial project.<br>
+            If the calculations have helped you or you want to support the development,<br>
+            I would be happy about a small donation via PayPal!
+        </p>
+        
+        <form action="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" method="post" target="_blank">
+            <input type="hidden" name="business" value="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" />
+            <input type="hidden" name="currency_code" value="EUR" />
+            <button type="submit" style="background:#0070ba;color:#fff;border:none;padding:0.7em 2em;border-radius:0.4em;font-size:1.1rem;cursor:pointer;">
+                Support via PayPal
+            </button>
+        </form>
+    </div>
+    <!-- Paypal end -->
+
+    <script>
+        // Set last updated date
+        const lastUpdate = new Date(document.lastModified);
+        document.getElementById('last-updated').textContent = "Last updated: " + lastUpdate.toLocaleDateString();
+
+        // 2025 values
+        const rv_satz = 18.6; // in %
+        const rv_bbg = 96600; // in €
+        const pv_satz_mk = 3.6; // in % mit kind
+        const pv_satz_ok = 4.2; // in % ohne kind
+        const kv_satz = 14.6; // in %
+        const kv_bbg = 66150; // in €
+        const av_satz = 2.4; // in %
+        const av_bbg = 96600; // in €
+
+        const calc_rv_beitrag = (x) => {
+            return x * rv_satz/100 > rv_bbg*rv_satz/100 ? rv_bbg*rv_satz/100 : x * rv_satz/100;
+        };
+
+        const calc_pv_beitrag = (x, has_child = true) => {
+            return x * (has_child ? pv_satz_mk : pv_satz_ok)/100;
+        };
+
+        const calc_kv_beitrag = (x) => {
+            return x * kv_satz/100 > kv_bbg*kv_satz/100 ? kv_bbg*kv_satz/100 : x * kv_satz/100;
+        };
+
+        const calc_av_beitrag = (x) => {
+            return x * av_satz/100 > av_bbg*av_satz/100 ? av_bbg*av_satz/100 : x * av_satz/100;
+        };
+
+        const incomes = [40000, 70000, 100000, 150000];
+        let hasChild = false;
+        let contributionsChart, nettoChart;
+
+        const calculateContributions = (income, hasChildParam) => {
+            const rv_beitrag = calc_rv_beitrag(income);
+            const pv_beitrag = calc_pv_beitrag(income, hasChildParam);
+            const kv_beitrag = calc_kv_beitrag(income);
+            const av_beitrag = calc_av_beitrag(income);
+            const gesamt = rv_beitrag + pv_beitrag + kv_beitrag + av_beitrag;
+            const netto_after_sv = income - gesamt;
+            const ratio = gesamt/income*100;
+
+            return {
+                income,
+                rv_beitrag: Math.round(rv_beitrag),
+                pv_beitrag: Math.round(pv_beitrag),
+                kv_beitrag: Math.round(kv_beitrag),
+                av_beitrag: Math.round(av_beitrag),
+                gesamt: Math.round(gesamt),
+                netto_after_sv: Math.round(netto_after_sv),
+                ratio: Math.round(ratio * 100) / 100
+            };
+        };
+
+        const updateTable = () => {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+
+            incomes.forEach((income, idx) => {
+                const calc = calculateContributions(income, hasChild);
+                const row = document.createElement('tr');
+                row.style.background = idx % 2 === 0 ? '#f9f9f9' : 'white';
+                
+                row.innerHTML = `
+                    <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">€${income.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">€${calc.rv_beitrag.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">€${calc.kv_beitrag.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">€${calc.pv_beitrag.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">€${calc.av_beitrag.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right; font-weight: bold;">€${calc.gesamt.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right; font-weight: bold; color: #22c55e;">€${calc.netto_after_sv.toLocaleString('de-DE')}</td>
+                    <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">${calc.ratio}%</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        };
+
+        const updateCharts = () => {
+            const data = incomes.map(income => {
+                const calc = calculateContributions(income, hasChild);
+                return {
+                    income: `€${income/1000}k`,
+                    'Rentenversicherung': calc.rv_beitrag,
+                    'Krankenversicherung': calc.kv_beitrag,
+                    'Pflegeversicherung': calc.pv_beitrag,
+                    'Arbeitslosenversicherung': calc.av_beitrag,
+                    'Netto nach SV': calc.netto_after_sv,
+                    'Gesamt SV': calc.gesamt
+                };
+            });
+
+            // Update contributions chart
+            if (contributionsChart) {
+                contributionsChart.destroy();
+            }
+
+            const ctx1 = document.getElementById('contributionsChart').getContext('2d');
+            contributionsChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.income),
+                    datasets: [
+                        {
+                            label: 'Rentenversicherung',
+                            data: data.map(d => d['Rentenversicherung']),
+                            backgroundColor: 'darkblue',
+                            borderColor: 'darkblue',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Krankenversicherung',
+                            data: data.map(d => d['Krankenversicherung']),
+                            backgroundColor: 'darkgreen',
+                            borderColor: 'darkgreen',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Pflegeversicherung',
+                            data: data.map(d => d['Pflegeversicherung']),
+                            backgroundColor: '#ff9800',
+                            borderColor: '#ff9800',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Arbeitslosenversicherung',
+                            data: data.map(d => d['Arbeitslosenversicherung']),
+                            backgroundColor: '#e91e63',
+                            borderColor: '#e91e63',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Sozialversicherungsbeiträge nach Einkommensklasse',
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': €' + context.parsed.y.toLocaleString('de-DE');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: { display: true, text: 'Bruttoeinkommen', font: { size: 12, weight: 'bold' } }
+                        },
+                        y: {
+                            stacked: true,
+                            title: { display: true, text: 'Beitrag (€)', font: { size: 12, weight: 'bold' } },
+                            ticks: {
+                                callback: function(value) {
+                                    return '€' + value.toLocaleString('de-DE');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Update netto chart
+            if (nettoChart) {
+                nettoChart.destroy();
+            }
+
+            const ctx2 = document.getElementById('nettoChart').getContext('2d');
+            nettoChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: data.map(d => d.income),
+                    datasets: [
+                        {
+                            label: 'Sozialversicherung',
+                            data: data.map(d => d['Gesamt SV']),
+                            backgroundColor: '#e91e63',
+                            borderColor: '#e91e63',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Netto nach SV',
+                            data: data.map(d => d['Netto nach SV']),
+                            backgroundColor: 'darkgreen',
+                            borderColor: 'darkgreen',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Brutto vs. Netto nach Sozialversicherung',
+                            font: { size: 16, weight: 'bold' }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': €' + context.parsed.y.toLocaleString('de-DE');
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: { display: true, text: 'Bruttoeinkommen', font: { size: 12, weight: 'bold' } }
+                        },
+                        y: {
+                            stacked: true,
+                            title: { display: true, text: 'Betrag (€)', font: { size: 12, weight: 'bold' } },
+                            ticks: {
+                                callback: function(value) {
+                                    return '€' + value.toLocaleString('de-DE');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Update pie charts
+            updatePieCharts();
+        };
+
+        const updatePieCharts = () => {
+            const container = document.getElementById('pieChartsContainer');
+            container.innerHTML = '';
+
+            incomes.forEach(income => {
+                const calc = calculateContributions(income, hasChild);
+                const pieDiv = document.createElement('div');
+                pieDiv.style.background = '#f9f9f9';
+                pieDiv.style.padding = '1em';
+                pieDiv.style.borderRadius = '8px';
+                pieDiv.innerHTML = `
+                    <h3 style="text-align: center; margin-bottom: 1em;">€${income.toLocaleString('de-DE')}</h3>
+                    <canvas id="pie-${income}" width="250" height="200"></canvas>
+                    <div style="text-align: center; font-size: 0.9em; color: #666; margin-top: 1em;">
+                        Gesamt: €${calc.gesamt.toLocaleString('de-DE')} 
+                        <br>(${calc.ratio}% des Bruttos)
+                    </div>
+                `;
+                container.appendChild(pieDiv);
+
+                const ctx = document.getElementById(`pie-${income}`).getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Rentenversicherung', 'Krankenversicherung', 'Pflegeversicherung', 'Arbeitslosenversicherung'],
+                        datasets: [{
+                            data: [calc.rv_beitrag, calc.kv_beitrag, calc.pv_beitrag, calc.av_beitrag],
+                            backgroundColor: ['darkblue', 'darkgreen', '#ff9800', '#e91e63'],
+                            borderWidth: 2,
+                            borderColor: '#fff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    boxWidth: 12,
+                                    fontSize: 10
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': €' + context.parsed.toLocaleString('de-DE');
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        };
+
+        // Event listener for checkbox
+        document.getElementById('hasChild').addEventListener('change', function() {
+            hasChild = this.checked;
+            updateTable();
+            updateCharts();
+        });
+
+        // Initial load
+        updateTable();
+        updateCharts();
+    </script>
+</body>
+</html>
