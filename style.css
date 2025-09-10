@@ -1,6 +1,6 @@
 body {
     font-family: monospace;
-    text-align: left !important;
+    text-align: center !important;
     padding-left: 2em;
     padding-right: 2em;
     padding-top: 1.5em;
@@ -14,7 +14,7 @@ h1 {
     margin-bottom: 0.7em;
     color: #1976d2;
     line-height: 1.1;
-    text-align: left !important;
+    text-align: center !important;
 }
 
 h2 {
@@ -23,7 +23,7 @@ h2 {
     margin-top: 1.2em;
     margin-bottom: 0.5em;
     line-height: 1.2;
-    text-align: left !important;
+    text-align: center !important;
 }
 
 h3 {
@@ -33,13 +33,13 @@ h3 {
     margin-bottom: 0.5em;
     color: #1a237e;
     line-height: 1.2;
-    text-align: left !important;
+    text-align: center !important;
 }
 
 p {
     font-size: 1.5rem;
     line-height: 1.6;
-    text-align: left !important;
+    text-align: center !important;
 }
 
 input[type="number"], input[type="text"], select {
@@ -70,12 +70,20 @@ label {
     line-height: 1.5;
 }
 
+.parent-container {
+  display: flex;
+  justify-content: center; /* Centers the .info-box horizontally */
+}
+
 .info-box {
+  text-align: center !important;
   background: #e3f2fd;
   border-left: 5px solid #1976d2;
   border-radius: 0.7em;
   padding: 1.1em 1.3em;
-  margin: 1.5em 0;
+  /* ... existing styles ... */
+  margin: 1.5em auto; /* Centers the box within its parent */
+  max-width: 500px; /* It's a good practice to set a max-width */
   box-shadow: 0 2px 8px #0001;
   font-size: 1.13rem;
   display: flex;
@@ -90,19 +98,22 @@ label {
 }
 
 .navmenu {
+    text-align: center; /* This centers the text inside the div */
     font-size: 1.5rem;
     display: block;
-    margin: 0 auto 0 0;
+    margin: 0 auto; /* This centers the div itself */
     max-width: 30%;
 }
 
 .navlink {
+    text-align: center !important;
     font-size: 1.5rem;
     display: flex;
     flex-direction: column;
 }
 
 .navlink a {
+    text-align: center !important;
     font-size: 1.5rem;
     display: block;
     padding: 12px 16px;
@@ -114,6 +125,7 @@ label {
 }
 
 .navlink a:last-child {
+    text-align: center !important;
     border-bottom: 1px solid #ddd;
 }
 
@@ -126,10 +138,6 @@ label {
 .navlink a.current {
     background: #e9e9e9;
     font-weight: bold;
-}
-
-.info-box {
-  text-align: left !important;
 }
 
 .kleinere-ueberschrift {
