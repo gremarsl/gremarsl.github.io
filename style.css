@@ -151,10 +151,9 @@ label {
 .chart-container {
     width: 90vw;
     max-width: 900px;
-    margin: 40px 0;
+    margin: 40px auto; /* Change this line */
     height: 400px;
 }
-
 .stats-display {
     font-size: 1.0rem;
     font-weight: 600;
