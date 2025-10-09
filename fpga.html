@@ -51,9 +51,9 @@
     O(optional external Oscillator) --- F
     
     subgraph F[FPGA]
-        direction LR
+        direction TB
         subgraph Left[" "]
-            direction LR
+            direction TB
             RE[Rising & Falling Edge Detector] --- CC
             CC[ Clock Counter]
             CC --- DSM[Calulation & Measurement Data Storage Module]
