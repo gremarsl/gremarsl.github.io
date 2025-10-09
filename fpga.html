@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="style.css">
+<!-- Navigation -->
+<nav class="navmenu">
+    <div class="navlink">
+        <a href="index.html">Home</a>
+        <a href="housing.html">Housing Calculator</a>
+        <a href="inflation.html">Inflation Calculator</a>
+        <a href="tax.html">Bruttoverdienst-Analyse</a>
+        <a href="social.html">Sozialversicherungsbeiträge-Analyse</a>
+        <a href="fpga.html"class="current">Development of a Runtime Measurement System</a>
+    </div>
+</nav>
+
+<body>
+    <h2>Development of a runtime measurement system</h2>
+    
+    <p>I am developing a system designed to accurately measure and analyze runtime of various software or hardware processes. The idea for this system arose from the need for precise timing and measurement solutions within the context of embedded systems development.</p>
+    
+    <p><em>Interested in how this could function & optimize your work? Let's discuss.</em></p>
+    
+    <p>Software Based measurements are popular and easy to realize. Though change the system under test since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and the overhead introduced by the software-defined runtime measurement.<br>
+    The time behaviour is changed by the runtime measurement. This is not what you want.<br>
+    to reduce the intrusiveness, changing the measurement methodology using external hardware can be useful.</p>
+    
+    <p>Another driving factor for developing this system was personal interest. I'm fascinated by embedded hardware, but my prior work was always focused on one goal: writing and running software on it. Though that often meant an odyssey through compiler issues and hardware reference manuals!</p>
+    
+    <p>My long-term aspiration has been to get even closer to the metal, and that's where FPGAs come in. This is the perfect intersection: I can realize the high-precision runtime measurement feature using an FPGA. Not only are FPGAs inherently fast due to their independence from a main CPU, but the project also gives me a valuable opportunity to learn new skills.</p>
+    
+    <h2>Highlevel system design diagram</h2>
+    
+    <pre class="mermaid">
+    graph LR
+    I(Measurement Input Signal) --- F(FPGA)
+    O(Oscillator) --- F(FPGA)
+    F(FPGA) ---|UART| S(Smaller CPU)
+    S --- |USB/ ETH| L(Larger CPU)
+
+    style I fill:none,stroke:#228B22
+    linkStyle 0 stroke:#228B22
+    </pre>
+
+    <h2>FPGA focused system design diagram</h2>
+    
+    <pre class="mermaid">
+    graph LR
+    I(Signal) --- F
+    Hz(1Hz Debug Pin) --- F
+    D(Debug Pin) --- F
+    O(optional external Oscillator) --- F
+    
+    subgraph F[RTM FPGA]
+        direction LR
+        subgraph Left[" "]
+            direction LR
+            RE[Rising & Falling Edge Detector] --- CC
+            CC[ Clock Counter]
+            CC --- DSM[Calulation & Measurement Data Storage Module]
+            DSM --- U
+            OO(Onboard Oscillator) --- CC
+            RE --- DSM
+        end
+        subgraph U[UART]
+            direction TB
+            URX[UART RX]
+            UTX[UART TX]
+        end
+        Left ~~~ U
+    end
+    
+    F ---|UART| S(Smaller CPU - intermediate storage)
+    S ---|USB/ ETH| L(Larger CPU - visualization)
+    
+    style I fill:none,stroke:none
+    style Hz fill:none,stroke:none
+    style D fill:none,stroke:none
+    style Left fill:none,stroke:none
+    </pre>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    </script>
+</body>
