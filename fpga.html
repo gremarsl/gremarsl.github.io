@@ -44,7 +44,7 @@
     
     <pre class="mermaid">
     graph LR
-    I(Signal) --- F
+    I(Measurement Input Signal) --- F
     Hz(1Hz Debug Pin) --- F
     D(Debug Pin) --- F
     O(optional external Oscillator) --- F
@@ -71,9 +71,9 @@
     F ---|UART| S(Smaller CPU - intermediate storage)
     S ---|USB/ ETH| L(Larger CPU - visualization)
     
-    style I fill:none,stroke:none
-    style Hz fill:none,stroke:none
-    style D fill:none,stroke:none
+    style I fill:none,stroke:#228B22
+    style Hz fill:none,stroke:#000000
+    style D fill:none,stroke:#000000
     style Left fill:none,stroke:none
     </pre>
 
