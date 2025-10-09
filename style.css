@@ -174,7 +174,33 @@ label {
     width: 100%;
     margin: 20px 0;
 }
+.contact-section {
+    margin: 40px 0;
+    text-align: center;
+    padding: 20px;
+}
 
+.contact-section hr {
+    width: 60%;
+    margin: 20px auto;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.contact-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: #009879;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.contact-button:hover {
+    background-color: #007857;
+}
 /* Specific ID styles from other sheets */
 #vervielfaeltiger,
 #index,
