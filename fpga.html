@@ -35,6 +35,7 @@
     F(FPGA) ---|UART| S(Smaller CPU)
     S --- |USB/ ETH| L(Larger CPU)
 
+    style F fill:#FFFFED,stroke:#228B22
     style I fill:none,stroke:#228B22
     linkStyle 0 stroke:#228B22
     </pre>
@@ -48,7 +49,7 @@
     D(Debug Pin) --- F
     O(optional external Oscillator) --- F
     
-    subgraph F[RTM FPGA]
+    subgraph F[FPGA]
         direction LR
         subgraph Left[" "]
             direction LR
