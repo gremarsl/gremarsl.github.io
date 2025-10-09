@@ -20,16 +20,16 @@
     
     <p>Software Based measurements are popular and easy to realize. Though change the system under test since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and the overhead introduced by the software-defined runtime measurement.<br>
     The time behaviour is changed by the runtime measurement. This is not what you want.<br>
-    to reduce the intrusiveness, changing the measurement methodology using external hardware can be useful.</p>
+    To reduce the intrusiveness, changing the measurement methodology using external hardware can be useful.</p>
     
-    <p>Another driving factor for developing this system was personal interest. I'm fascinated by embedded hardware, but my prior work was always focused on one goal: writing and running software on it. Though that often meant an odyssey through compiler issues and hardware reference manuals!</p>
+    <p>Another driving factor for developing this system was personal interest. I'm fascinated by embedded hardware, but my prior work was always focused on one goal: Writing and running software on it. Though that often meant an odyssey through compiler issues and hardware reference manuals!</p>
     
     <p>My long-term aspiration has been to get even closer to the metal, and that's where FPGAs come in. This is the perfect intersection: I can realize the high-precision runtime measurement feature using an FPGA. Not only are FPGAs inherently fast due to their independence from a main CPU, but the project also gives me a valuable opportunity to learn new skills.</p>
     
     <h2>Highlevel system design diagram</h2>
     
     <pre class="mermaid">
-    graph LR
+    graph TD
     I(Measurement Input Signal) --- F(FPGA)
     O(Oscillator) --- F(FPGA)
     F(FPGA) ---|UART| S(Smaller CPU)
@@ -43,7 +43,7 @@
     <h2>FPGA focused system design diagram</h2>
     
     <pre class="mermaid">
-    graph LR
+    graph TD
     I(Measurement Input Signal) --- F
     Hz(1Hz Debug Pin) --- F
     D(Debug Pin) --- F
