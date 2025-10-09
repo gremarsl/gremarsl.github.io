@@ -77,6 +77,46 @@
     style D fill:none,stroke:#000000
     style Left fill:none,stroke:none
     </pre>
+<h2>System Resolution</h2>
+
+<p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use an oscillator with frequency f?</p>
+
+<div class="table-container">
+    <table class="measurement-table">
+        <thead>
+            <tr>
+                <th>Frequency (f)</th>
+                <th>Period (T)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>12 MHz</td>
+                <td>83.33 ns</td>
+            </tr>
+            <tr>
+                <td>50 MHz</td>
+                <td>20 ns</td>
+            </tr>
+            <tr>
+                <td>100 MHz</td>
+                <td>10 ns</td>
+            </tr>
+            <tr>
+                <td>500 MHz</td>
+                <td>2 ns</td>
+            </tr>
+            <tr>
+                <td>1 GHz</td>
+                <td>1 ns</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.<br>
+    Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
+    Accuracy: how close your measurement is to the true value (affected by clock stability, jitter, calibration, etc.)</p>
+
 
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
