@@ -257,6 +257,21 @@ label {
     background: #005ea6;
 }
 
+/* Responsive SVG container */
+.svg-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.svg-container svg {
+    width: 100%;
+    height: auto;
+    min-width: 300px;
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
     body {
@@ -330,6 +345,15 @@ label {
     .paypal-button {
         font-size: 1rem;
         padding: 0.6em 1.5em;
+    }
+
+    .svg-container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .svg-container svg {
+        min-width: 280px;
     }
 }
 
