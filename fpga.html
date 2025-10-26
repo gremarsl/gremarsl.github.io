@@ -31,9 +31,11 @@
     <p>Another driving factor for developing this system was personal interest. I'm fascinated by embedded hardware, but my prior work was always focused on one goal: Writing and running software on it. Though that often meant an odyssey through compiler issues and hardware reference manuals!</p>
     
     <p>My long-term aspiration has been to get even closer to the metal, and that's where FPGAs come in. This is the perfect intersection: I can realize the high-precision runtime measurement feature using an FPGA. Not only are FPGAs inherently fast due to their independence from a main CPU, but the project also gives me a valuable opportunity to learn new skills.</p>
-    
-    <h2>System Runtime Measurement</h2>
-    
+
+    <h2>Let's take a look at the development process. The Use Case.</h2>
+    <p>The system under test (System A) handles two distinct events: Event A (entering) and Event B (exiting). These events are represented by rising and falling edges on a digital signal line. The time interval between these two events (tB - tA) represents the runtime of the process we want to measure.</p>
+
+
     <svg width="700" height="250" style="border: 1px solid #ccc; background: white; display: block; margin: 20px auto;">
         <!-- System A Box -->
         <rect x="200" y="30" width="300" height="80" fill="#e8f4f8" stroke="#333" stroke-width="2"/>
@@ -68,7 +70,7 @@
         <!-- Signal waveform -->
         <!-- LOW state -->
         <line x1="150" y1="200" x2="200" y2="200" stroke="#0066cc" stroke-width="3"/>
-        <!-- Rising edge at t1 -->
+        <!-- Rising edge at tA -->
         <line x1="200" y1="200" x2="200" y2="160" stroke="#0066cc" stroke-width="3"/>
         <!-- HIGH state -->
         <line x1="200" y1="160" x2="500" y2="160" stroke="#0066cc" stroke-width="3"/>
@@ -79,10 +81,10 @@
         
         <!-- Time markers -->
         <line x1="200" y1="200" x2="200" y2="210" stroke="#333" stroke-width="2"/>
-        <text x="200" y="225" text-anchor="middle" font-size="14" font-weight="bold">t1</text>
+        <text x="200" y="225" text-anchor="middle" font-size="14" font-weight="bold">tA</text>
         
         <line x1="500" y1="200" x2="500" y2="210" stroke="#333" stroke-width="2"/>
-        <text x="500" y="225" text-anchor="middle" font-size="14" font-weight="bold">t2</text>
+        <text x="500" y="225" text-anchor="middle" font-size="14" font-weight="bold">tB</text>
         
         <!-- Labels -->
         <text x="175" y="205" text-anchor="end" font-size="12">LOW</text>
@@ -90,7 +92,78 @@
         
         <!-- Runtime measurement arrow -->
         <line x1="200" y1="145" x2="500" y2="145" stroke="#666" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowgray)" marker-start="url(#arrowgray2)"/>
-        <text x="350" y="140" text-anchor="middle" font-size="13" font-style="italic">Runtime (t2 - t1)</text>
+        <text x="350" y="140" text-anchor="middle" font-size="13" font-style="italic">Runtime (tB - tA)</text>
+
+        <marker id="arrowgray" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L7,3 z" fill="#666"/>
+        </marker>
+        <marker id="arrowgray2" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+            <path d="M7,0 L7,6 L0,3 z" fill="#666"/>
+        </marker>
+    </svg>
+
+
+    <svg width="700" height="250" style="border: 1px solid #ccc; background: white; display: block; margin: 20px auto;">
+        <!-- System A Box -->
+        <rect x="200" y="30" width="300" height="80" fill="#e8f4f8" stroke="#333" stroke-width="2"/>
+        <text x="350" y="75" text-anchor="middle" font-size="18" font-weight="bold">System A</text>
+        
+        <!-- Event A (entering) -->
+        <circle cx="150" cy="70" r="8" fill="#228B22"/>
+        <text x="150" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event A</text>
+        <line x1="158" y1="70" x2="200" y2="70" stroke="#228B22" stroke-width="2" marker-end="url(#arrowgreen)"/>
+        
+        <!-- Event B (exiting) -->
+        <circle cx="550" cy="70" r="8" fill="#B22222"/>
+        <text x="550" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event B</text>
+        <line x1="500" y1="70" x2="542" y2="70" stroke="#B22222" stroke-width="2" marker-end="url(#arrowred)"/>
+        
+        <!-- Arrow markers -->
+        <defs>
+            <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#228B22"/>
+            </marker>
+            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#B22222"/>
+            </marker>
+        </defs>
+        
+        <!-- Timing Diagram -->
+        <text x="50" y="160" font-size="16" font-weight="bold">Signal:</text>
+        
+        <!-- Time axis -->
+        <line x1="150" y1="200" x2="550" y2="200" stroke="#333" stroke-width="1"/>
+        
+        <!-- Signal waveform -->
+        <!-- LOW state -->
+        <line x1="150" y1="200" x2="200" y2="200" stroke="#0066cc" stroke-width="3"/>
+        <!-- Rising edge at tA -->
+        <line x1="200" y1="200" x2="200" y2="160" stroke="#0066cc" stroke-width="3"/>
+        <!-- HIGH state -->
+        <line x1="200" y1="160" x2="500" y2="160" stroke="#0066cc" stroke-width="3"/>
+        <!-- Falling edge at t2 -->
+        <line x1="500" y1="160" x2="500" y2="200" stroke="#0066cc" stroke-width="3"/>
+        <!-- LOW state -->
+        <line x1="500" y1="200" x2="550" y2="200" stroke="#0066cc" stroke-width="3"/>
+        
+        <!-- Time markers -->
+        <line x1="200" y1="200" x2="200" y2="210" stroke="#333" stroke-width="2"/>
+        <text x="200" y="225" text-anchor="middle" font-size="14" font-weight="bold">tA</text>
+        
+        <line x1="500" y1="200" x2="500" y2="210" stroke="#333" stroke-width="2"/>
+        <text x="500" y="225" text-anchor="middle" font-size="14" font-weight="bold">tB</text>
+        
+        <!-- Labels -->
+        <text x="175" y="205" text-anchor="end" font-size="12">LOW</text>
+        <text x="175" y="165" text-anchor="end" font-size="12">HIGH</text>
+        
+        <!-- Runtime measurement arrow -->
+        <line x1="200" y1="145" x2="500" y2="145" stroke="#666" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowgray)" marker-start="url(#arrowgray2)"/>
+        <text x="350" y="140" text-anchor="middle" font-size="13" font-style="italic">Runtime (tB - tA)</text>
+        
+        <!-- Valid range indicator -->
+        <line x1="525" y1="155" x2="525" y2="210" stroke="#228B22" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="532" y="180" font-size="12" fill="#228B22" font-weight="bold">Δ tmax allowed</text>
         
         <marker id="arrowgray" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
             <path d="M0,0 L0,6 L7,3 z" fill="#666"/>
@@ -99,7 +172,10 @@
             <path d="M7,0 L7,6 L0,3 z" fill="#666"/>
         </marker>
     </svg>
-    
+
+    <h2>Leading to the Problem.</h2>
+
+
     <h2>Highlevel system design diagram</h2>
     
     <pre class="mermaid">
