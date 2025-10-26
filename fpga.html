@@ -1,17 +1,24 @@
-<link rel="stylesheet" href="style.css">
-<!-- Navigation -->
-<nav class="navmenu">
-    <div class="navlink">
-        <a href="index.html">Home</a>
-        <a href="housing.html">Housing Calculator</a>
-        <a href="inflation.html">Inflation Calculator</a>
-        <a href="tax.html">Bruttoverdienst-Analyse</a>
-        <a href="social.html">Sozialversicherungsbeiträge-Analyse</a>
-        <a href="fpga.html" class="current">Development of a Runtime Measurement System</a>
-    </div>
-</nav>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development of a Runtime Measurement System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
+    <!-- Navigation -->
+    <nav class="navmenu">
+        <div class="navlink">
+            <a href="index.html">Home</a>
+            <a href="housing.html">Housing Calculator</a>
+            <a href="inflation.html">Inflation Calculator</a>
+            <a href="tax.html">Bruttoverdienst-Analyse</a>
+            <a href="social.html">Sozialversicherungsbeiträge-Analyse</a>
+            <a href="fpga.html" class="current">Development of a Runtime Measurement System</a>
+        </div>
+    </nav>
+
     <h2>Development of a runtime measurement system</h2>
     
     <p>I am developing a system designed to accurately measure and analyze runtime of various software or hardware processes. The idea for this system arose from the need for precise timing and measurement solutions within the context of embedded systems development.</p>
@@ -144,56 +151,56 @@
     style Left fill:none,stroke:none
     </pre>
 
-<h2>System Resolution</h2>
+    <h2>System Resolution</h2>
 
-<p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use an oscillator with frequency f?</p>
+    <p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use an oscillator with frequency f?</p>
 
-<div class="table-container">
-    <table class="measurement-table">
-        <thead>
-            <tr>
-                <th>Frequency (f)</th>
-                <th>Period (T)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>12 MHz</td>
-                <td>83.33 ns</td>
-            </tr>
-            <tr>
-                <td>50 MHz</td>
-                <td>20 ns</td>
-            </tr>
-            <tr>
-                <td>100 MHz</td>
-                <td>10 ns</td>
-            </tr>
-            <tr>
-                <td>500 MHz</td>
-                <td>2 ns</td>
-            </tr>
-            <tr>
-                <td>1 GHz</td>
-                <td>1 ns</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.<br>
-    Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
-    Accuracy: how close your measurement is to the true value (affected by clock stability, jitter, calibration, etc.)</p>
+    <div class="table-container">
+        <table class="measurement-table">
+            <thead>
+                <tr>
+                    <th>Frequency (f)</th>
+                    <th>Period (T)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>12 MHz</td>
+                    <td>83.33 ns</td>
+                </tr>
+                <tr>
+                    <td>50 MHz</td>
+                    <td>20 ns</td>
+                </tr>
+                <tr>
+                    <td>100 MHz</td>
+                    <td>10 ns</td>
+                </tr>
+                <tr>
+                    <td>500 MHz</td>
+                    <td>2 ns</td>
+                </tr>
+                <tr>
+                    <td>1 GHz</td>
+                    <td>1 ns</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.<br>
+        Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
+        Accuracy: how close your measurement is to the true value (affected by clock stability, jitter, calibration, etc.)</p>
 
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     </script>
 
-<div class="contact-section">
-    <hr>
-    <h3>Get in Touch</h3>
-    <p>Interested in how this runtime measurement system could optimize your work? Let's discuss your specific use case!</p>
-    <a href="mailto:sophia.wegers@gmail.com" class="contact-button">Contact Me</a>
-</div>
+    <div class="contact-section">
+        <hr>
+        <h3>Get in Touch</h3>
+        <p>Interested in how this runtime measurement system could optimize your work? Let's discuss your specific use case!</p>
+        <a href="mailto:sophia.wegers@gmail.com" class="contact-button">Contact Me</a>
+    </div>
 
 </body>
 </html>
