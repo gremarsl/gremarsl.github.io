@@ -272,7 +272,7 @@ label {
 /* Responsive SVG container */
 .svg-container {
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
     margin: 20px auto;
     padding: 0 10px;
 }
