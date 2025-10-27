@@ -33,9 +33,38 @@
     <p>My long-term aspiration has been to get even closer to the metal, and that's where FPGAs come in. This is the perfect intersection: I can realize the high-precision runtime measurement feature using an FPGA. Not only are FPGAs inherently fast due to their independence from a main CPU, but the project also gives me a valuable opportunity to learn new skills.</p>
 
     <h2>Let's take a look at the development process. Our Use Case.</h2>
-    <p>The system under test (System A) handles two distinct events: Event A (entering) and Event B (exiting). These events are represented by rising and falling edges on a digital signal line. The time interval between these two events (tB - tA) represents the runtime of the process we want to measure.</p>
+    <p>The system under test (System A) handles two distinct events: Event A (entering) and Event B (exiting).</p>
 
-<div class="svg-container"></div>
+<div class="svg-container">
+    <svg viewBox="0 0 700 250" preserveAspectRatio="xMidYMid meet">
+        <!-- System A Box -->
+        <rect x="200" y="30" width="300" height="80" fill="#e8f4f8" stroke="#333" stroke-width="2"/>
+        <text x="350" y="75" text-anchor="middle" font-size="18" font-weight="bold">System A</text>
+        
+        <!-- Event A (entering) -->
+        <circle cx="150" cy="70" r="8" fill="#228B22"/>
+        <text x="150" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event A</text>
+        <line x1="158" y1="70" x2="200" y2="70" stroke="#228B22" stroke-width="2" marker-end="url(#arrowgreen)"/>
+        
+        <!-- Event B (exiting) -->
+        <circle cx="550" cy="70" r="8" fill="#B22222"/>
+        <text x="550" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event B</text>
+        <line x1="500" y1="70" x2="542" y2="70" stroke="#B22222" stroke-width="2" marker-end="url(#arrowred)"/>
+        
+        <!-- Arrow markers -->
+        <defs>
+            <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#228B22"/>
+            </marker>
+            <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L9,3 z" fill="#B22222"/>
+            </marker>
+        </defs>
+    </svg>
+</div>
+
+    <p>These events are represented by rising and falling edges on a digital signal line. The time interval between these two events (tB - tA) represents the runtime of the process we want to measure.</p>
+<div class="svg-container">
     <svg viewBox="0 0 700 250" preserveAspectRatio="xMidYMid meet">
         <!-- System A Box -->
         <rect x="200" y="30" width="300" height="80" fill="#e8f4f8" stroke="#333" stroke-width="2"/>
@@ -177,7 +206,7 @@
     </svg>
 </div>
 
-    <p>When we look into our system, the system consists of two modules. Module 1 is responsible for processing input data, while Module 2 handles output data. Lets assume we release this system with version 1.0.</p>
+    <p>When we look into our system, the system consists of two modules. Module 1 is responsible for processing input data, while Module 2 handles output data. Our System A fulfills the requirement. Therefore we release this system with version 1.0.</p>
 
 <div class="svg-container">
     <svg viewBox="0 0 700 250" preserveAspectRatio="xMidYMid meet">
@@ -265,7 +294,7 @@
         </marker>
     </svg>
 </div>
-    <p>Let’s assume a fictitious customer requests a new feature for our system A. Leading to a third module being added to the system.</p>
+    <p>Let’s assume a fictitious customer requests a new feature for our system A. Leading to a third module being added to the system. After a few months the module 3 is almost completed and integrated into the system. Integration tests can finally be performed to ensure that the new module works correctly with the existing modules.</p>
 
 
 <div class="svg-container">
@@ -455,6 +484,7 @@
             <path d="M7,0 L7,6 L0,3 z" fill="#666"/>
         </marker>
     </svg>
+    <p>This case demonstrates why systematic runtime measurements should be integrated into the development workflow . To prevent such timing violations, implementing regular, highly automated runtime measurements during development phase becomes crucial.</p>
 </div>
 
     <h2>Leading to the Problem.</h2>
