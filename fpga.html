@@ -59,8 +59,8 @@
             <object type="text/html" data="svgs/systema_module.html" width="1000" height="300"></object>
         </div>
 
-    <p>Let’s assume a fictitious customer requests a new feature for our system A. Leading to a third module being added
-        to the system. After a few months the module 3 is almost completed and integrated into the system. Integration
+    <p>Let’s assume a fictitious customer requests a new feature for our system. Leading to a third module being added
+        to the system. After a few months the Module 3 is almost completed and integrated into the system. Integration
         tests can finally be performed to ensure that the new module works correctly with the existing modules.</p>
         <div class="svg-container">
             <object type="text/html" data="svgs/systema_module3.html" width="900" height="300"></object>
@@ -74,10 +74,8 @@
         <div class="svg-container">
             <object type="text/html" data="svgs/systema_module_tmax.html" width="900" height="300"></object>
         </div>
-    <p>This case demonstrates why systematic runtime measurements should be integrated into the development workflow
-        . To prevent such timing violations, implementing regular, highly automated runtime measurements during
-        development phase becomes crucial.</p>
 
+    <p>Now we got a better understanding of the engineering perspective. But to really understand the full problem, we have to have a look into the development workflow we used above. The order of events is crucial in identifying when and where the timing violations occur.</p>
 
     <h2>Development Workflow with Runtime Analysis (Only Before Release)</h2>
     <div class="svg-container">
@@ -149,6 +147,11 @@
                 release</text>
         </svg>
     </div>
+
+    <p>This case demonstrates why systematic runtime measurements should be integrated into the development workflow
+        . To prevent such timing violations, implementing regular, highly automated runtime measurements during
+        development phase becomes crucial.</p>
+
 
     <h2>Proposed Development Workflow with Runtime Analysis (During Development)</h2>
     <div class="svg-container">
