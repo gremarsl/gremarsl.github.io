@@ -190,6 +190,15 @@ ul li {
     margin-bottom: 0.5em;
 }
 
+.table-container  .measurement-table {
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 2em auto;
+    overflow-x: auto;
+}
+
+
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
