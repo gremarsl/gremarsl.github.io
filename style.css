@@ -145,17 +145,22 @@ label {
     padding: 0 10px;
 }
 
-.svg-container svg {
+.svg-container {
     width: 100%;
-    height: auto;
-    display: block;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 10px;
+    overflow: hidden; /* Prevents scrolling */
 }
-.svg-container object,
+
+/* .svg-container object,
 .svg-container img {
     width: 100%;
     height: auto;
     display: block;
-}
+    max-height: 250px; /* Matches SVG viewBox height */
+
+
 /* Info box styling */
 .info-box {
     background-color: #f5f5f5;
