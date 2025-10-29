@@ -134,18 +134,24 @@
             <!-- Problem Statement Section -->
             <section id="problem-statement">
                 <h2>The Problem Statement</h2>
-                <p>The described use case above clearly demonstrates the critical importance of early and continuous runtime monitoring.
-                    We´ve realized, there is a need for:</p>
-                
+                <p>With the described use case above, we´ve realized, we have different problems and a need to address them.</p>
+
+                <p>With our current development process to develop our System A, we face several challenges:</p>
+                <ul>
+                    <li>Lack of early detection for performance issues since we realy on prerelease runtime analysis.</li>
+                    <li>Inability to track performance trends during the development phase over time</li>
+                    <li>One-shot manual measurements are time-consuming and error-prone</li>
+                </ul>
+                <p>What we need is:</p>
                 <ul>
                     <li>Detect timing violations immediately, not just before release</li>
                     <li>Prevent costly late-stage fixes</li>
                     <li>Track performance trends throughout development</li>
+                    <li>Rather than discovering issues at release time, systematic, automatically measurements during each development phase
+                        allow us to maintain control over system timing constraints.</li>
                     <li>Substitute our one-shot measurements directly before our release as they provide only one data
                         point, but do not offer insights into performance trends over time or under varying conditions.</li>
                 </ul>
-                <p>Rather than discovering issues at release time, systematic, automatically measurements during each development phase
-                    allow us to maintain control over system timing constraints.</p>
 
                 <p>Software Based measurements are popular and easy to realize. Though change the system under test
                     since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
@@ -157,7 +163,7 @@
                 <!-- The Idea / Improvement Statement Section -->
                 <section id="idea">
                     <h2>The Idea / The Improvement Statement</h2>
-                    
+                    <p> clearly demonstrates the critical importance of early and continuous runtime monitoring</p>
                     <p>Based on the problems identified above, the solution is clear: we need an automated, non-intrusive, 
                     and easy-to-integrate runtime measurement system that can be embedded directly into the development 
                     workflow.</p>
