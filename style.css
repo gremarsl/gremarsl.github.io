@@ -30,6 +30,9 @@ body {
 h1, h2, h3, p {
     text-align: center;
     margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
 }
 
 h1 {
@@ -173,15 +176,17 @@ label {
     color: #1976d2;
 }
 
+/* Lists - align with paragraph width */
 ul {
     font-size: clamp(1rem, 2vw, 1.5rem);
     line-height: 1.6;
     margin: 1em auto;
     max-width: 800px;
-    padding-left: 3em;
+    padding-left: 2em;
     text-align: left;
     display: block;
-    margin-left: 2em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 ul li {
@@ -290,11 +295,19 @@ ul li {
         font-size: 1rem;
     }
 
+    h1, h2, h3, p {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     ul {
         text-align: left;
         max-width: 90%;
-        margin: 1em auto 1em 2em;
-        padding-left: 2em;
+        margin: 1em auto;
+        padding-left: 1.5em;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     ul li {
@@ -304,11 +317,17 @@ ul li {
 }
 
 @media (max-width: 480px) {
+    h1, h2, h3, p {
+        max-width: 95%;
+    }
+
     ul {
-        max-width: 98%;
+        max-width: 95%;
         text-align: left;
-        margin: 1em auto 1em 1.5em;
-        padding-left: 1.5em;
+        margin: 1em auto;
+        padding-left: 1.2em;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
