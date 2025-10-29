@@ -30,25 +30,23 @@
     <p>Software Based measurements are popular and easy to realize. Though change the system under test since you add
         measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and the overhead
         introduced by the software-defined runtime measurement.<br>
-        Resulting in changing the time behaviour of the system. This is not what you want.<br>
-        <br>
-        To reduce the intrusiveness, changing the measurement methodology using external hardware can be useful.
+        Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness, changing the measurement methodology using external hardware can be useful.
     </p>
 
     <h2>Let's take a look at the development process. Our Use Case.</h2>
-    <p>The system under test (System A) handles two distinct events: Event A (entering) and Event B (exiting).</p>
+    <p>Our developed system (System A) handles two distinct events: Event A (entering) and Event B (exiting).</p>
     <div class="svg-container">
         <object type="text/html" data="svgs/systema.html" width="1000" height="200"></object>
     </div>
 
     <p>These events are represented by rising and falling edges on a digital signal line. The time interval between
-        these two events (tB - tA) represents the runtime of the process we want to measure.</p>
+        these two events (t<sub>B</sub>-t<sub>A</sub>) represents the runtime of the process we want to measure.</p>
         
         <div class="svg-container">
             <object type="text/html" data="svgs/systema_base.html" width="1000" height="350"></object>
         </div>
-    <p>Since our system must fulfill specific timing requirements, tB-tA must be within the maximum allowed time
-        constraints. Therefore we add the green line Δ tmax allowed. </p>
+    <p>Since our system must fulfill specific timing requirements, t<sub>B</sub>-t<sub>A</sub> must be within the maximum allowed time
+        constraints. Therefore we add the green line Δt<sub>max_allowed</sub>. </p>
         <div class="svg-container">
             <object type="text/html" data="svgs/systema_base_tmax.html" width="1000" height="300"></object>
         </div>
@@ -68,8 +66,8 @@
             <object type="text/html" data="svgs/systema_module3.html" width="900" height="300"></object>
         </div>
 
-    <p>After integrating Module 3, we observe that the runtime (tB - tA) has increased and now exceeds the maximum
-        allowed time constraint (Δ tmax allowed). This indicates that the addition of Module 3 has negatively impacted
+    <p>After integrating Module 3, we observe that the runtime (t<sub>B</sub>-t<sub>A</sub>) has increased and now exceeds the maximum
+        allowed time constraint (Δt<sub>max_allowed</sub>). This indicates that the addition of Module 3 has negatively impacted
         the system's performance, leading to a violation of the timing requirements.</p>
     <!-- Replace all your SVG containers with this pattern -->
 
