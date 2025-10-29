@@ -174,15 +174,19 @@ label {
 }
 
 ul {
-    text-align: left;
     font-size: clamp(1rem, 2vw, 1.5rem);
     line-height: 1.6;
     margin: 1em auto;
     max-width: 800px;
+    padding-left: 3em;
+    text-align: left;
+    display: block;
+    margin-left: 2em;
 }
 
 ul li {
     margin-bottom: 0.5em;
+    text-align: left;
 }
 
 .table-container  .measurement-table {
@@ -193,7 +197,34 @@ ul li {
     overflow-x: auto;
 }
 
+.contact-button {
+    display: inline-block;
+    padding: 0.7em 1.5em;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 0.3em;
+    transition: background-color var(--transition-speed);
+    margin: 1em auto;
+}
 
+.contact-button:hover {
+    background-color: #005ea6;
+    cursor: pointer;
+}
+
+/* Center the contact button container */
+.contact-section {
+    text-align: center;
+    width: 100%;
+    margin: 2em 0;
+    padding: 2em;
+}
+
+.contact-section .contact-button {
+    display: inline-block;
+    text-align: center;
+}
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
@@ -247,13 +278,37 @@ ul li {
         margin-bottom: 20px;
     }
 
-    /* Fix for iframe containers if you use them */
-    iframe {
-        width: 100% !important;
-        height: auto !important;
-        min-height: 300px;
-        max-width: 100%;
-        transform: scale(1);
+    .contact-section {
+        text-align: center;
+        padding: 1.5em;
+        margin: 1.5em 0;
+    }
+
+    .contact-button {
+        display: inline-block;
+        padding: 0.6em 1.2em;
+        font-size: 1rem;
+    }
+
+    ul {
+        text-align: left;
+        max-width: 90%;
+        margin: 1em auto 1em 2em;
+        padding-left: 2em;
+    }
+
+    ul li {
+        text-align: left;
+        margin-bottom: 0.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    ul {
+        max-width: 98%;
+        text-align: left;
+        margin: 1em auto 1em 1.5em;
+        padding-left: 1.5em;
     }
 }
 
@@ -269,6 +324,18 @@ ul li {
     .svg-container svg {
         transform: scale(0.85);
         margin-bottom: 30px;
+    }
+
+    .contact-section {
+        padding: 1em;
+    }
+
+    .contact-button {
+        display: block;
+        width: 80%;
+        max-width: 300px;
+        margin: 1em auto;
+        padding: 0.8em 1.5em;
     }
 }
 
