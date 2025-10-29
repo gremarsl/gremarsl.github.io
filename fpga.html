@@ -3,121 +3,131 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Development of a Runtime Measurement System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Development of a Runtime Measurement System">
+    <meta name="author" content="gremarsl">
+    <title>FPGA Runtime Measurement System Development</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs" defer></script>
 </head>
 
 <body>
-    <!-- Navigation -->
-    <nav class="navmenu">
-        <div class="navlink">
-            <a href="index.html">Home</a>
-            <a href="housing.html">Housing Calculator</a>
-            <a href="inflation.html">Inflation Calculator</a>
-            <a href="tax.html">Bruttoverdienst-Analyse</a>
-            <a href="social.html">Social Security Contributions</a>
-            <a href="fpga.html" class="current">Development of a Runtime Measurement System</a>
-        </div>
-    </nav>
+    <header>
+        <nav class="navmenu">
+            <div class="navlink">
+                <a href="index.html">Home</a>
+                <a href="housing.html">Housing Calculator</a>
+                <a href="inflation.html">Inflation Calculator</a>
+                <a href="tax.html">Bruttoverdienst-Analyse</a>
+                <a href="social.html">Social Security Contributions</a>
+                <a href="fpga.html" class="current">Development of a Runtime Measurement System</a>
+            </div>
+        </nav>
+    </header>
 
-    <h2>Development of a runtime measurement system</h2>
+    <main>
+        <article>
+            <h1>Development of a Runtime Measurement System</h1>
 
-    <p>I am developing a system designed to accurately measure and analyze runtime of various software or hardware
-        processes. The idea for this system arose from the need for precise timing and measurement solutions within the
-        context of embedded systems development.</p>
+            <!-- Group related content in sections -->
+            <section id="introduction">
+                <p>I am developing a system designed to accurately measure and analyze runtime of various software or hardware
+                    processes. The idea for this system arose from the need for precise timing and measurement solutions within the
+                    context of embedded systems development.</p>
 
-    <p>Software Based measurements are popular and easy to realize. Though change the system under test since you add
-        measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and the overhead
-        introduced by the software-defined runtime measurement.<br>
-        Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness, changing the
-        measurement methodology using external hardware can be useful.
-    </p>
+                <p>Software Based measurements are popular and easy to realize. Though change the system under test since you add
+                    measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and the overhead
+                    introduced by the software-defined runtime measurement.<br>
+                    Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness, changing the
+                    measurement methodology using external hardware can be useful.
+                </p>
+            </section>
 
-    <h2>Let's take a look at the development process. Our Use Case.</h2>
-    <p>Our developed system (System A) handles two distinct events: Event A (entering) and Event B (exiting).</p>
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema.html" width="1000" height="200"></object>
-    </div>
+            <section id="use-case">
+                <h2>Development Process and Use Case</h2>
+                <p>Our developed system (System A) handles two distinct events: Event A (entering) and Event B (exiting).</p>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema.html" width="1000" height="200" aria-label="System A diagram"></object>
+                </div>
 
-    <p>These events are represented by rising and falling edges on a digital signal line. The time interval between
-        these two events (t<sub>B</sub>-t<sub>A</sub>) represents the runtime of the process we want to measure.</p>
+                <p>These events are represented by rising and falling edges on a digital signal line. The time interval between
+                    these two events (t<sub>B</sub>-t<sub>A</sub>) represents the runtime of the process we want to measure.</p>
 
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema_base.html" width="1000" height="350"></object>
-    </div>
-    <p>Since our system must fulfill specific timing requirements, t<sub>B</sub>-t<sub>A</sub> must be within the
-        maximum allowed time
-        constraints. Therefore we add the green line Δt<sub>max_allowed</sub>. </p>
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema_base_tmax.html" width="1000" height="300"></object>
-    </div>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema_base.html" width="1000" height="350"></object>
+                </div>
+                <p>Since our system must fulfill specific timing requirements, t<sub>B</sub>-t<sub>A</sub> must be within the
+                    maximum allowed time
+                    constraints. Therefore we add the green line Δt<sub>max_allowed</sub>. </p>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema_base_tmax.html" width="1000" height="300"></object>
+                </div>
 
-    <p>When we look into our system, the system consists of two modules. Module 1 is responsible for processing input
-        data, while Module 2 handles output data. Our System A fulfills the requirement. Therefore we release this
-        system with version 1.0.</p>
+                <p>When we look into our system, the system consists of two modules. Module 1 is responsible for processing input
+                    data, while Module 2 handles output data. Our System A fulfills the requirement. Therefore we release this
+                    system with version 1.0.</p>
 
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema_module.html" width="1000" height="300"></object>
-    </div>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema_module.html" width="1000" height="300"></object>
+                </div>
 
-    <p>Let’s assume a fictitious customer requests a new feature for our system. Leading to a third module being added
-        to the system. After a few months the Module 3 is almost completed and integrated into the system. Integration
-        tests can finally be performed to ensure that the new module works correctly with the existing modules.</p>
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema_module3.html" width="900" height="300"></object>
-    </div>
+                <p>Let’s assume a fictitious customer requests a new feature for our system. Leading to a third module being added
+                    to the system. After a few months the Module 3 is almost completed and integrated into the system. Integration
+                    tests can finally be performed to ensure that the new module works correctly with the existing modules.</p>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema_module3.html" width="900" height="300"></object>
+                </div>
 
-    <p>After integrating Module 3, we observe that the runtime (t<sub>B</sub>-t<sub>A</sub>) has increased and now
-        exceeds the maximum
-        allowed time constraint (Δt<sub>max_allowed</sub>). This indicates that the addition of Module 3 has negatively
-        impacted
-        the system's performance, leading to a violation of the timing requirements.</p>
-    <!-- Replace all your SVG containers with this pattern -->
+                <p>After integrating Module 3, we observe that the runtime (t<sub>B</sub>-t<sub>A</sub>) has increased and now
+                    exceeds the maximum
+                    allowed time constraint (Δt<sub>max_allowed</sub>). This indicates that the addition of Module 3 has negatively
+                    impacted
+                    the system's performance, leading to a violation of the timing requirements.</p>
+                <!-- Replace all your SVG containers with this pattern -->
 
-    <div class="svg-container">
-        <object type="text/html" data="svgs/systema_module_tmax.html" width="900" height="300"></object>
-    </div>
-    <h3>Conclusion - Our Development Process</h3>
-    <p>Now we got a better understanding of the engineering perspective. But to really understand the full problem, we
-        have to have a look into the development workflow we used above. The order of events is crucial in identifying
-        when and where the timing violations occur.</p>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/systema_module_tmax.html" width="900" height="300"></object>
+                </div>
+                <h3>Conclusion - Our Development Process</h3>
+                <p>Now we got a better understanding of the engineering perspective. But to really understand the full problem, we
+                    have to have a look into the development workflow we used above. The order of events is crucial in identifying
+                    when and where the timing violations occur.</p>
 
-    <h2>Development Workflow with Runtime Analysis (Only Before Release)</h2>
-    <div class="svg-container">
-        <object type="text/html" data="svgs/workflow_before.html" width="700" height="300"></object>
-    </div>
+                <h2>Development Workflow with Runtime Analysis (Only Before Release)</h2>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/workflow_before.html" width="700" height="300"></object>
+                </div>
 
-<h3>Summarize</h3>
-<p>This case clearly demonstrates the critical importance of early and continuous runtime monitoring. We´ve realized: By integrating automated measurements from the start of development, we can:</p>
-<ul>
-    <li>Detect timing violations immediately, not just before release</li>
-    <li>Prevent costly late-stage fixes</li>
-    <li>Track performance trends throughout development</li>
-    <li>Substitute our one-shot measurements directly before our release as they provide only one data point, but do not offer insights into performance trends over time or under varying conditions.</li>
-</ul>
+                <h3>Summarize</h3>
+                <p>This case clearly demonstrates the critical importance of early and continuous runtime monitoring. We´ve realized: By integrating automated measurements from the start of development, we can:</p>
+                <ul>
+                    <li>Detect timing violations immediately, not just before release</li>
+                    <li>Prevent costly late-stage fixes</li>
+                    <li>Track performance trends throughout development</li>
+                    <li>Substitute our one-shot measurements directly before our release as they provide only one data point, but do not offer insights into performance trends over time or under varying conditions.</li>
+                </ul>
 
-<p>Rather than discovering issues at release time, systematic measurements during each development phase allow us to maintain control over system timing constraints.</p>
-<p>The summary was easy I guess. So lets continue with the proposed workflow we have in mind now. Which is even more obvious for the development of our system. </p>
+                <p>Rather than discovering issues at release time, systematic measurements during each development phase allow us to maintain control over system timing constraints.</p>
+                <p>The summary was easy I guess. So lets continue with the proposed workflow we have in mind now. Which is even more obvious for the development of our system. </p>
 
-<h2>Proposed Development Workflow with Runtime Analysis (During Development)</h2>
-    <div class="svg-container">
-        <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
-    </div>
+                <h2>Proposed Development Workflow with Runtime Analysis (During Development)</h2>
+                <div class="svg-container">
+                    <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
+                </div>
 
-<p>This proposal seems obious. You might think: "I have thought of that just by reading this in 5 minutes." However, the challenge lies in implementing and maintaining such a systematic approach throughout development. Since: </p>
+                <p>This proposal seems obious. You might think: "I have thought of that just by reading this in 5 minutes." However, the challenge lies in implementing and maintaining such a systematic approach throughout development. Since: </p>
 
-<ul>
-    <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be optional instead of obligatory. We trust the developer to decide by himself when to perform timing analysis.</li>
-    <li>We want to prevent buying resource intensive tracing tools and infrastructure even though there is no need to look into each of our modules internal behaviour. We just want to measure the overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else is overkill.</li>
-    <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be used. </li>
-</ul>
+                <ul>
+                    <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be optional instead of obligatory. We trust the developer to decide by himself when to perform timing analysis.</li>
+                    <li>We want to prevent buying resource intensive tracing tools and infrastructure even though there is no need to look into each of our modules internal behaviour. We just want to measure the overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else is overkill.</li>
+                    <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be used. </li>
+                </ul>
 
-    <h2>Let's enter the solution space.</h2>
+                <h2>Let's enter the solution space.</h2>
 
-    <h2>Highlevel system design diagram</h2>
+                <h2>Highlevel system design diagram</h2>
 
-    <pre class="mermaid">
+                <pre class="mermaid">
     graph TD
     I(Measurement Input Signal) --- F(FPGA)
     O(Oscillator) --- F(FPGA)
@@ -129,9 +139,9 @@
     linkStyle 0 stroke:#228B22
     </pre>
 
-    <h2>FPGA focused system design diagram</h2>
+                <h2>FPGA focused system design diagram</h2>
 
-    <pre class="mermaid">
+                <pre class="mermaid">
     graph TD
     I(Measurement Input Signal) --- F
     Hz(1Hz Debug Pin) --- F
@@ -166,118 +176,107 @@
     style Left fill:none,stroke:none
     </pre>
 
-<h2>Toolchain for Simulation and Verification of Verilog design</h2>
-<h3>VVP</h3>
-vvp is the runtime engine that executes the default compiled form generated by Icarus Verilog
+                <h2>Toolchain for Simulation and Verification of Verilog design</h2>
+                <h3>VVP</h3>
+                vvp is the runtime engine that executes the default compiled form generated by Icarus Verilog
 
-<h3>GTKWave</h3>
-Programm to view waveforms. Used after simulation.
-Configuration file: .gtkw
-<br>
-<br><br>
+                <h3>GTKWave</h3>
+                Programm to view waveforms. Used after simulation.
+                Configuration file: .gtkw
+                <br>
+                <br><br>
 
-<pre class="mermaid">
-graph LR
-    d(Design Implementation in Verilog) -->|.verilog / .v| IV(iverilog compiler)
-    IV---> |.vvp| VVP(vvp)
-    VVP---> |.vcd| G(Gtkwave)
-    G ---> d
-</pre>
-
-
-<h2>Toolchain for flashing and verification on real hardware</h2>
-<pre class="mermaid">
-graph LR
-    .verilog --> YS(Yosys Script)
-    YS-->|.ys| Y(Yosys)
-    .pcf --> N(Nextpnr)
-    Y --> |.json, .blif,synth.v| N(Nextpnr)
-    N --> |.asc| I(icepack)
-    I --> |.bin| BF2(bin2uf2 Conversion)
-    BF2 --> |.uf2| FPGA(Flash to FPGA)
-    style .verilog fill:none,stroke:none
-    style .pcf fill:none,stroke:none
-</pre>
-
-    <h2>Development Roadmap & Future Enhancements</h2>
-
-    <ul>
-        <li>Add / Verify option to integrate an external oscillator.</li>
-        <li>Evaluate memory storage size on the FPGA side. Develop option to use shared RAM?</li>
-        <li>Add option to configure the UART data rate. Currently only 9600 bits/second.</li>
-        <li>Add available measurement points (pins).</li>
-        <li>Stabilize tx and rx of UART communication from and to FPGA</li>
-<li>Implement firmware for raspberry pi (smaller CPU) to request & receive the data and publish is via ETH</li>
-<li>Data visualization implementation on larger CPU</li>
-<li>Stable protocol definition  </li>
-    </ul>
-
-    <h2>System Resolution</h2>
-
-    <p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use an oscillator
-        with frequency f?</p>
-
-    <div class="table-container">
-        <table class="measurement-table">
-            <thead>
-                <tr>
-                    <th>Frequency (f)</th>
-                    <th>Period (T)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>12 MHz</td>
-                    <td>83.33 ns</td>
-                </tr>
-                <tr>
-                    <td>50 MHz</td>
-                    <td>20 ns</td>
-                </tr>
-                <tr>
-                    <td>100 MHz</td>
-                    <td>10 ns</td>
-                </tr>
-                <tr>
-                    <td>500 MHz</td>
-                    <td>2 ns</td>
-                </tr>
-                <tr>
-                    <td>1 GHz</td>
-                    <td>1 ns</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.<br>
-        Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
-        Accuracy: how close your measurement is to the true value (affected by clock stability, jitter, calibration,
-        etc.)</p>
-
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    </script>
-
-    <h2>PS:</h2>
+                <pre class="mermaid">
+    graph LR
+        d(Design Implementation in Verilog) -->|.verilog / .v| IV(iverilog compiler)
+        IV---> |.vvp| VVP(vvp)
+        VVP---> |.vcd| G(Gtkwave)
+        G ---> d
+    </pre>
 
 
-    <p>Another driving factor for developing this system was personal interest. I'm fascinated by embedded hardware, but
-        my prior work was always focused on one goal: Writing and running software on it. Though that often meant an
-        odyssey through compiler issues and hardware reference manuals!</p>
+                <h2>Toolchain for flashing and verification on real hardware</h2>
+                <pre class="mermaid">
+    graph LR
+        .verilog --> YS(Yosys Script)
+        YS-->|.ys| Y(Yosys)
+        .pcf --> N(Nextpnr)
+        Y --> |.json, .blif,synth.v| N(Nextpnr)
+        N --> |.asc| I(icepack)
+        I --> |.bin| BF2(bin2uf2 Conversion)
+        BF2 --> |.uf2| FPGA(Flash to FPGA)
+        style .verilog fill:none,stroke:none
+        style .pcf fill:none,stroke:none
+    </pre>
 
-    <p>My long-term aspiration has been to get even closer to the metal, and that's where FPGAs come in. This is the
-        perfect intersection: I can realize the high-precision runtime measurement feature using an FPGA. Not only are
-        FPGAs inherently fast due to their independence from a main CPU, but the project also gives me a valuable
-        opportunity to learn new skills.</p>
+                <h2>Development Roadmap & Future Enhancements</h2>
 
-    <div class="contact-section">
-        <hr>
-        <h3>Get in Touch</h3>
-        <p>Interested in how this runtime measurement system could optimize your work? Let's discuss your specific use
-            case!</p>
-        <a href="mailto:sophia.wegers@gmail.com" class="contact-button">Contact Me</a>
-    </div>
+                <ul>
+                    <li>Add / Verify option to integrate an external oscillator.</li>
+                    <li>Evaluate memory storage size on the FPGA side. Develop option to use shared RAM?</li>
+                    <li>Add option to configure the UART data rate. Currently only 9600 bits/second.</li>
+                    <li>Add available measurement points (pins).</li>
+                    <li>Stabilize tx and rx of UART communication from and to FPGA</li>
+                    <li>Implement firmware for raspberry pi (smaller CPU) to request & receive the data and publish is via ETH</li>
+                    <li>Data visualization implementation on larger CPU</li>
+                    <li>Stable protocol definition </li>
+                </ul>
 
+                <h2>System Resolution</h2>
+
+                <p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use an oscillator
+                    with frequency f?</p>
+
+                <div class="table-container">
+                    <table class="measurement-table">
+                        <thead>
+                            <tr>
+                                <th>Frequency (f)</th>
+                                <th>Period (T)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>12 MHz</td>
+                                <td>83.33 ns</td>
+                            </tr>
+                            <tr>
+                                <td>50 MHz</td>
+                                <td>20 ns</td>
+                            </tr>
+                            <tr>
+                                <td>100 MHz</td>
+                                <td>10 ns</td>
+                            </tr>
+                            <tr>
+                                <td>500 MHz</td>
+                                <td>2 ns</td>
+                            </tr>
+                            <tr>
+                                <td>1 GHz</td>
+                                <td>1 ns</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.<br>
+                    Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
+                    Accuracy: how close your measurement is to the true value (affected by clock stability, jitter, calibration,
+                    etc.)</p>
+            </section>
+        </article>
+
+        <!-- Add proper contact section at the end -->
+        <section class="contact-section">
+            <h2>Get in Touch</h2>
+            <p>Interested in how this runtime measurement system could optimize your work? Let's discuss your specific use case!</p>
+            <a href="mailto:sophia.wegers@gmail.com" class="contact-button">Contact Me</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 gremarsl. All rights reserved.</p>
+    </footer>
 </body>
 
 </html>
