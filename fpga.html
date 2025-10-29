@@ -125,15 +125,16 @@
                 </div>
 
                 <h3>Summarize</h3>
-                <p>Software Based measurements are popular and easy to realize. Though change the system under test
-                    since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
-                    the overhead introduced by the software-defined runtime measurement.</p>
-                    
-                <p>Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
-                    changing the measurement methodology using external hardware can be useful.</p>
+                <p> This workflow clearly demonstrates, the need for a more structured approach to runtime monitoring. With the current development process and workflow we are not able to effectively monitor and manage runtime performance during our processes and workflows. One-shot measurements are not sufficient to capture the dynamic behavior of the system over time.</p>
+                <p>The summary was easy I guess. Before we dive into the solution space, lets circle more around the problem.</p>
                 
-                <p>This case clearly demonstrates the critical importance of early and continuous runtime monitoring.
-                    We´ve realized: By integrating automated measurements from the start of development, we can:</p>
+            </section>
+            
+            <!-- Problem Statement Section -->
+            <section id="problem-statement">
+                <h2>The Problem Statement</h2>
+                <p>This described use case above clearly demonstrates the critical importance of early and continuous runtime monitoring.
+                    We´ve realized, there is a need for:</p>
                 
                 <ul>
                     <li>Detect timing violations immediately, not just before release</li>
@@ -142,43 +143,40 @@
                     <li>Substitute our one-shot measurements directly before our release as they provide only one data
                         point, but do not offer insights into performance trends over time or under varying conditions.</li>
                 </ul>
-
-                <p>Rather than discovering issues at release time, systematic measurements during each development phase
+                <p>Rather than discovering issues at release time, systematic, automatically measurements during each development phase
                     allow us to maintain control over system timing constraints.</p>
+                    
+                <p>Software Based measurements are popular and easy to realize. Though change the system under test
+                    since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
+                    the overhead introduced by the software-defined runtime measurement.Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
+                    changing the measurement methodology using external hardware can be useful.</p>
+
+                </section>
                 
-                <p>The summary was easy I guess. So lets continue with the proposed workflow we have in mind now. Which
-                    is even more obvious for the development of our system.</p>
-            </section>
-
-            <!-- Problem Statement Section -->
-            <section id="problem-statement">
-                <h2>The Problem Statement</h2>
-                <h3>Proposed Development Workflow with Runtime Analysis (During Development)</h3>
-                
-                <div class="svg-container">
-                    <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
-                </div>
-
-                <p>This proposal seems obvious. You might think: "I have thought of that just by reading this in 5
-                    minutes." However, the challenge lies in implementing and maintaining such a systematic approach
-                    throughout development. Since:</p>
-
-                <ul>
-                    <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be
-                        optional instead of obligatory. We trust the developer to decide by himself when to perform
-                        timing analysis.</li>
-                    <li>We want to prevent buying resource intensive tracing tools and infrastructure even though there
-                        is no need to look into each of our modules internal behaviour. We just want to measure the
-                        overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else
-                        is overkill.</li>
-                    <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be
-                        used.</li>
-                </ul>
-            </section>
-
-            <!-- Solution Space Section -->
-            <section id="solution-space">
-                <h2>Let's enter the solution space.</h2>
+                <!-- Solution Space Section -->
+                <section id="solution-space">
+                    <h2>Let's enter the solution space.</h2>
+                    <h3>Proposed Development Workflow with Runtime Analysis (During Development)</h3>
+                    
+                    <div class="svg-container">
+                        <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
+                    </div>
+    
+                    <p>This proposal seems obvious. You might think: "I have thought of that just by reading this in 5
+                        minutes." However, the challenge lies in implementing and maintaining such a systematic approach
+                        throughout development. Since:</p>
+    
+                    <ul>
+                        <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be
+                            optional instead of obligatory. We trust the developer to decide by himself when to perform
+                            timing analysis.</li>
+                        <li>We want to prevent buying resource intensive tracing tools and infrastructure even though there
+                            is no need to look into each of our modules internal behaviour. We just want to measure the
+                            overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else
+                            is overkill.</li>
+                        <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be
+                            used.</li>
+                    </ul>
 
                 <!-- Highlevel System Design Subsection -->
                 <section id="highlevel-design">
