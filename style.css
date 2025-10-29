@@ -151,7 +151,8 @@ label {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: visible;
+    overflow: visible !important;
+    overflow-clip-margin: unset;
 }
 
 .svg-container object,
@@ -163,6 +164,7 @@ label {
     min-height: auto;
     max-width: 100%;
     overflow: visible !important;
+    overflow-clip-margin: unset;
 }
 
 /* Info box styling */
