@@ -105,7 +105,15 @@
         <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
     </div>
 
-<p>At first glance, this solution might seem obvious or straightforward. You might think: "I could have thought of that." However, the real challenge lies in implementing and maintaining such a systematic approach throughout development.</p>
+<p>This proposal seems obious. You might think: "I have thought of that just by reading this in 5 minutes." However, the challenge lies in implementing and maintaining such a systematic approach throughout development. Since: </p>
+
+<ul>
+    <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be optional instead of obligatory. We trust the developer to decide by himself when to perform timing analysis.</li>
+    <li>We want to prevent buying resource intensive tracing tools and infrastructure even though there is no need to look into each of our modules internal behaviour. We just want to measure the overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else is overkill.</li>
+    <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be used. </li>
+</ul>
+
+    <h2>Let's enter the solution space.</h2>
 
     <h2>Highlevel system design diagram</h2>
 
@@ -157,6 +165,8 @@
     style D fill:none,stroke:#000000
     style Left fill:none,stroke:none
     </pre>
+
+    <h2>Outlook / Next steps.</h2>
 
     <h2>System Resolution</h2>
 
