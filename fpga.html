@@ -36,20 +36,11 @@
                     processes. The idea for this system arose from the need for precise timing and measurement solutions
                     within the
                     context of embedded systems development.</p>
-
-                <p>Software Based measurements are popular and easy to realize. Though change the system under test
-                    since you add
-                    measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
-                    the overhead
-                    introduced by the software-defined runtime measurement.<br>
-                    Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
-                    changing the
-                    measurement methodology using external hardware can be useful.
-                </p>
+                <p>Let's examine a practical use case.</p>
             </section>
 
             <section id="use-case">
-                <h2>Development Process and Use Case</h2>
+                <h2>Use Case - The Development Process</h2>
                 <p>Our developed system (System A) handles two distinct events: Event A (entering) and Event B
                     (exiting).</p>
                 <div class="svg-container">
@@ -105,17 +96,26 @@
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_module_tmax.html" width="900" height="300"></object>
                 </div>
-                <h3>Conclusion - Our Development Process</h3>
+                <h3>Conclusion - The Development Process</h3>
                 <p>Now we got a better understanding of the engineering perspective. But to really understand the full
                     problem, we
                     have to have a look into the development workflow we used above.</p>
 
-                <h2>Development Workflow with Runtime Analysis (Only Before Release)</h2>
+                <h2>Our Use Case - The Development Workflow</h2>
                 <div class="svg-container">
                     <object type="text/html" data="svgs/workflow_before.html" width="700" height="300"></object>
                 </div>
 
                 <h3>Summarize</h3>
+                <p>Software Based measurements are popular and easy to realize. Though change the system under test
+                    since you add
+                    measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
+                    the overhead
+                    introduced by the software-defined runtime measurement.<br>
+                    Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
+                    changing the
+                    measurement methodology using external hardware can be useful.
+                </p>
                 <p>This case clearly demonstrates the critical importance of early and continuous runtime monitoring.
                     We´ve realized: By integrating automated measurements from the start of development, we can:</p>
                 <ul>
