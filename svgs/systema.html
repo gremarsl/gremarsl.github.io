@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 700 250" preserveAspectRatio="xMidYMid meet">
+    <!-- System A Box -->
+    <rect x="200" y="30" width="300" height="80" fill="#e8f4f8" stroke="#333" stroke-width="2" />
+    <text x="350" y="75" text-anchor="middle" font-size="18" font-weight="bold">System A</text>
+
+    <!-- Event A (entering) -->
+    <circle cx="150" cy="70" r="8" fill="#228B22" />
+    <text x="150" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event A</text>
+    <line x1="158" y1="70" x2="200" y2="70" stroke="#228B22" stroke-width="2" marker-end="url(#arrowgreen)" />
+
+    <!-- Event B (exiting) -->
+    <circle cx="550" cy="70" r="8" fill="#B22222" />
+    <text x="550" y="55" text-anchor="middle" font-size="14" font-weight="bold">Event B</text>
+    <line x1="500" y1="70" x2="542" y2="70" stroke="#B22222" stroke-width="2" marker-end="url(#arrowred)" />
+
+    <!-- Arrow markers -->
+    <defs>
+        <marker id="arrowgreen" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+            markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#228B22" />
+        </marker>
+        <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"
+            markerUnits="strokeWidth">
+            <path d="M0,0 L0,6 L9,3 z" fill="#B22222" />
+        </marker>
+    </defs>
+</svg>
