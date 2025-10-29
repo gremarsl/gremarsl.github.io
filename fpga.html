@@ -125,21 +125,21 @@
                     <object type="text/html" data="svgs/workflow_before.html" width="700" height="300"></object>
                 </div>
 
-                <h3>Summarize</h3>
-                <p> This workflow clearly demonstrates, the need for a more structured approach to runtime monitoring. With the current development process and workflow we are not able to effectively monitor and manage runtime performance during our processes and workflows. One-shot measurements are not sufficient to capture the dynamic behavior of the system over time.</p>
-                <p>The summary was easy I guess. Before we dive into the solution space, let's circle more around the problem.</p>
+                <h3>Summary</h3>
+                <p>This workflow clearly demonstrates the need for a more structured approach to runtime monitoring. With the current development process and workflow, we are not able to effectively monitor and manage runtime performance during our processes and workflows. One-shot measurements are not sufficient to capture the dynamic behavior of the system over time.</p>
+                <p>The summary was easy, I guess. Before we dive into the solution space, let's explore the problem more deeply.</p>
                 
             </section>
             
             <!-- Problem Statement Section -->
             <section id="problem-statement">
                 <h2>The Problem Statement</h2>
-                <p>With the described use case above, we´ve realized, we have different problems and a need to address them.</p>
+                <p>With the described use case above, we've realized we have different problems that need to be addressed.</p>
 
                 <h3>Workflow related challenges</h3>
                 <p>With our current development process to develop our System A, we face several challenges:</p>
                 <ul>
-                    <li>Lack of early detection for performance issues since we realy on prerelease runtime analysis.</li>
+                    <li>Lack of early detection for performance issues since we rely on prerelease runtime analysis.</li>
                     <li>Inability to track performance trends during the development phase over time</li>
                     <li>One-shot manual measurements are time-consuming and error-prone</li>
                 </ul>
@@ -148,17 +148,12 @@
                     <li>Detect timing violations immediately, not just before release</li>
                     <li>Prevent costly late-stage fixes</li>
                     <li>Track performance trends throughout development</li>
-                    <li>Rather than discovering issues at release time, systematic, automatically measurements during each development phase
-                        allow us to maintain control over system timing constraints.</li>
-                    <li>Substitute our one-shot measurements directly before our release as they provide only one data
-                        point, but do not offer insights into performance trends over time or under varying conditions.</li>
+                    <li>Rather than discovering issues at release time, systematic automated measurements during each development phase allow us to maintain control over system timing constraints.</li>
+                    <li>Replace our one-shot measurements directly before release as they provide only one data point, but do not offer insights into performance trends over time or under varying conditions.</li>
                 </ul>
 
                 <h3>Measurement accuracy related challenges</h3>
-                <p>Software Based measurements are popular and easy to realize. Though change the system under test
-                    since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
-                    the overhead introduced by the software-defined runtime measurement. Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
-                    changing the measurement methodology using external hardware can be useful.</p>
+                <p>Software-based measurements are popular and easy to realize. However, they change the system under test since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked at and the overhead introduced by the software-defined runtime measurement. This results in massively changing the time behavior of the system. To reduce the intrusiveness, changing the measurement methodology to use external hardware can be useful.</p>
 
                 </section>
                 
