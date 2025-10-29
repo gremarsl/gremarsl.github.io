@@ -53,16 +53,16 @@
                 </nav>
             </section>
             
+            <!-- Introduction Section -->
             <section id="introduction">
                 <h2>Introduction</h2>
                 <p>I am developing a system designed to accurately measure and analyze runtime of various software or
-                    hardware
-                    processes. The idea for this system arose from the need for precise timing and measurement solutions
-                    within the
-                    context of embedded systems development.</p>
+                    hardware processes. The idea for this system arose from the need for precise timing and measurement solutions
+                    within the context of embedded systems development.</p>
                 <p>Let's examine a practical use case.</p>
             </section>
 
+            <!-- Use Case Section -->
             <section id="use-case">
                 <h2>Our Use Case - The Development Process</h2>
                 <p>Our developed system (System A) handles two distinct events: Event A (entering) and Event B
@@ -73,58 +73,52 @@
                 </div>
 
                 <p>These events are represented by rising and falling edges on a digital signal line. The time interval
-                    between
-                    these two events (t<sub>B</sub>-t<sub>A</sub>) represents the runtime of the process we want to
+                    between these two events (t<sub>B</sub>-t<sub>A</sub>) represents the runtime of the process we want to
                     measure.</p>
 
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_base.html" width="1000" height="350"></object>
                 </div>
+                
                 <p>Since our system must fulfill specific timing requirements, t<sub>B</sub>-t<sub>A</sub> must be
-                    within the
-                    maximum allowed time
-                    constraints. Therefore we add the green line Δt<sub>max_allowed</sub>. </p>
+                    within the maximum allowed time constraints. Therefore we add the green line Δt<sub>max_allowed</sub>.</p>
+                
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_base_tmax.html" width="1000" height="300"></object>
                 </div>
 
                 <p>When we look into our system, the system consists of two modules. Module 1 is responsible for
-                    processing input
-                    data, while Module 2 handles output data. Our System A fulfills the requirement. Therefore we
-                    release this
-                    system with version 1.0.</p>
+                    processing input data, while Module 2 handles output data. Our System A fulfills the requirement. Therefore we
+                    release this system with version 1.0.</p>
 
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_module.html" width="1000" height="300"></object>
                 </div>
 
-                <p>Let’s assume a fictitious customer requests a new feature for our system. Leading to a third module
-                    being added
-                    to the system. After a few months the Module 3 is almost completed and integrated into the system.
-                    Integration
-                    tests can finally be performed to ensure that the new module works correctly with the existing
+                <p>Let's assume a fictitious customer requests a new feature for our system. Leading to a third module
+                    being added to the system. After a few months the Module 3 is almost completed and integrated into the system.
+                    Integration tests can finally be performed to ensure that the new module works correctly with the existing
                     modules.</p>
+                
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_module3.html" width="900" height="300"></object>
                 </div>
 
                 <p>After integrating Module 3, we observe that the runtime (t<sub>B</sub>-t<sub>A</sub>) has increased
-                    and now
-                    exceeds the maximum
-                    allowed time constraint (Δt<sub>max_allowed</sub>). This indicates that the addition of Module 3 has
-                    negatively
-                    impacted
-                    the system's performance, leading to a violation of the timing requirements.</p>
-                <!-- Replace all your SVG containers with this pattern -->
+                    and now exceeds the maximum allowed time constraint (Δt<sub>max_allowed</sub>). This indicates that the addition of Module 3 has
+                    negatively impacted the system's performance, leading to a violation of the timing requirements.</p>
 
                 <div class="svg-container">
                     <object type="text/html" data="svgs/systema_module_tmax.html" width="900" height="300"></object>
                 </div>
+
                 <h3>Conclusion - The Development Process</h3>
                 <p>Now we got a better understanding of the engineering perspective. But to really understand the full
-                    problem, we
-                    have to have a look into the development workflow we used above.</p>
-                <section id="development-workflow">
+                    problem, we have to have a look into the development workflow we used above.</p>
+            </section>
+
+            <!-- Development Workflow Section -->
+            <section id="development-workflow">
                 <h2>Our Use Case - The Development Workflow</h2>
                 <div class="svg-container">
                     <object type="text/html" data="svgs/workflow_before.html" width="700" height="300"></object>
@@ -132,42 +126,42 @@
 
                 <h3>Summarize</h3>
                 <p>Software Based measurements are popular and easy to realize. Though change the system under test
-                    since you add
-                    measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
-                    the overhead
-                    introduced by the software-defined runtime measurement.<br>
-                    Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
-                    changing the
-                    measurement methodology using external hardware can be useful.
-                </p>
+                    since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
+                    the overhead introduced by the software-defined runtime measurement.</p>
+                    
+                <p>Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
+                    changing the measurement methodology using external hardware can be useful.</p>
+                
                 <p>This case clearly demonstrates the critical importance of early and continuous runtime monitoring.
                     We´ve realized: By integrating automated measurements from the start of development, we can:</p>
+                
                 <ul>
                     <li>Detect timing violations immediately, not just before release</li>
                     <li>Prevent costly late-stage fixes</li>
                     <li>Track performance trends throughout development</li>
                     <li>Substitute our one-shot measurements directly before our release as they provide only one data
-                        point, but do not offer insights into performance trends over time or under varying conditions.
-                    </li>
+                        point, but do not offer insights into performance trends over time or under varying conditions.</li>
                 </ul>
 
                 <p>Rather than discovering issues at release time, systematic measurements during each development phase
                     allow us to maintain control over system timing constraints.</p>
+                
                 <p>The summary was easy I guess. So lets continue with the proposed workflow we have in mind now. Which
-                    is even more obvious for the development of our system. </p>
-</section>
-<section id="problem-statement">
+                    is even more obvious for the development of our system.</p>
+            </section>
 
-    <h2>The Problem Statement </h2>
-</section>
-                <h2>Proposed Development Workflow with Runtime Analysis (During Development)</h2>
+            <!-- Problem Statement Section -->
+            <section id="problem-statement">
+                <h2>The Problem Statement</h2>
+                <h3>Proposed Development Workflow with Runtime Analysis (During Development)</h3>
+                
                 <div class="svg-container">
                     <object type="text/html" data="svgs/workflow_proposed.html" width="700" height="300"></object>
                 </div>
 
-                <p>This proposal seems obious. You might think: "I have thought of that just by reading this in 5
+                <p>This proposal seems obvious. You might think: "I have thought of that just by reading this in 5
                     minutes." However, the challenge lies in implementing and maintaining such a systematic approach
-                    throughout development. Since: </p>
+                    throughout development. Since:</p>
 
                 <ul>
                     <li>We want to prevent additional effort and guidance for developers for timing analysis. It must be
@@ -178,14 +172,18 @@
                         overall system performance t<sub>B</sub>-t<sub>A</sub> at this validation stage. Everything else
                         is overkill.</li>
                     <li>We want to prevent time consuming setup, wiring. If it is hard to integrate, it will not be
-                        used. </li>
+                        used.</li>
                 </ul>
+            </section>
 
+            <!-- Solution Space Section -->
+            <section id="solution-space">
                 <h2>Let's enter the solution space.</h2>
 
-                <h2>Highlevel system design diagram</h2>
-
-                <pre class="mermaid">
+                <!-- Highlevel System Design Subsection -->
+                <section id="highlevel-design">
+                    <h3>Highlevel System Design Diagram</h3>
+                    <pre class="mermaid">
     graph TD
     I(Measurement Input Signal) --- F(FPGA)
     O(Oscillator) --- F(FPGA)
@@ -195,11 +193,13 @@
     style F fill:#FFFFED,stroke:#FCE992
     style I fill:none,stroke:#228B22
     linkStyle 0 stroke:#228B22
-    </pre>
+                    </pre>
+                </section>
 
-                <h2>FPGA focused system design diagram</h2>
-
-                <pre class="mermaid">
+                <!-- FPGA Focused Design Subsection -->
+                <section id="fpga-design">
+                    <h3>FPGA Focused System Design Diagram</h3>
+                    <pre class="mermaid">
     graph TD
     I(Measurement Input Signal) --- F
     Hz(1Hz Debug Pin) --- F
@@ -232,17 +232,20 @@
     style Hz fill:none,stroke:#000000
     style D fill:none,stroke:#000000
     style Left fill:none,stroke:none
-    </pre>
+                    </pre>
+                </section>
+            </section>
 
-                <h2>Toolchain for Simulation and Verification of Verilog design</h2>
+            <!-- Toolchain Simulation Section -->
+            <section id="toolchain-simulation">
+                <h2>Toolchain for Simulation and Verification of Verilog Design</h2>
+                
                 <h3>VVP</h3>
-                vvp is the runtime engine that executes the default compiled form generated by Icarus Verilog
+                <p>vvp is the runtime engine that executes the default compiled form generated by Icarus Verilog.</p>
 
                 <h3>GTKWave</h3>
-                Programm to view waveforms. Used after simulation.
-                Configuration file: .gtkw
-                <br>
-                <br><br>
+                <p>Programm to view waveforms. Used after simulation.</p>
+                <p>Configuration file: .gtkw</p>
 
                 <pre class="mermaid">
     graph LR
@@ -250,10 +253,13 @@
         IV---> |.vvp| VVP(vvp)
         VVP---> |.vcd| G(Gtkwave)
         G ---> d
-    </pre>
+                </pre>
+            </section>
 
-
-                <h2>Toolchain for flashing and verification on real hardware</h2>
+            <!-- Toolchain Hardware Section -->
+            <section id="toolchain-hardware">
+                <h2>Toolchain for Flashing and Verification on Real Hardware</h2>
+                
                 <pre class="mermaid">
     graph LR
         .verilog --> YS(Yosys Script)
@@ -265,8 +271,11 @@
         BF2 --> |.uf2| FPGA(Flash to FPGA)
         style .verilog fill:none,stroke:none
         style .pcf fill:none,stroke:none
-    </pre>
+                </pre>
+            </section>
 
+            <!-- Development Roadmap Section -->
+            <section id="roadmap">
                 <h2>Development Roadmap & Future Enhancements</h2>
 
                 <ul>
@@ -278,14 +287,16 @@
                     <li>Implement firmware for raspberry pi (smaller CPU) to request & receive the data and publish is
                         via ETH</li>
                     <li>Data visualization implementation on larger CPU</li>
-                    <li>Stable protocol definition </li>
+                    <li>Stable protocol definition</li>
                 </ul>
+            </section>
 
+            <!-- System Resolution Section -->
+            <section id="resolution">
                 <h2>System Resolution</h2>
 
                 <p>Resolution and accuracy depends on the clocking speed of the system. What is our accuracy if we use
-                    an oscillator
-                    with frequency f?</p>
+                    an oscillator with frequency f?</p>
 
                 <div class="table-container">
                     <table class="measurement-table">
@@ -319,17 +330,18 @@
                         </tbody>
                     </table>
                 </div>
-                <p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10
-                    ns.<br>
-                    Resolution: the smallest time increment you can distinguish (determined by clock period)<br>
-                    Accuracy: how close your measurement is to the true value (affected by clock stability, jitter,
-                    calibration,
-                    etc.)</p>
+
+                <p>This means with a clocking oscillator of 100 MHz we can measure time events with a resolution of 10 ns.</p>
+                <ul>
+                    <li><strong>Resolution:</strong> the smallest time increment you can distinguish (determined by clock period)</li>
+                    <li><strong>Accuracy:</strong> how close your measurement is to the true value (affected by clock stability, jitter,
+                        calibration, etc.)</li>
+                </ul>
             </section>
         </article>
 
-        <!-- Add proper contact section at the end -->
-        <section class="contact-section">
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
             <h2>Get in Touch</h2>
             <p>Interested in how this runtime measurement system could optimize your work? Let's discuss your specific
                 use case!</p>
@@ -340,6 +352,26 @@
     <footer>
         <p>&copy; 2025 gremarsl. All rights reserved.</p>
     </footer>
+
+    <!-- Hamburger menu script -->
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.navlink');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.navlink a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>
