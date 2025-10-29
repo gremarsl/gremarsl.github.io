@@ -178,6 +178,18 @@ label {
     color: #1976d2;
 }
 
+ul {
+    text-align: left;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    line-height: 1.6;
+    margin: 1em auto;
+    max-width: 800px;
+}
+
+ul li {
+    margin-bottom: 0.5em;
+}
+
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
