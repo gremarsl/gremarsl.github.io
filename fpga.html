@@ -136,6 +136,7 @@
                 <h2>The Problem Statement</h2>
                 <p>With the described use case above, we´ve realized, we have different problems and a need to address them.</p>
 
+                <h3>Workflow related challenges</h3>
                 <p>With our current development process to develop our System A, we face several challenges:</p>
                 <ul>
                     <li>Lack of early detection for performance issues since we realy on prerelease runtime analysis.</li>
@@ -153,9 +154,10 @@
                         point, but do not offer insights into performance trends over time or under varying conditions.</li>
                 </ul>
 
+                <h3>Measurement accuracy related challenges</h3>
                 <p>Software Based measurements are popular and easy to realize. Though change the system under test
                     since you add measurement code. Accuracy is limited and dependent on the speed the embedded system is clocked and
-                    the overhead introduced by the software-defined runtime measurement.Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
+                    the overhead introduced by the software-defined runtime measurement. Resulting in massively changing the time behaviour of the system. To reduce the intrusiveness,
                     changing the measurement methodology using external hardware can be useful.</p>
 
                 </section>
@@ -163,7 +165,6 @@
                 <!-- The Idea / Improvement Statement Section -->
                 <section id="idea">
                     <h2>The Idea / The Improvement Statement</h2>
-                    <p> clearly demonstrates the critical importance of early and continuous runtime monitoring</p>
                     <p>Based on the problems identified above, the solution is clear: we need an automated, non-intrusive, 
                     and easy-to-integrate runtime measurement system that can be embedded directly into the development 
                     workflow.</p>
@@ -172,12 +173,11 @@
                     an FPGA-based external measurement system that:</p>
                     
                     <ul>
-                        <li>Monitors the system's input and output signals without modifying the system under test</li>
-                        <li>Provides high-resolution timing measurements using an external oscillator</li>
-                        <li>Automatically collects data at every development commit</li>
+                        <li>Monitors the system's input and output signals with a minimum need for modifying the system under test</li>
+                        <li>Provides high-resolution timing measurements using an internal or external oscillator</li>
                         <li>Requires minimal setup and wiring</li>
-                        <li>Integrates seamlessly into existing development workflows</li>
-                        <li>Generates real-time performance reports and trend analysis</li>
+                        <li>Can be integrated into existing development workflows</li>
+                        <li>Generates performance reports and trend analysis</li>
                     </ul>
                     
                     <p>This approach eliminates the overhead of software-based measurements while providing developers 
