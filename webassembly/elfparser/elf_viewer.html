@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELF Parser - WebAssembly</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 {
+            color: #4ec9b0;
+            text-align: center;
+        }
+        .upload-area {
+            border: 2px dashed #4ec9b0;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            background-color: #252526;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #6ee7b7;
+            background-color: #2d2d30;
+        }
+        .upload-area.dragover {
+            border-color: #6ee7b7;
+            background-color: #2d2d30;
+            transform: scale(1.02);
+        }
+        #fileInput {
+            display: none;
+        }
+        .output {
+            background-color: #252526;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.6;
+            border: 1px solid #3e3e42;
+            min-height: 200px;
+        }
+        .status {
+            text-align: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .status.success {
+            background-color: #1a3d2e;
+            color: #6ee7b7;
+        }
+        .status.error {
+            background-color: #3d1a1a;
+            color: #f87171;
+        }
+        .status.info {
+            background-color: #1a2a3d;
+            color: #60a5fa;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #4ec9b0;
+            color: #1e1e1e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background-color: #6ee7b7;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            background-color: #3e3e42;
+            color: #808080;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .info-text {
+            color: #808080;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 ELF File Parser (WebAssembly)</h1>
+    
+    <div class="status info" id="status">
+        Loading WebAssembly module...
+    </div>
+
+    <div class="upload-area" id="uploadArea">
+        <p style="font-size: 18px; margin: 0;">📁 Drop ELF file here or click to browse</p>
+        <p class="info-text">Supports 32-bit and 64-bit ELF files</p>
+        <input type="file" id="fileInput" accept="*">
+    </div>
+
+    <div class="buttons">
+        <button id="parseBtn" disabled>Parse ELF File</button>
+        <button id="clearBtn">Clear Output</button>
+    </div>
+
+    <div class="output" id="output">No file loaded yet. Upload an ELF file to begin analysis.</div>
+
+    <script>
+        let Module = null;
+        let elfData = null;
+        let fileName = '';
+
+        // Load WebAssembly module
+        const script = document.createElement('script');
+        script.src = 'elf_parser.js';
+        script.onload = function() {
+            createModule().then(function(module) {
+                Module = module;
+                document.getElementById('status').textContent = '✓ WebAssembly module loaded successfully!';
+                document.getElementById('status').className = 'status success';
+            }).catch(function(err) {
+                document.getElementById('status').textContent = '✗ Failed to load WebAssembly: ' + err;
+                document.getElementById('status').className = 'status error';
+            });
+        };
+        document.head.appendChild(script);
+
+        function createModule() {
+            return new Promise((resolve, reject) => {
+                if (typeof createElfParserModule !== 'undefined') {
+                    createElfParserModule().then(resolve).catch(reject);
+                } else {
+                    reject('Module not found');
+                }
+            });
+        }
+
+        // File upload handlers
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const parseBtn = document.getElementById('parseBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const output = document.getElementById('output');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            fileName = file.name;
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                elfData = new Uint8Array(e.target.result);
+                output.textContent = `File loaded: ${fileName} (${elfData.length} bytes)\nClick "Parse ELF File" to analyze.`;
+                parseBtn.disabled = false;
+                document.getElementById('status').textContent = `✓ File "${fileName}" loaded (${elfData.length} bytes)`;
+                document.getElementById('status').className = 'status success';
+            };
+            
+            reader.onerror = function() {
+                output.textContent = 'Error reading file!';
+                document.getElementById('status').textContent = '✗ Error reading file';
+                document.getElementById('status').className = 'status error';
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        parseBtn.addEventListener('click', () => {
+            if (!Module || !elfData) {
+                output.textContent = 'Error: WebAssembly module or file not loaded!';
+                return;
+            }
+
+            try {
+                // Allocate memory in WebAssembly
+                const dataPtr = Module._malloc(elfData.length);
+                Module.HEAPU8.set(elfData, dataPtr);
+
+                // Call the parse_elf function
+                const resultPtr = Module._parse_elf(dataPtr, elfData.length);
+                
+                // Get the result string
+                const result = Module.UTF8ToString(resultPtr);
+                
+                // Free the allocated memory
+                Module._free(dataPtr);
+                
+                // Display result
+                output.textContent = `File: ${fileName}\n\n${result}`;
+                
+                document.getElementById('status').textContent = '✓ ELF file parsed successfully!';
+                document.getElementById('status').className = 'status success';
+                
+            } catch (error) {
+                output.textContent = 'Error parsing ELF file: ' + error.message;
+                document.getElementById('status').textContent = '✗ Error parsing ELF file';
+                document.getElementById('status').className = 'status error';
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            output.textContent = 'No file loaded yet. Upload an ELF file to begin analysis.';
+            elfData = null;
+            fileName = '';
+            fileInput.value = '';
+            parseBtn.disabled = true;
+            document.getElementById('status').textContent = 'Ready to load a file';
+            document.getElementById('status').className = 'status info';
+        });
+    </script>
+</body>
+</html>
