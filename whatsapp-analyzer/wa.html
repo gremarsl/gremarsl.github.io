@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,119 +8,113 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navmenu">
-        <div class="navlink">
-            <a href="../index.html">Home</a>
-            <a href="../housing.html">Housing Calculator</a>
-            <a href="../inflation.html">Inflation Calculator</a>
-            <a href="../tax.html">Bruttoverdienst-Analyse</a>
-            <a href="../social.html">Social Security Contributions</a>
-            <a href="wa.html" class="current">Whatsapp Chat Analyzer</a>
-            <a href="../fpga.html">Development of a Runtime Measurement System</a>
+<nav class="navmenu">
+    <div class="navlink">
+        <a href="../index.html">Home</a>
+        <a href="../housing.html">Housing Calculator</a>
+        <a href="../inflation.html">Inflation Calculator</a>
+        <a href="../tax.html">Bruttoverdienst-Analyse</a>
+        <a href="../social.html">Social Security Contributions</a>
+        <a href="wa.html" class="current">Whatsapp Chat Analyzer</a>
+        <a href="../fpga.html">Development of a Runtime Measurement System</a>
+    </div>
+</nav>
+
+<h1>WhatsApp Chat Analyzer</h1>
+<p>Upload your WhatsApp chat export file and get detailed statistics.</p>
+
+<section class="upload-section">
+    <div class="upload-area" id="uploadArea">
+        <p>Drag your <code>_chat.txt</code> file here</p>
+        <p class="upload-hint">or click to select a file</p>
+        <input type="file" id="fileInput" accept=".txt" hidden>
+    </div>
+    <div class="file-info" id="fileInfo" hidden>
+        <span class="file-name" id="fileName"></span>
+        <button class="btn-clear" id="clearFile">x</button>
+    </div>
+</section>
+
+<section class="members-section" id="membersSection" hidden>
+    <h2>Group Members</h2>
+    <p>Select the members to include in the analysis:</p>
+    <div class="members-grid" id="membersGrid"></div>
+    <button class="btn-analyze" id="analyzeBtn">Start Analysis</button>
+</section>
+
+<section class="loading-section" id="loadingSection" hidden>
+    <div class="spinner"></div>
+    <p>Analyzing chat...</p>
+</section>
+
+<section class="results-section" id="resultsSection" hidden>
+    <h2>Results</h2>
+    
+    <div class="stats-overview" id="statsOverview">
+        <div class="stat-card">
+            <div class="stat-value" id="totalMessages">0</div>
+            <div class="stat-label">Messages</div>
         </div>
-    </nav>
-
-    <div class="container">
-        <header>
-            <h1>WhatsApp Chat Analyzer</h1>
-            <p class="subtitle">Lade deine WhatsApp Chat-Export Datei hoch und erhalte detaillierte Statistiken</p>
-        </header>
-
-        <section class="upload-section">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">+</div>
-                <p>Ziehe deine <code>_chat.txt</code> Datei hierher</p>
-                <p class="upload-hint">oder klicke um eine Datei auszuwählen</p>
-                <input type="file" id="fileInput" accept=".txt" hidden>
-            </div>
-            <div class="file-info" id="fileInfo" hidden>
-                <span class="file-name" id="fileName"></span>
-                <button class="btn-clear" id="clearFile">✕</button>
-            </div>
-        </section>
-
-        <section class="members-section" id="membersSection" hidden>
-            <h2>Gruppenmitglieder</h2>
-            <p class="section-hint">Wähle die Mitglieder aus, die in die Analyse einbezogen werden sollen:</p>
-            <div class="members-grid" id="membersGrid"></div>
-            <button class="btn-analyze" id="analyzeBtn">Analyse starten</button>
-        </section>
-
-        <section class="loading-section" id="loadingSection" hidden>
-            <div class="spinner"></div>
-            <p>Analysiere Chat...</p>
-        </section>
-
-        <section class="results-section" id="resultsSection" hidden>
-            <h2>Ergebnisse</h2>
-            
-            <div class="stats-overview" id="statsOverview">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalMessages">0</div>
-                    <div class="stat-label">Nachrichten</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalChars">0</div>
-                    <div class="stat-label">Zeichen</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="totalMedia">0</div>
-                    <div class="stat-label">Medien</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="dateRange">-</div>
-                    <div class="stat-label">Zeitraum</div>
-                </div>
-            </div>
-
-            <div class="charts-container">
-                <div class="chart-wrapper">
-                    <h3>Nachrichten pro Person</h3>
-                    <div class="chart" id="messagesChart"></div>
-                </div>
-                
-                <div class="chart-wrapper">
-                    <h3>Zeichen pro Person</h3>
-                    <div class="chart" id="charsChart"></div>
-                </div>
-                
-                <div class="chart-wrapper">
-                    <h3>Durchschnittliche Zeichen pro Nachricht</h3>
-                    <div class="chart" id="avgCharsChart"></div>
-                </div>
-                
-                <div class="chart-wrapper full-width">
-                    <h3>Nachrichten im Zeitverlauf (monatlich)</h3>
-                    <div class="chart" id="timelineChart"></div>
-                </div>
-                
-                <div class="chart-wrapper full-width">
-                    <h3>Aktivität nach Tageszeit (Stunden)</h3>
-                    <div class="chart" id="hourlyChart"></div>
-                </div>
-                
-                <div class="chart-wrapper">
-                    <h3>Nachrichten nach Wochentag</h3>
-                    <div class="chart" id="weekdayChart"></div>
-                </div>
-                
-                <div class="chart-wrapper">
-                    <h3>Aktivität nach Uhrzeit</h3>
-                    <div class="chart" id="hourBarChart"></div>
-                </div>
-            </div>
-
-            <div class="export-section">
-                <h3>Export</h3>
-                <button class="btn-export" id="exportCsv">CSV herunterladen</button>
-                <button class="btn-export" id="exportSvg">Alle SVGs herunterladen</button>
-            </div>
-        </section>
+        <div class="stat-card">
+            <div class="stat-value" id="totalChars">0</div>
+            <div class="stat-label">Characters</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="totalMedia">0</div>
+            <div class="stat-label">Media</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="dateRange">-</div>
+            <div class="stat-label">Period</div>
+        </div>
     </div>
 
-    <script src="parser.js"></script>
-    <script src="charts.js"></script>
-    <script src="app.js"></script>
+    <div class="charts-container">
+        <div class="chart-wrapper">
+            <h3>Messages per Person</h3>
+            <div class="chart" id="messagesChart"></div>
+        </div>
+        
+        <div class="chart-wrapper">
+            <h3>Characters per Person</h3>
+            <div class="chart" id="charsChart"></div>
+        </div>
+        
+        <div class="chart-wrapper">
+            <h3>Average Characters per Message</h3>
+            <div class="chart" id="avgCharsChart"></div>
+        </div>
+        
+        <div class="chart-wrapper full-width">
+            <h3>Messages Over Time (Monthly)</h3>
+            <div class="chart" id="timelineChart"></div>
+        </div>
+        
+        <div class="chart-wrapper full-width">
+            <h3>Activity by Hour</h3>
+            <div class="chart" id="hourlyChart"></div>
+        </div>
+        
+        <div class="chart-wrapper">
+            <h3>Messages by Weekday</h3>
+            <div class="chart" id="weekdayChart"></div>
+        </div>
+        
+        <div class="chart-wrapper">
+            <h3>Activity by Time of Day</h3>
+            <div class="chart" id="hourBarChart"></div>
+        </div>
+    </div>
+
+    <div class="export-section">
+        <h3>Export</h3>
+        <button class="btn-export" id="exportCsv">Download CSV</button>
+        <button class="btn-export" id="exportSvg">Download All SVGs</button>
+    </div>
+</section>
+
+<script src="parser.js"></script>
+<script src="charts.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
