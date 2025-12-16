@@ -4,18 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhatsApp Chat Analyzer</title>
+    <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navmenu">
+        <div class="navlink">
+            <a href="../index.html">Home</a>
+            <a href="../housing.html">Housing Calculator</a>
+            <a href="../inflation.html">Inflation Calculator</a>
+            <a href="../tax.html">Bruttoverdienst-Analyse</a>
+            <a href="../social.html">Social Security Contributions</a>
+            <a href="wa.html" class="current">Whatsapp Chat Analyzer</a>
+            <a href="../fpga.html">Development of a Runtime Measurement System</a>
+        </div>
+    </nav>
+
     <div class="container">
         <header>
-            <h1>📱 WhatsApp Chat Analyzer</h1>
+            <h1>WhatsApp Chat Analyzer</h1>
             <p class="subtitle">Lade deine WhatsApp Chat-Export Datei hoch und erhalte detaillierte Statistiken</p>
         </header>
 
         <section class="upload-section">
             <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">📁</div>
+                <div class="upload-icon">+</div>
                 <p>Ziehe deine <code>_chat.txt</code> Datei hierher</p>
                 <p class="upload-hint">oder klicke um eine Datei auszuwählen</p>
                 <input type="file" id="fileInput" accept=".txt" hidden>
@@ -27,10 +41,10 @@
         </section>
 
         <section class="members-section" id="membersSection" hidden>
-            <h2>👥 Gruppenmitglieder</h2>
+            <h2>Gruppenmitglieder</h2>
             <p class="section-hint">Wähle die Mitglieder aus, die in die Analyse einbezogen werden sollen:</p>
             <div class="members-grid" id="membersGrid"></div>
-            <button class="btn-analyze" id="analyzeBtn">📊 Analyse starten</button>
+            <button class="btn-analyze" id="analyzeBtn">Analyse starten</button>
         </section>
 
         <section class="loading-section" id="loadingSection" hidden>
@@ -39,7 +53,7 @@
         </section>
 
         <section class="results-section" id="resultsSection" hidden>
-            <h2>📊 Ergebnisse</h2>
+            <h2>Ergebnisse</h2>
             
             <div class="stats-overview" id="statsOverview">
                 <div class="stat-card">
@@ -98,7 +112,7 @@
             </div>
 
             <div class="export-section">
-                <h3>📥 Export</h3>
+                <h3>Export</h3>
                 <button class="btn-export" id="exportCsv">CSV herunterladen</button>
                 <button class="btn-export" id="exportSvg">Alle SVGs herunterladen</button>
             </div>
