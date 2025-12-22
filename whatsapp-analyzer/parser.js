@@ -1,10 +1,12 @@
 /**
  * WhatsApp Chat Parser
  * Parses WhatsApp chat export files in the browser
+ * Supports both old and new WhatsApp export formats
  */
 
-// Media message indicators
+// Media message indicators (English and German)
 const MEDIA_INDICATORS = [
+    // English
     'image omitted',
     'sticker omitted',
     'GIF omitted',
@@ -12,11 +14,24 @@ const MEDIA_INDICATORS = [
     'video omitted',
     'Contact card omitted',
     'document omitted',
+    // German
+    'Bild weggelassen',
+    'Sticker weggelassen',
+    'GIF weggelassen',
+    'Audio weggelassen',
+    'Video weggelassen',
+    'Kontaktkarte weggelassen',
+    'Dokument weggelassen',
+    '<Medien ausgeschlossen>',
+    'Medien weggelassen',
 ];
 
-// Regex pattern for WhatsApp messages
-// Handles optional LTR mark, date [DD.MM.YY, HH:MM:SS], sender, and message
-const MESSAGE_PATTERN = /^\u200e?\[(\d{2}\.\d{2}\.\d{2}),\s(\d{2}:\d{2}:\d{2})\]\s([^:]+):\s(.*)$/;
+// Regex patterns for WhatsApp messages
+// New format: [DD.MM.YY, HH:MM:SS] Sender: Message
+const MESSAGE_PATTERN_NEW = /^\u200e?\[(\d{2}\.\d{2}\.\d{2}),\s(\d{2}:\d{2}:\d{2})\]\s([^:]+):\s(.*)$/;
+
+// Old format: DD.MM.YY, HH:MM - Sender: Message (no brackets, no seconds)
+const MESSAGE_PATTERN_OLD = /^(\d{2}\.\d{2}\.\d{2}),\s(\d{2}:\d{2})\s-\s([^:]+):\s(.*)$/;
 
 /**
  * Check if message content indicates media
@@ -36,9 +51,11 @@ function calculateCharCount(content, isMedia) {
 
 /**
  * Parse a single line of WhatsApp chat
+ * Tries both new and old format patterns
  */
 function parseLine(line) {
-    const match = line.match(MESSAGE_PATTERN);
+    // Try new format first: [DD.MM.YY, HH:MM:SS] Sender: Message
+    let match = line.match(MESSAGE_PATTERN_NEW);
     if (match) {
         return {
             date: match[1],
@@ -47,6 +64,18 @@ function parseLine(line) {
             content: match[4]
         };
     }
+    
+    // Try old format: DD.MM.YY, HH:MM - Sender: Message
+    match = line.match(MESSAGE_PATTERN_OLD);
+    if (match) {
+        return {
+            date: match[1],
+            time: match[2] + ':00', // Add seconds for consistency
+            sender: match[3],
+            content: match[4]
+        };
+    }
+    
     return null;
 }
 
