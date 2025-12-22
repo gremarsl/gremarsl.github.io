@@ -9,6 +9,11 @@
 </head>
 <body>
 <nav class="navmenu">
+    <button class="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
     <div class="navlink">
         <a href="../index.html">Home</a>
         <a href="../housing.html">Housing Calculator</a>
@@ -111,5 +116,18 @@
 <script src="parser.js"></script>
 <script src="charts.js"></script>
 <script src="app.js"></script>
+<script>
+// Hamburger menu toggle
+document.querySelector('.hamburger').addEventListener('click', function() {
+    this.classList.toggle('active');
+    document.querySelector('.navlink').classList.toggle('active');
+});
+document.querySelectorAll('.navlink a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.querySelector('.hamburger').classList.remove('active');
+        document.querySelector('.navlink').classList.remove('active');
+    });
+});
+</script>
 </body>
 </html>
