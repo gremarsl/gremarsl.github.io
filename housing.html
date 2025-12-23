@@ -72,13 +72,13 @@ function updateMiete() {
   }
 
   document.getElementById('miete-kaltmiete-in-n-jahren').innerHTML =
-    `Cold Rent in ${zeitraum} years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {minimumFractionDigits: 2},{maximumFractionDigits: 2})} €`;
+    `Cold Rent in ${zeitraum} years: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${kaltmiete_in_n_jahren.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €`;
 
   document.getElementById('miete-ohne-steigerung').innerHTML =
     `Total Rent Payments over ${zeitraum} years:  ${miete_ohne_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2})} €`;
 
   document.getElementById('miete-mit-steigerung').innerHTML =
-    `Total Rent Payments over ${zeitraum} years <br> with ${(average_rent_increase_rate*100).toFixed(1)}% increase per year: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2}, {maximumFractionDigits: 2})} €`;
+    `Total Rent Payments over ${zeitraum} years <br> with ${(average_rent_increase_rate*100).toFixed(1)}% increase per year: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €`;
 }
 
 // Initial output
@@ -194,17 +194,23 @@ document.getElementById('years').addEventListener('input', simulateLoan);
 
     const vervielfaeltiger = cold_rent_per_month > 0 ? (housing_cost / (cold_rent_per_month * 12)).toFixed(2) : '—';
     document.getElementById('vervielfaeltiger').innerHTML = `Multiplier Index (Purchase Price / Annual Cold Rent):&nbsp;&nbsp;${vervielfaeltiger}`;
-    // Update dynamic output
-    document.getElementById('index-base').textContent = housing_cost.toLocaleString('de-DE');
-    document.getElementById('income-base').textContent = netto_income_per_anno.toLocaleString('de-DE');
-    document.getElementById('index-value').textContent = index;
-    document.getElementById('rent-base').textContent = cold_rent_per_month.toLocaleString('de-DE');
-    document.getElementById('vervielfaeltiger-value').textContent = vervielfaeltiger;
+    // Update dynamic output (check if elements exist first)
+    const indexBase = document.getElementById('index-base');
+    const incomeBase = document.getElementById('income-base');
+    const indexValue = document.getElementById('index-value');
+    const indexValueYears = document.getElementById('index-value-years');
+    const rentBase = document.getElementById('rent-base');
+    const vervielfaeltigerValue = document.getElementById('vervielfaeltiger-value');
+    const vervielfaeltigerValueYears = document.getElementById('vervielfaeltiger-value-years');
     
+    if (indexBase) indexBase.textContent = housing_cost.toLocaleString('de-DE');
+    if (incomeBase) incomeBase.textContent = netto_income_per_anno.toLocaleString('de-DE');
+    if (indexValue) indexValue.textContent = index;
+    if (indexValueYears) indexValueYears.textContent = index;
+    if (rentBase) rentBase.textContent = cold_rent_per_month.toLocaleString('de-DE');
+    if (vervielfaeltigerValue) vervielfaeltigerValue.textContent = vervielfaeltiger;
+    if (vervielfaeltigerValueYears) vervielfaeltigerValueYears.textContent = vervielfaeltiger;
   }
-
-  // Initial output
-  updateOutput();
 
   // Add event listeners
   document.getElementById('housing_cost').addEventListener('input', updateOutput);
@@ -214,10 +220,17 @@ document.getElementById('years').addEventListener('input', simulateLoan);
 
 
 <p>
-  With a purchase price of <span id="index-base">500,000</span> € and an annual net income of <span id="income-base">20,000</span> €, the price-income index is <span id="index-value">25.00</span>.<br>
+  With a purchase price of <span id="index-base">500,000</span> € and an annual net income of <span id="income-base">20,000</span> €, the price-income index is <span id="index-value">25.00</span>.<br>
   The multiplier index is <span id="vervielfaeltiger-value">41.67</span>.<br>
-  So you would need <span id="index-value">25.00</span> years of net income to cover the purchase price, or <span id="vervielfaeltiger-value">41.67</span> years of cold rent to cover the purchase price.
+  So you would need <span id="index-value-years">25.00</span> years of net income to cover the purchase price, or <span id="vervielfaeltiger-value-years">41.67</span> years of cold rent to cover the purchase price.
 </p>
+
+<script>
+  // Run initial update after DOM is ready
+  document.addEventListener('DOMContentLoaded', updateOutput);
+  // Also run immediately in case DOM is already loaded
+  if (document.readyState !== 'loading') updateOutput();
+</script>
 
 <!-- Replace your <p>...</p> with this: -->
 <div class="info-box">

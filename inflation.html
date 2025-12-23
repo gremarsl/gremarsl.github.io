@@ -112,7 +112,13 @@ function updateChart() {
   if (startIdx > endIdx) return;
 
   // Calculate devaluation for the full period
-  const { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base, startIdx, endIdx);
+  let { devaluation_ger, devaluation_us, devaluation_swiss } = calculateDevaluation(base, startIdx, endIdx);
+  
+  // Ensure data arrays match label count (slice off extra element)
+  const labelCount = endIdx - startIdx + 1;
+  devaluation_ger = devaluation_ger.slice(0, labelCount);
+  devaluation_us = devaluation_us.slice(0, labelCount);
+  devaluation_swiss = devaluation_swiss.slice(0, labelCount);
 
   const ctx1 = document.getElementById('devaluationChart1').getContext('2d');
   if (chart1) chart1.destroy();
@@ -188,13 +194,20 @@ function updateChart() {
   document.getElementById('final-value').textContent = devaluation_ger[devaluation_ger.length - 1].toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
 
-// Initial anzeigen
-populateYearSelects1();
-updateChart();
-// Event Listener für das Eingabefeld
-document.getElementById('base_input1').addEventListener('input', updateChart);
-document.getElementById('start_year_select1').addEventListener('change', updateChart);
-document.getElementById('end_year_select1').addEventListener('change', updateChart);
+// Initial anzeigen - wrap in DOMContentLoaded for reliability
+function initChart1() {
+  populateYearSelects1();
+  updateChart();
+  // Event Listener für das Eingabefeld
+  document.getElementById('base_input1').addEventListener('input', updateChart);
+  document.getElementById('start_year_select1').addEventListener('change', updateChart);
+  document.getElementById('end_year_select1').addEventListener('change', updateChart);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initChart1);
+} else {
+  initChart1();
+}
 
 </script>
 
@@ -298,7 +311,13 @@ function updateChart2() {
     return;
   }
 
-  const { deval_ger, deval_us, deval_swiss } = calculateDevaluation2(base, startIdx, endIdx);
+  let { deval_ger, deval_us, deval_swiss } = calculateDevaluation2(base, startIdx, endIdx);
+  
+  // Ensure data arrays match label count (slice off extra element)
+  const labelCount = endIdx - startIdx + 1;
+  deval_ger = deval_ger.slice(0, labelCount);
+  deval_us = deval_us.slice(0, labelCount);
+  deval_swiss = deval_swiss.slice(0, labelCount);
 
   const ctx2 = document.getElementById('devaluationChart2').getContext('2d');
   if (chart2) chart2.destroy();
@@ -377,12 +396,19 @@ function updateChart2() {
   document.getElementById('loss-value-2').textContent = (startValue - finalValue).toLocaleString('de-DE', {maximumFractionDigits: 0});
 }
 
-// Initialize
-populateYearSelects();
-updateChart2();
-document.getElementById('base_input2').addEventListener('input', updateChart2);
-document.getElementById('start_year_select').addEventListener('change', updateChart2);
-document.getElementById('end_year_select').addEventListener('change', updateChart2);
+// Initialize - wrap in DOMContentLoaded for reliability
+function initChart2() {
+  populateYearSelects();
+  updateChart2();
+  document.getElementById('base_input2').addEventListener('input', updateChart2);
+  document.getElementById('start_year_select').addEventListener('change', updateChart2);
+  document.getElementById('end_year_select').addEventListener('change', updateChart2);
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initChart2);
+} else {
+  initChart2();
+}
 </script>
 
 <!-- STOP INSERT INFLATION 2  -->
