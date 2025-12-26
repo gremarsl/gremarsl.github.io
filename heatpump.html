@@ -1,0 +1,187 @@
+<link rel="stylesheet" href="style.css">
+<!-- Navigation -->
+<nav class="navmenu">
+    <div class="navlink">
+        <a href="index.html">Home</a>
+        <a href="housing.html">Housing Calculator</a>
+        <a href="inflation.html">Inflation Calculator</a>
+        <a href="tax.html">Bruttoverdienst-Analyse</a>
+        <a href="social.html">Social Security Contributions</a>
+        <a href="heatpump.html" class="current">Heat Pump Calculator</a>
+        <a href="fpga.html">Development of a Runtime Measurement System</a>
+    </div>
+</nav>
+
+<h2>Heat Pump vs Gas Heating Calculator</h2>
+<p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
+<script>
+  const lastUpdate = new Date(document.lastModified);
+  document.getElementById('last-updated').textContent =
+    "Last updated: " + lastUpdate.toLocaleDateString();
+</script>
+
+<p>
+  This calculator helps you compare the costs of a heat pump vs. a gas heating system.<br>
+  Enter your values to calculate the annual costs and payback time for a heat pump investment.
+</p>
+
+<!-- Heat Pump Investment Section -->
+<h3>Heat Pump Investment</h3>
+<label>
+  Heat pump investment [€]:<br>
+  <input type="number" id="heat_pump_investment" value="20000" min="0" step="100">
+</label><br>
+<label>
+  Subsidy / Grant [€]:<br>
+  <input type="number" id="heat_pump_subsidy" value="5000" min="0" step="100">
+</label>
+<br><br>
+
+<!-- Gas Heating Section -->
+<h3>Gas Heating System</h3>
+<label>
+  Gas heating investment [€]:<br>
+  <input type="number" id="gas_investment" value="5000" min="0" step="100">
+</label><br>
+<label>
+  Gas heating efficiency [%]:<br>
+  <input type="number" id="gas_efficiency" value="80" min="50" max="100" step="1">
+</label><br>
+<label>
+  Annual gas consumption [kWh]:<br>
+  <input type="number" id="gas_consumption" value="4000" min="0" step="100">
+</label><br>
+<label>
+  Gas price [€/kWh]:<br>
+  <input type="number" id="gas_price" value="0.11" min="0" step="0.01">
+</label>
+<br><br>
+
+<!-- Heat Pump Operating Costs Section -->
+<h3>Heat Pump Operating Costs</h3>
+<label>
+  Electricity price [€/kWh]:<br>
+  <input type="number" id="electricity_price" value="0.35" min="0" step="0.01">
+</label><br>
+<label>
+  Heat pump COP (Jahresarbeitszahl JAZ):<br>
+  <input type="number" id="heat_pump_cop" value="3.5" min="1" max="6" step="0.1">
+</label>
+<br><br>
+
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+<!-- Results Section -->
+<h3>Results</h3>
+<div id="gas-costs"></div>
+<div id="heat-pump-electricity"></div>
+<div id="heat-pump-costs"></div>
+<div id="cost-savings"></div>
+<div id="net-investment"></div>
+<div id="payback-time"></div>
+
+<script>
+function updateHeatPumpCalculation() {
+  // Get input values
+  const heatPumpInvestment = Number(document.getElementById('heat_pump_investment').value);
+  const heatPumpSubsidy = Number(document.getElementById('heat_pump_subsidy').value);
+  const gasInvestment = Number(document.getElementById('gas_investment').value);
+  const gasEfficiency = Number(document.getElementById('gas_efficiency').value) / 100;
+  const gasConsumption = Number(document.getElementById('gas_consumption').value);
+  const gasPrice = Number(document.getElementById('gas_price').value);
+  const electricityPrice = Number(document.getElementById('electricity_price').value);
+  const heatPumpCOP = Number(document.getElementById('heat_pump_cop').value);
+
+  // Calculate annual gas costs
+  const gasHeatingCostPerYear = gasConsumption * gasPrice;
+
+  // Calculate heat pump electricity consumption
+  const heatPumpElectricityConsumption = gasConsumption * gasEfficiency / heatPumpCOP;
+
+  // Calculate annual heat pump costs
+  const heatPumpCostPerYear = heatPumpElectricityConsumption * electricityPrice;
+
+  // Calculate cost savings
+  const costSavingPerYear = gasHeatingCostPerYear - heatPumpCostPerYear;
+
+  // Calculate net investment (heat pump vs gas)
+  const netInvestmentHeatPump = heatPumpInvestment - heatPumpSubsidy;
+  const investmentDifference = netInvestmentHeatPump - gasInvestment;
+
+  // Calculate payback time
+  let paybackText = '';
+  if (costSavingPerYear > 0) {
+    const paybackTime = investmentDifference / costSavingPerYear;
+    paybackText = `${paybackTime.toLocaleString('de-DE', {minimumFractionDigits: 1, maximumFractionDigits: 1})} years`;
+  } else if (costSavingPerYear < 0) {
+    paybackText = 'Heat pump is more expensive to operate!';
+  } else {
+    paybackText = 'No savings';
+  }
+
+  // Update output
+  document.getElementById('gas-costs').innerHTML =
+    `Annual gas heating costs: <b>${gasHeatingCostPerYear.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</b>`;
+
+  document.getElementById('heat-pump-electricity').innerHTML =
+    `Heat pump electricity consumption: <b>${heatPumpElectricityConsumption.toLocaleString('de-DE', {minimumFractionDigits: 0, maximumFractionDigits: 0})} kWh/year</b>`;
+
+  document.getElementById('heat-pump-costs').innerHTML =
+    `Annual heat pump electricity costs: <b>${heatPumpCostPerYear.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</b>`;
+
+  document.getElementById('cost-savings').innerHTML =
+    `<span style="font-size:1.2rem;">Annual cost savings: <b>${costSavingPerYear.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</b></span>`;
+
+  document.getElementById('net-investment').innerHTML =
+    `Net investment (Heat pump - Subsidy - Gas investment): <b>${investmentDifference.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €</b>`;
+
+  document.getElementById('payback-time').innerHTML =
+    `<span style="font-size:1.5rem;"><b>Payback time: ${paybackText}</b></span>`;
+}
+
+// Initial calculation
+updateHeatPumpCalculation();
+
+// Event listeners for live update
+document.getElementById('heat_pump_investment').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('heat_pump_subsidy').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('gas_investment').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('gas_efficiency').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('gas_consumption').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('gas_price').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('electricity_price').addEventListener('input', updateHeatPumpCalculation);
+document.getElementById('heat_pump_cop').addEventListener('input', updateHeatPumpCalculation);
+</script>
+
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+<div class="info-box">
+  <span class="info-icon" aria-label="Info">ℹ️</span>
+  <div>
+    <strong>Understanding the parameters</strong><br>
+    <ul>
+      <li><b>Gas efficiency (Heizwertnutzungsgrad):</b> How efficiently your gas boiler converts gas to heat. Typically 80-95%.</li>
+      <li><b>Heat pump COP (Jahresarbeitszahl):</b> Coefficient of Performance - how much heat the pump produces per unit of electricity. A COP of 3.5 means 3.5 kWh heat per 1 kWh electricity.</li>
+      <li><b>Gas consumption:</b> Your annual gas consumption for heating (check your gas bill).</li>
+    </ul>
+  </div>
+</div>
+
+<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+
+<div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
+  <h3 style="margin-top:0;">Support this project</h3>
+  <p style="font-size:1.15rem; margin-bottom:1.2em;">
+    This website is a private, non-commercial project.<br>
+    If the calculations have helped you or you want to support the development,<br>
+    I would be happy about a small donation via PayPal!
+  </p>
+
+  <form action="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" method="post" target="_blank">
+    <input type="hidden" name="business" value="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" />
+    <input type="hidden" name="currency_code" value="EUR" />
+    <button type="submit" style="background:#0070ba;color:#fff;border:none;padding:0.7em 2em;border-radius:0.4em;font-size:1.1rem;cursor:pointer;">
+      Support via PayPal
+    </button>
+  </form>
+</div>
