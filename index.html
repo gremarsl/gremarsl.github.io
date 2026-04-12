@@ -1,75 +1,85 @@
 <!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="style.css">
-<nav class="navmenu">
-    <div class="navlink">
-        <a href="index.html" class="current">Home</a>
-        <a href="housing.html">Housing Calculator</a>
-        <a href="inflation.html">Inflation Calculator</a>
-        <a href="heatpump.html">Heat Pump Calculator</a>
-        <a href="fpga.html">Development of a Runtime Measurement System</a>
-    </div>
-</nav>
+<html lang="en">
 
-  <body>
-    <h1>Welcome to my little, basic website!</h1>
-    <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
-<script>
-  // Set this to your actual last update date, or use new Date() for today
-  const lastUpdate = new Date(document.lastModified);
-  document.getElementById('last-updated').textContent =
-    "Last updated: " + lastUpdate.toLocaleDateString();
-</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Marcel Utermann – Embedded Systems Engineer. Projects in FPGA design, runtime analysis, and engineering tools.">
+    <meta name="author" content="Marcel Utermann">
+    <title>Marcel Utermann – Embedded Systems Engineer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <p>
-      I created this little page to help me & you to explore and compare different renting or buying property scenarios.
-      With these simple calculators my goal is to help us get a better feeling for the effects of inflation and time on the currencies. And hopefully make better decisions.
-    </p>
-    <p>
-      <a href="housing.html"><strong>Housing Calculator</strong></a>.
-    </p>
-    <p>
-      <a href="inflation.html"><strong>Inflation Calculator</strong></a>.
-    </p>
-    <p>
-      <a href="heatpump.html"><strong>Heat Pump vs Gas Heating Calculator</strong></a>.
-    </p>
-    <p>
-      <a href="fpga.html"><strong>Development of a Runtime Measurement System</strong></a>.
-    </p>
-  </body>
+<body>
+    <header>
+        <nav class="navmenu">
+            <div class="navlink">
+                <a href="index.html" class="current">Home</a>
+                <a href="fpga.html">Development of a Runtime Measurement System</a>
+                <a href="housing.html">Housing Calculator</a>
+                <a href="inflation.html">Inflation Calculator</a>
+                <a href="heatpump.html">Heat Pump Calculator</a>
+            </div>
+        </nav>
+    </header>
 
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+    <main>
+        <h1>Marcel Utermann</h1>
+        <p style="font-size:1.1rem; color:#555; margin-bottom:0.5em;">Senior Embedded Systems Engineer | Technical Lead</p>
+        <p id="last-updated" style="font-size:1rem; color:#888; margin-top:0.5em;"></p>
+        <script>
+            const lastUpdate = new Date(document.lastModified);
+            document.getElementById('last-updated').textContent =
+                "Last updated: " + lastUpdate.toLocaleDateString();
+        </script>
 
-<!-- John Gall Quote Section -->
-<div style="background: #f8f9fa; border-left: 4px solid #1b5e20; padding: 1em 1.5em; margin: 2em 0; border-radius: 0.5em; font-style: italic;">
-    <p style="margin: 0; font-size: 1.1em; line-height: 1.4; color: #2c3e50;">
-        "A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works and cannot be patched up to make it work. You have to start over with a working simple system."
-      </p>
-      <p style="margin: 0.5em 0 0 0; font-size: 0.9em; color: #666; font-style: normal;">
-        — John Gall
-      </p>
-    </div>
-    
-<hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-<div style="max-width: 500px; margin: 2em auto; padding: 1.5em; background: #f7fafd; border-radius: 1em; box-shadow: 0 2px 8px #0001; text-align: center;">
-  <h3 style="margin-top:0;">Support this project</h3>
-  <p style="font-size:1.15rem; margin-bottom:1.2em;">
-    This website is a private, non-commercial project.<br>
-    If the calculations have helped you or you want to support the development,<br>
-    I would be happy about a small donation via PayPal!
-  </p>
+        <!-- Featured Project -->
+        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+        <h2>Featured Project</h2>
+        <p>
+            <a href="fpga.html"><strong>Development of a Runtime Measurement System</strong></a><br>
+            A custom FPGA-based system for non-intrusive, high-resolution runtime measurement on embedded targets.
+            Designed to replace software-based timing instrumentation with an external hardware observer —
+            enabling continuous performance monitoring without altering the system under test.
+        </p>
 
-  <form action="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" method="post" target="_blank">
-    <input type="hidden" name="business" value="https://www.paypal.com/donate/?hosted_button_id=7SZZP5BPYEBMN" />
-    <input type="hidden" name="currency_code" value="EUR" />
-    <button type="submit" style="background:#0070ba;color:#fff;border:none;padding:0.7em 2em;border-radius:0.4em;font-size:1.1rem;cursor:pointer;">
-      Support via PayPal
-    </button>
-  </form>
-</div>
+        <!-- Side Projects -->
+        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+        <h2>Side Projects</h2>
+        <p>
+            Simple calculators to explore financial and energy scenarios.
+        </p>
+        <p>
+            <a href="housing.html"><strong>Housing Calculator</strong></a> —
+            Compare renting vs. buying property scenarios.
+        </p>
+        <p>
+            <a href="inflation.html"><strong>Inflation Calculator</strong></a> —
+            Visualize purchasing power over time across currencies.
+        </p>
+        <p>
+            <a href="heatpump.html"><strong>Heat Pump vs Gas Heating Calculator</strong></a> —
+            Compare long-term costs of heat pump vs. gas heating.
+        </p>
 
-<div style="text-align:center; margin: 1.5em 0; color: #555;">
-  Questions or feedback?
-  <a href="https://github.com/gremarsl/gremarsl.github.io/issues">Open a GitHub Issue</a>
-</div>
+        <!-- John Gall Quote Section -->
+        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
+        <div style="background: #f8f9fa; border-left: 4px solid #1b5e20; padding: 1em 1.5em; margin: 2em 0; border-radius: 0.5em; font-style: italic;">
+            <p style="margin: 0; font-size: 1.1em; line-height: 1.4; color: #2c3e50;">
+                "A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works and cannot be patched up to make it work. You have to start over with a working simple system."
+            </p>
+            <p style="margin: 0.5em 0 0 0; font-size: 0.9em; color: #666; font-style: normal;">
+                — John Gall, <em>The Systems Bible</em>
+            </p>
+            <p style="margin: 0.8em 0 0 0; font-size: 0.95em; color: #444; font-style: normal;">
+                This principle is at the core of how I approach embedded systems development. Start with something that works on real hardware, measure it, then iterate. The FPGA project above is a direct application of this idea — a simple, working measurement system that grew from a clear, minimal design.
+            </p>
+        </div>
+    </main>
+
+    <footer style="text-align:center; margin: 1.5em 0; color: #555;">
+        Questions or feedback?
+        <a href="https://github.com/gremarsl/gremarsl.github.io/issues">Open a GitHub Issue</a>
+    </footer>
+</body>
+</html>
