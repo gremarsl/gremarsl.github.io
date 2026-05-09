@@ -41,15 +41,18 @@
 </p>
 <label>
   Monthly rent [€]:<br>
-  <input type="number" id="miete_monat" value="1000" min="0" step="1">
+  <input type="range" id="miete_monat_slider" value="1000" min="0" max="10000" step="1">
+  <input type="number" id="miete_monat" value="1000" min="0" step="1" style="width:8em;">
 </label><br>
 <label>
   Period [years]:<br>
-  <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1">
+  <input type="range" id="miete_zeitraum_slider" value="10" min="1" max="50" step="1">
+  <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1" style="width:6em;">
 </label><br>
 <label>
   Rent increase per year [%]:<br>
-  <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1">
+  <input type="range" id="miete_steigerung_slider" value="0" min="0" max="10" step="0.1">
+  <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1" style="width:6em;">
 </label>
 <br><br>
 <div id="miete-kaltmiete-in-n-jahren"></div>
@@ -89,13 +92,32 @@ function updateMiete() {
     `Total Rent Payments over ${zeitraum} years <br> with ${(average_rent_increase_rate*100).toFixed(1)}% increase per year: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${miete_mit_steigerung.toLocaleString('de-DE', {minimumFractionDigits: 2, maximumFractionDigits: 2})} €`;
 }
 
-// Initial output
+function syncRentInputs() {
+  const monat = document.getElementById('miete_monat').value;
+  document.getElementById('miete_monat_slider').value = monat;
+  const zeitraum = document.getElementById('miete_zeitraum').value;
+  document.getElementById('miete_zeitraum_slider').value = zeitraum;
+  const steigerung = document.getElementById('miete_steigerung').value;
+  document.getElementById('miete_steigerung_slider').value = steigerung;
+}
+
+syncRentInputs();
 updateMiete();
 
-// Event Listener
-document.getElementById('miete_zeitraum').addEventListener('input', updateMiete);
-document.getElementById('miete_steigerung').addEventListener('input', updateMiete);
-document.getElementById('miete_monat').addEventListener('input', updateMiete);
+['miete_monat','miete_zeitraum','miete_steigerung'].forEach(id => {
+  const input = document.getElementById(id);
+  const slider = document.getElementById(`${id}_slider`);
+  if (input && slider) {
+    input.addEventListener('input', () => {
+      slider.value = input.value;
+      updateMiete();
+    });
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      updateMiete();
+    });
+  }
+});
 </script>
 
 <!-- Visuelle Trennung -->
@@ -105,19 +127,23 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <h2>Loan Repayment Simulation</h2>
 <label>
   Credit amount [€]:<br>
-  <input type="number" id="credit" value="5000" min="0" step="100">
+  <input type="range" id="credit_slider" value="5000" min="0" max="1000000" step="100">
+  <input type="number" id="credit" value="5000" min="0" step="100" style="width:8em;">
 </label><br>
 <label>
   Interest per year [%]:<br>
-  <input type="number" id="interest" value="1" min="0" step="0.01">
+  <input type="range" id="interest_slider" value="1" min="0" max="20" step="0.01">
+  <input type="number" id="interest" value="1" min="0" step="0.01" style="width:6em;">
 </label><br>
 <label>
   Repayment per month [€]:<br>
-  <input type="number" id="repayment" value="1000" min="1" step="1">
+  <input type="range" id="repayment_slider" value="1000" min="1" max="100000" step="1">
+  <input type="number" id="repayment" value="1000" min="1" step="1" style="width:8em;">
 </label><br>
 <label>
   Period [years]:<br>
-  <input type="number" id="years" value="4" min="1" step="1">
+  <input type="range" id="years_slider" value="4" min="1" max="50" step="1">
+  <input type="number" id="years" value="4" min="1" step="1" style="width:6em;">
 </label><br><br>
 <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
 <pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
@@ -159,14 +185,31 @@ function simulateLoan() {
   document.getElementById('loan-log').textContent = log;
 }
 
-// Initial output
-simulateLoan();
+function syncLoanInputs() {
+  document.getElementById('credit_slider').value = document.getElementById('credit').value;
+  document.getElementById('interest_slider').value = document.getElementById('interest').value;
+  document.getElementById('repayment_slider').value = document.getElementById('repayment').value;
+  document.getElementById('years_slider').value = document.getElementById('years').value;
+}
 
-// Event listeners for live update
-document.getElementById('credit').addEventListener('input', simulateLoan);
-document.getElementById('interest').addEventListener('input', simulateLoan);
-document.getElementById('repayment').addEventListener('input', simulateLoan);
-document.getElementById('years').addEventListener('input', simulateLoan);
+syncLoanInputs();
+
+['credit','interest','repayment','years'].forEach(id => {
+  const input = document.getElementById(id);
+  const slider = document.getElementById(`${id}_slider`);
+  if (input && slider) {
+    input.addEventListener('input', () => {
+      slider.value = input.value;
+      simulateLoan();
+    });
+    slider.addEventListener('input', () => {
+      input.value = slider.value;
+      simulateLoan();
+    });
+  }
+});
+
+simulateLoan();
 </script>
 
 
@@ -176,15 +219,18 @@ document.getElementById('years').addEventListener('input', simulateLoan);
 <h3>Calculation of the Price-Income Index & the Multiplier Index - Without Dynamics</h3>
 <label>
   Purchase Price of the Property [€]:<br>
-  <input type="number" id="housing_cost" value="500000" min="0" step="1" style="width:8em;">
+  <input type="range" id="housing_cost_slider" value="500000" min="0" max="2000000" step="1000">
+  <input type="number" id="housing_cost" value="500000" min="0" step="1000" style="width:8em;">
 </label><br>
 <label>
   Annual Net Income [€]:<br>
-  <input type="number" id="netto_income_per_anno" value="20000" min="0" step="1" style="width:8em;">
+  <input type="range" id="netto_income_per_anno_slider" value="20000" min="0" max="500000" step="1000">
+  <input type="number" id="netto_income_per_anno" value="20000" min="0" step="1000" style="width:8em;">
 </label><br>
 <label>
   Monthly Cold Rent [€]:<br>
-  <input type="number" id="cold_rent_per_month" value="1000" min="0" step="1" style="width:10em;">
+  <input type="range" id="cold_rent_per_month_slider" value="1000" min="0" max="10000" step="10">
+  <input type="number" id="cold_rent_per_month" value="1000" min="0" step="10" style="width:8em;">
 </label><br><br>
 <div id="finanz-parameter"></div>
 <div id="index"></div>
@@ -219,6 +265,29 @@ document.getElementById('years').addEventListener('input', simulateLoan);
     if (vervielfaeltigerValue) vervielfaeltigerValue.textContent = vervielfaeltiger;
     if (vervielfaeltigerValueYears) vervielfaeltigerValueYears.textContent = vervielfaeltiger;
   }
+
+  function syncIndexInputs() {
+    document.getElementById('housing_cost_slider').value = document.getElementById('housing_cost').value;
+    document.getElementById('netto_income_per_anno_slider').value = document.getElementById('netto_income_per_anno').value;
+    document.getElementById('cold_rent_per_month_slider').value = document.getElementById('cold_rent_per_month').value;
+  }
+
+  syncIndexInputs();
+
+  ['housing_cost','netto_income_per_anno','cold_rent_per_month'].forEach(id => {
+    const input = document.getElementById(id);
+    const slider = document.getElementById(`${id}_slider`);
+    if (input && slider) {
+      input.addEventListener('input', () => {
+        slider.value = input.value;
+        updateOutput();
+      });
+      slider.addEventListener('input', () => {
+        input.value = slider.value;
+        updateOutput();
+      });
+    }
+  });
 
   // Add event listeners
   document.getElementById('housing_cost').addEventListener('input', updateOutput);
