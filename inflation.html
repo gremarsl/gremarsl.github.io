@@ -43,15 +43,19 @@
 <h3 style="text-align:left;">Plot 1 - Purchasing power - Inflation adjusted</h3>
 <label>
   Starting value [e.g. €]:<br>
-  <input type="number" id="base_input1" value="1000" min="1" step="1">
+  <input type="range" id="base_input1" value="1000" min="1" max="1000000" step="1">
+  <input type="number" id="base_number1" value="1000" min="1" max="100000000" step="1" style="width: 800px;">
+  <span id="base_value_display1">1000</span>
 </label>
 <label>
   Start year:<br>
-  <select id="start_year_select1"></select>
+  <input type="range" id="start_year_select1" value="0" min="0" max="22" step="1">
+  <span id="start_year_display1">2002</span>
 </label>
 <label>
   End year:<br>
-  <select id="end_year_select1"></select>
+  <input type="range" id="end_year_select1" value="22" min="0" max="22" step="1">
+  <span id="end_year_display1">2024</span>
 </label>
 <p>
   How to read this plot:<br>
@@ -65,26 +69,18 @@
 </div>
 
 <script>
-function populateYearSelects1() {
-  const startSelect = document.getElementById('start_year_select1');
-  const endSelect = document.getElementById('end_year_select1');
-  startSelect.innerHTML = '';
-  endSelect.innerHTML = '';
-  years.forEach((year, idx) => {
-    const opt1 = document.createElement('option');
-    opt1.value = idx;
-    opt1.textContent = year;
-    startSelect.appendChild(opt1);
+function updateDisplays1() {
+  const base = document.getElementById('base_input1').value;
+  document.getElementById('base_value_display1').textContent = base;
+  document.getElementById('base_number1').value = base;
 
-    const opt2 = document.createElement('option');
-    opt2.value = idx;
-    opt2.textContent = year;
-    endSelect.appendChild(opt2);
-  });
-  // Default: first and last year
-  startSelect.value = 0;
-  endSelect.value = years.length - 1;
+  const startIdx = document.getElementById('start_year_select1').value;
+  document.getElementById('start_year_display1').textContent = years[startIdx];
+
+  const endIdx = document.getElementById('end_year_select1').value;
+  document.getElementById('end_year_display1').textContent = years[endIdx];
 }
+
 function calculateDevaluation(base, startIdx, endIdx) {
     // 1. Slice the inflation rates for the selected period
   const inflation_ger = inflation_rate_germany.slice(startIdx, endIdx + 1);
@@ -204,12 +200,16 @@ function updateChart() {
 
 // Initial anzeigen - wrap in DOMContentLoaded for reliability
 function initChart1() {
-  populateYearSelects1();
+  updateDisplays1();
   updateChart();
   // Event Listener für das Eingabefeld
-  document.getElementById('base_input1').addEventListener('input', updateChart);
-  document.getElementById('start_year_select1').addEventListener('change', updateChart);
-  document.getElementById('end_year_select1').addEventListener('change', updateChart);
+  document.getElementById('base_input1').addEventListener('input', () => { updateDisplays1(); updateChart(); });
+  document.getElementById('base_number1').addEventListener('input', () => {
+    document.getElementById('base_input1').value = document.getElementById('base_number1').value;
+    updateDisplays1(); updateChart();
+  });
+  document.getElementById('start_year_select1').addEventListener('input', () => { updateDisplays1(); updateChart(); });
+  document.getElementById('end_year_select1').addEventListener('input', () => { updateDisplays1(); updateChart(); });
 }
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initChart1);
@@ -229,15 +229,19 @@ if (document.readyState === 'loading') {
 <h3 style="text-align:center;">Plot 2 - Purchasing power loss</h3>
 <label>
   Starting value [e.g. €]:<br>
-  <input type="number" id="base_input2" value="1000" min="1" step="1" style="width:8em;">
+  <input type="range" id="base_input2" value="1000" min="1" max="1000000" step="1">
+  <input type="number" id="base_number2" value="1000" min="1" max="100000000" step="1" style="width: 800px;">
+  <span id="base_value_display2">1000</span>
 </label>
 <label>
   Start year:<br>
-  <select id="start_year_select"></select>
+  <input type="range" id="start_year_select" value="0" min="0" max="22" step="1">
+  <span id="start_year_display">2002</span>
 </label>
 <label>
   End year:<br>
-  <select id="end_year_select"></select>
+  <input type="range" id="end_year_select" value="22" min="0" max="22" step="1">
+  <span id="end_year_display">2024</span>
 </label>
 <p>
   How to read this plot:<br>
@@ -252,27 +256,18 @@ if (document.readyState === 'loading') {
 
 <script>
 
-  // Populate year selects
-function populateYearSelects() {
-  const startSelect = document.getElementById('start_year_select');
-  const endSelect = document.getElementById('end_year_select');
-  startSelect.innerHTML = '';
-  endSelect.innerHTML = '';
-  years.forEach((year, idx) => {
-    const opt1 = document.createElement('option');
-    opt1.value = idx;
-    opt1.textContent = year;
-    startSelect.appendChild(opt1);
+function updateDisplays2() {
+  const base = document.getElementById('base_input2').value;
+  document.getElementById('base_value_display2').textContent = base;
+  document.getElementById('base_number2').value = base;
 
-    const opt2 = document.createElement('option');
-    opt2.value = idx;
-    opt2.textContent = year;
-    endSelect.appendChild(opt2);
-  });
-  // Default: first and last year
-  startSelect.value = 0;
-  endSelect.value = years.length - 1;
+  const startIdx = document.getElementById('start_year_select').value;
+  document.getElementById('start_year_display').textContent = years[startIdx];
+
+  const endIdx = document.getElementById('end_year_select').value;
+  document.getElementById('end_year_display').textContent = years[endIdx];
 }
+
 function calculateDevaluation2(base, startIdx, endIdx) {
   // 1. Slice the inflation rates for the selected period
   const inflation_ger = inflation_rate_germany.slice(startIdx, endIdx + 1);
@@ -406,11 +401,15 @@ function updateChart2() {
 
 // Initialize - wrap in DOMContentLoaded for reliability
 function initChart2() {
-  populateYearSelects();
+  updateDisplays2();
   updateChart2();
-  document.getElementById('base_input2').addEventListener('input', updateChart2);
-  document.getElementById('start_year_select').addEventListener('change', updateChart2);
-  document.getElementById('end_year_select').addEventListener('change', updateChart2);
+  document.getElementById('base_input2').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+  document.getElementById('base_number2').addEventListener('input', () => {
+    document.getElementById('base_input2').value = document.getElementById('base_number2').value;
+    updateDisplays2(); updateChart2();
+  });
+  document.getElementById('start_year_select').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+  document.getElementById('end_year_select').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
 }
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initChart2);

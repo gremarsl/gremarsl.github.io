@@ -10,13 +10,13 @@
 
 <!-- Navigation -->
 <nav class="navmenu">
-    <div class="navlink">
-        <a href="index.html">Home</a>
-        <a href="housing.html" class="current">Housing Calculator</a>
-        <a href="inflation.html">Inflation Calculator</a>
-        <a href="heatpump.html">Heat Pump Calculator</a>
-        <a href="fpga.html">Development of a Runtime Measurement System</a>
-    </div>
+  <div class="navlink">
+    <a href="index.html">Home</a>
+    <a href="housing.html" class="current">Housing Calculator</a>
+    <a href="inflation.html">Inflation Calculator</a>
+    <a href="heatpump.html">Heat Pump Calculator</a>
+    <a href="fpga.html">Development of a Runtime Measurement System</a>
+  </div>
 </nav>
 
 <h2>Rent-/ Purchase- and Loan Calculator</h2>
@@ -35,26 +35,26 @@
 
 <!-- Gesamte Mietzahlungen über X Jahre (mit und ohne Steigerung) -->
 
-  <h3>Total Rent Payments</h3>
-  <p>
-    This calculation shows the total rent payments over a certain period,<br> both without and with annual rent increases.
-  </p>
-  <label>
-    Monthly rent [€]:<br>
-    <input type="number" id="miete_monat" value="1000" min="0" step="1">
-  </label><br>
-  <label>
-    Period [years]:<br>
-    <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1">
-  </label><br>
-  <label>
-    Rent increase per year [%]:<br>
-    <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1">
-  </label>
-  <br><br>
-  <div id="miete-kaltmiete-in-n-jahren"></div>
-  <div id="miete-ohne-steigerung"></div>
-  <div id="miete-mit-steigerung"></div>
+<h3>Total Rent Payments</h3>
+<p>
+  This calculation shows the total rent payments over a certain period,<br> both without and with annual rent increases.
+</p>
+<label>
+  Monthly rent [€]:<br>
+  <input type="number" id="miete_monat" value="1000" min="0" step="1">
+</label><br>
+<label>
+  Period [years]:<br>
+  <input type="number" id="miete_zeitraum" value="10" min="1" max="50" step="1">
+</label><br>
+<label>
+  Rent increase per year [%]:<br>
+  <input type="number" id="miete_steigerung" value="0" min="0" max="10" step="0.1">
+</label>
+<br><br>
+<div id="miete-kaltmiete-in-n-jahren"></div>
+<div id="miete-ohne-steigerung"></div>
+<div id="miete-mit-steigerung"></div>
 
 
 <script>
@@ -102,25 +102,25 @@ document.getElementById('miete_monat').addEventListener('input', updateMiete);
 <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
 <!-- Kredit-Tilgungsrechner -->
 
-  <h2>Loan Repayment Simulation</h2>
-  <label>
-    Credit amount [€]:<br>
-    <input type="number" id="credit" value="5000" min="0" step="100">
-  </label><br>
-  <label>
-    Interest per year [%]:<br>
-    <input type="number" id="interest" value="1" min="0" step="0.01">
-  </label><br>
-  <label>
-    Repayment per month [€]:<br>
-    <input type="number" id="repayment" value="1000" min="1" step="1">
-  </label><br>
-  <label>
-    Period [years]:<br>
-    <input type="number" id="years" value="4" min="1" step="1">
-  </label><br><br>
-  <div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
-  <pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
+<h2>Loan Repayment Simulation</h2>
+<label>
+  Credit amount [€]:<br>
+  <input type="number" id="credit" value="5000" min="0" step="100">
+</label><br>
+<label>
+  Interest per year [%]:<br>
+  <input type="number" id="interest" value="1" min="0" step="0.01">
+</label><br>
+<label>
+  Repayment per month [€]:<br>
+  <input type="number" id="repayment" value="1000" min="1" step="1">
+</label><br>
+<label>
+  Period [years]:<br>
+  <input type="number" id="years" value="4" min="1" step="1">
+</label><br><br>
+<div id="loan-result" style="margin-top:1em;font-size:1.1em;"></div>
+<pre id="loan-log" style="padding:0.7em 1em;border-radius:0.5em;max-height:200px;overflow:auto;"></pre>
 
 
 <script>
@@ -210,7 +210,7 @@ document.getElementById('years').addEventListener('input', simulateLoan);
     const rentBase = document.getElementById('rent-base');
     const vervielfaeltigerValue = document.getElementById('vervielfaeltiger-value');
     const vervielfaeltigerValueYears = document.getElementById('vervielfaeltiger-value-years');
-    
+
     if (indexBase) indexBase.textContent = housing_cost.toLocaleString('de-DE');
     if (incomeBase) incomeBase.textContent = netto_income_per_anno.toLocaleString('de-DE');
     if (indexValue) indexValue.textContent = index;
@@ -240,13 +240,12 @@ document.getElementById('years').addEventListener('input', simulateLoan);
   if (document.readyState !== 'loading') updateOutput();
 </script>
 
-<!-- Replace your <p>...</p> with this: -->
 <div class="info-box">
   <span class="info-icon" aria-label="Info">ℹ️</span>
   <div>
     <strong>What do these indices tell me?</strong><br>
     The empirica AG publishes a quarterly
-    <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex_2025Q4.pdf" target="_blank" rel="noopener">Immobilien Blasenindex (Q4 2025)</a> 
+    <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex_2025Q4.pdf" target="_blank" rel="noopener">Immobilien Blasenindex (Q4 2025)</a>
     and an quarterly
     <a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Immobilienpreisindex_Q12026.pdf" target="_blank" rel="noopener"> Immobilienpreisindex (Q1 2026)</a>
     for Germany's major cities.<br>
@@ -264,6 +263,7 @@ document.getElementById('years').addEventListener('input', simulateLoan);
       <li><a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Immobilienpreisindex_Q22025.pdf" target="_blank" rel="noopener">Q2 2025</a></li>
     </ul>
     <p><strong>Blasenindex:</strong></p>
+    <ul>
       <li><a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex_2025Q3.pdf" target="_blank" rel="noopener">Q3 2025</a></li>
       <li><a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex_2025Q2.pdf" target="_blank" rel="noopener">Q2 2025</a></li>
       <li><a href="https://www.empirica-institut.de/fileadmin/Redaktion/Publikationen_Referenzen/PDFs/Blasenindex__2025Q1.pdf" target="_blank" rel="noopener">Q1 2025</a></li>
