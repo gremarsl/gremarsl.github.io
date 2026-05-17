@@ -1,7 +1,8 @@
 // const base = 1000; // -> Moved as parameter base_input in housing.html
 
 const years = [
-  2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023,2024, 2025
+  2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025,
+  2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040
 ];
 
 
@@ -29,7 +30,22 @@ const inflation_rate_eurozone = [
   9.2,  // 2022
   2.9,  // 2023
   2.4,  // 2024
-  2.1   // 2025
+  2.1,  // 2025
+  2.0,  // 2026 (projected)
+  2.0,  // 2027 (projected)
+  2.0,  // 2028 (projected)
+  2.0,  // 2029 (projected)
+  2.0,  // 2030 (projected)
+  2.0,  // 2031 (projected)
+  2.0,  // 2032 (projected)
+  2.0,  // 2033 (projected)
+  2.0,  // 2034 (projected)
+  2.0,  // 2035 (projected)
+  2.0,  // 2036 (projected)
+  2.0,  // 2037 (projected)
+  2.0,  // 2038 (projected)
+  2.0,  // 2039 (projected)
+  2.0   // 2040 (projected)
 ];
 
 const inflation_rate_germany = [
@@ -56,7 +72,22 @@ const inflation_rate_germany = [
   6.9,  // 2022
   5.9,  // 2023
   2.2,  // 2024
-  2.1   // 2025
+  2.1,  // 2025
+  2.0,  // 2026 (projected)
+  2.0,  // 2027 (projected)
+  2.0,  // 2028 (projected)
+  2.0,  // 2029 (projected)
+  2.0,  // 2030 (projected)
+  2.0,  // 2031 (projected)
+  2.0,  // 2032 (projected)
+  2.0,  // 2033 (projected)
+  2.0,  // 2034 (projected)
+  2.0,  // 2035 (projected)
+  2.0,  // 2036 (projected)
+  2.0,  // 2037 (projected)
+  2.0,  // 2038 (projected)
+  2.0,  // 2039 (projected)
+  2.0   // 2040 (projected)
 ];
 
 
@@ -84,7 +115,22 @@ const inflation_rate_us = [
   8.0,  // 2022
   4.1,  // 2023
   3.2,  // 2024
-  2.1   // 2025
+  2.1,  // 2025
+  2.0,  // 2026 (projected)
+  2.0,  // 2027 (projected)
+  2.0,  // 2028 (projected)
+  2.0,  // 2029 (projected)
+  2.0,  // 2030 (projected)
+  2.0,  // 2031 (projected)
+  2.0,  // 2032 (projected)
+  2.0,  // 2033 (projected)
+  2.0,  // 2034 (projected)
+  2.0,  // 2035 (projected)
+  2.0,  // 2036 (projected)
+  2.0,  // 2037 (projected)
+  2.0,  // 2038 (projected)
+  2.0,  // 2039 (projected)
+  2.0   // 2040 (projected)
 ];
 
 const inflation_rate_switzerland = [
@@ -111,5 +157,20 @@ const inflation_rate_switzerland = [
   2.84,  // 2022
   2.14,  // 2023
   1.1,   // 2024
-  2.7    // 2025
+  2.7,   // 2025
+  2.0,   // 2026 (projected)
+  2.0,   // 2027 (projected)
+  2.0,   // 2028 (projected)
+  2.0,   // 2029 (projected)
+  2.0,   // 2030 (projected)
+  2.0,   // 2031 (projected)
+  2.0,   // 2032 (projected)
+  2.0,   // 2033 (projected)
+  2.0,   // 2034 (projected)
+  2.0,   // 2035 (projected)
+  2.0,   // 2036 (projected)
+  2.0,   // 2037 (projected)
+  2.0,   // 2038 (projected)
+  2.0,   // 2039 (projected)
+  2.0    // 2040 (projected)
 ];
