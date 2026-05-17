@@ -51,7 +51,7 @@
   </label>
   <label>
     Start year:<br>
-    <input type="range" id="start_year_select1" value="0" min="0" max="22" step="1">
+    <input type="range" id="start_year_select1" value="0" min="0" max="38" step="1">
     <span id="start_year_display1">2002</span>
   </label>
   <label>
@@ -188,11 +188,10 @@
               backgroundColor: 'darkblue',
               fill: false,
               pointRadius: 3,
-              borderDash: isProjected.map(p => p ? [5, 5] : [0]),
               segment: {
                 borderDash: (ctx) => {
-                  const index = ctx.dataIndex;
-                  return isProjected[index] ? [5, 5] : [];
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
                 }
               }
             },
@@ -205,8 +204,8 @@
               pointRadius: 3,
               segment: {
                 borderDash: (ctx) => {
-                  const index = ctx.dataIndex;
-                  return isProjected[index] ? [5, 5] : [];
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
                 }
               }
             },
@@ -219,8 +218,8 @@
               pointRadius: 3,
               segment: {
                 borderDash: (ctx) => {
-                  const index = ctx.dataIndex;
-                  return isProjected[index] ? [5, 5] : [];
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
                 }
               }
             }
@@ -299,29 +298,19 @@
 
 
   <h3 style="text-align:center;">Plot 2 - Purchasing power loss</h3>
-  <label>
-    Starting value [e.g. €]:<br>
-    <input type="range" id="base_input2" value="1000" min="1" max="1000000" step="1">
-    <input type="number" id="base_number2" value="1000" min="1" max="100000000" step="1" style="width: 800px;">
-    <span id="base_value_display2">1000</span>
-  </label>
-  <label>
-    Start year:<br>
-    <input type="range" id="start_year_select" value="0" min="0" max="22" step="1">
-    <span id="start_year_display">2002</span>
-  </label>
-  <label>
-    End year:<br>
-    <input type="range" id="end_year_select" value="22" min="0" max="22" step="1">
-    <span id="end_year_display">2024</span>
-  </label>
+  <p style="text-align: center; color: #666; font-size: 0.95em;">
+    <em>(Using the same starting value and time period as Plot 1)</em>
+  </p>
   <p>
     How to read this plot:<br>
     <span id="base-value-2">1000</span>€ saved in <span id="year-start-2">2002</span> will only have a purchasing power
     of <span id="final-value-2">500</span>€ in <span id="year-end-2">2023</span>. Resulting in a purchasing power loss
     of <span id="loss-value-2">500</span> €.
   </p>
-  <!-- Eingabefeld für Startwert -->
+  <p style="font-size: 0.95em; color: #666; margin-top: 0.5em;">
+    <strong style="color: #999;">Note:</strong> <span style="border-bottom: 2px dotted #999;">Dotted lines</span>
+    indicate projected values beyond 2025, assuming 2% annual inflation.
+  </p> <!-- Eingabefeld für Startwert -->
 
   <!-- Plot-Container -->
   <div id="chart-container2" style="width: 90vw; max-width: 900px; margin: 40px auto;">
@@ -331,15 +320,13 @@
   <script>
 
     function updateDisplays2() {
-      const base = document.getElementById('base_input2').value;
-      document.getElementById('base_value_display2').textContent = base;
-      document.getElementById('base_number2').value = base;
+      const base = document.getElementById('base_input1').value;
+      const startIdx = document.getElementById('start_year_select1').value;
+      const endIdx = document.getElementById('end_year_select1').value;
 
-      const startIdx = document.getElementById('start_year_select').value;
-      document.getElementById('start_year_display').textContent = years[startIdx];
-
-      const endIdx = document.getElementById('end_year_select').value;
-      document.getElementById('end_year_display').textContent = years[endIdx];
+      document.getElementById('base-value-2').textContent = base;
+      document.getElementById('year-start-2').textContent = years[startIdx];
+      document.getElementById('year-end-2').textContent = years[endIdx];
     }
 
     function calculateDevaluation2(base, startIdx, endIdx) {
@@ -372,23 +359,28 @@
       const deval_us = deval_us1.map(x => base * base / x);
       const deval_swiss = deval_swiss1.map(x => base * base / x);
 
-      return { deval_ger, deval_us, deval_swiss };
+      // Determine which data points are projected (beyond index 23 which is 2025)
+      const isProjected = [];
+      for (let i = startIdx; i <= endIdx; i++) {
+        isProjected.push(i > 23);
+      }
+
+      return { deval_ger, deval_us, deval_swiss, isProjected };
     }
 
     // Initialisierung Chart
     let chart2;
     function updateChart2() {
-      const base = Number(document.getElementById('base_input2').value);
-      const startIdx = Number(document.getElementById('start_year_select').value);
-      const endIdx = Number(document.getElementById('end_year_select').value);
+      const base = Number(document.getElementById('base_input1').value);
+      const startIdx = Number(document.getElementById('start_year_select1').value);
+      const endIdx = Number(document.getElementById('end_year_select1').value);
 
       // Ensure startIdx <= endIdx
       if (startIdx > endIdx) {
-        // Optionally, swap or show error
         return;
       }
 
-      let { deval_ger, deval_us, deval_swiss } = calculateDevaluation2(base, startIdx, endIdx);
+      let { deval_ger, deval_us, deval_swiss, isProjected } = calculateDevaluation2(base, startIdx, endIdx);
 
       // Ensure data arrays match label count (slice off extra element)
       const labelCount = endIdx - startIdx + 1;
@@ -398,10 +390,13 @@
 
       const ctx2 = document.getElementById('devaluationChart2').getContext('2d');
       if (chart2) chart2.destroy();
+
+      let allLabels = years.slice(startIdx, endIdx + 1);
+
       chart2 = new Chart(ctx2, {
         type: 'line',
         data: {
-          labels: years.slice(startIdx, endIdx + 1),
+          labels: allLabels,
           datasets: [
             {
               label: 'Euro (Ger)',
@@ -409,7 +404,13 @@
               borderColor: 'darkblue',
               backgroundColor: 'darkblue',
               fill: false,
-              pointRadius: 3
+              pointRadius: 3,
+              segment: {
+                borderDash: (ctx) => {
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
+                }
+              }
             },
             {
               label: 'USD',
@@ -417,7 +418,13 @@
               borderColor: 'darkgreen',
               backgroundColor: 'darkgreen',
               fill: false,
-              pointRadius: 3
+              pointRadius: 3,
+              segment: {
+                borderDash: (ctx) => {
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
+                }
+              }
             },
             {
               label: 'Swiss franc',
@@ -425,7 +432,13 @@
               borderColor: 'red',
               backgroundColor: 'red',
               fill: false,
-              pointRadius: 3
+              pointRadius: 3,
+              segment: {
+                borderDash: (ctx) => {
+                  const dataIndex = ctx.dataIndex;
+                  return (startIdx + dataIndex > 23) ? [5, 5] : [];
+                }
+              }
             }
           ]
         },
@@ -477,13 +490,11 @@
     function initChart2() {
       updateDisplays2();
       updateChart2();
-      document.getElementById('base_input2').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
-      document.getElementById('base_number2').addEventListener('input', () => {
-        document.getElementById('base_input2').value = document.getElementById('base_number2').value;
-        updateDisplays2(); updateChart2();
-      });
-      document.getElementById('start_year_select').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
-      document.getElementById('end_year_select').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+      // Listen to Plot 1 inputs
+      document.getElementById('base_input1').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+      document.getElementById('base_number1').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+      document.getElementById('start_year_select1').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
+      document.getElementById('end_year_select1').addEventListener('input', () => { updateDisplays2(); updateChart2(); });
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initChart2);
