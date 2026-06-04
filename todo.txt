@@ -1,3 +1,8 @@
+- weiß
+- serifenschrift, playfair display 
+- sans-serif text
+
+
 tax:
 
 

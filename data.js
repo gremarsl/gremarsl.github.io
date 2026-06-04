@@ -73,21 +73,21 @@ const inflation_rate_germany = [
   5.9,  // 2023
   2.2,  // 2024
   2.1,  // 2025
-  2.0,  // 2026 (projected)
-  2.0,  // 2027 (projected)
-  2.0,  // 2028 (projected)
-  2.0,  // 2029 (projected)
-  2.0,  // 2030 (projected)
-  2.0,  // 2031 (projected)
-  2.0,  // 2032 (projected)
-  2.0,  // 2033 (projected)
-  2.0,  // 2034 (projected)
-  2.0,  // 2035 (projected)
-  2.0,  // 2036 (projected)
-  2.0,  // 2037 (projected)
-  2.0,  // 2038 (projected)
-  2.0,  // 2039 (projected)
-  2.0   // 2040 (projected)
+  2.3,  // 2026 (projected)
+  2.3,  // 2027 (projected)
+  2.3,  // 2028 (projected)
+  2.3,  // 2029 (projected)
+  2.3,  // 2030 (projected)
+  2.3,  // 2031 (projected)
+  2.3,  // 2032 (projected)
+  2.3,  // 2033 (projected)
+  2.3,  // 2034 (projected)
+  2.3,  // 2035 (projected)
+  2.3,  // 2036 (projected)
+  2.3,  // 2037 (projected)
+  2.3,  // 2038 (projected)
+  2.3,  // 2039 (projected)
+  2.3   // 2040 (projected)
 ];
 
 
