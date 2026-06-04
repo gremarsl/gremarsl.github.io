@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description"
+        content="Marcel Utermann – Writings and Interactive Calculators. FPGA systems, housing, inflation, heat pump, and tax tools.">
+    <meta name="author" content="Marcel Utermann">
+    <title>Marcel Utermann – Writings and Projects</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
+            <div class="navlink">
+                <a href="index.html">About</a>
+                <a href="writings.html" class="current">Writings</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Writings and Projects</h1>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">
+            Technical articles and interactive scenarios building.
+        </p>
+
+        <section class="writings-section">
+            <h2>Articles and Systems</h2>
+
+            <div class="writing-item">
+                <div class="writing-title">
+                    <a href="fpga.html">Development of a Runtime Measurement System</a>
+                </div>
+                <div class="writing-meta">Embedded Systems, FPGA, Runtime</div>
+                <p class="writing-desc">
+                    A custom FPGA-based system for non-intrusive, high-resolution runtime measurement on embedded
+                    targets. Designed to replace software-based timing instrumentation with an external hardware
+                    observer, enabling continuous performance monitoring without altering the system under test.
+                </p>
+            </div>
+
+            <h2 style="margin-top: 3rem;">Interactive Tools and Calculators</h2>
+
+            <div class="writing-item">
+                <div class="writing-title">
+                    <a href="housing.html">Housing Calculator</a>
+                </div>
+                <div class="writing-meta">Financial Modeling</div>
+                <p class="writing-desc">
+                    Compare renting vs. buying property scenarios. Includes monthly rent increase compounding, loan
+                    repayment simulations (interest vs. principal), and Price-Income indices.
+                </p>
+            </div>
+
+            <div class="writing-item">
+                <div class="writing-title">
+                    <a href="inflation.html">Inflation Calculator</a>
+                </div>
+                <div class="writing-meta">Economic Scenario</div>
+                <p class="writing-desc">
+                    Visualize purchasing power degradation and currency devaluation over long-term periods across major
+                    global currencies.
+                </p>
+            </div>
+
+            <div class="writing-item">
+                <div class="writing-title">
+                    <a href="heatpump.html">Heat Pump vs Gas Heating Calculator</a>
+                </div>
+                <div class="writing-meta">Energy Systems</div>
+                <p class="writing-desc">
+                    Evaluate long-term cost comparisons between heat pumps and traditional gas heating systems, modeling
+                    efficiency (COP) and energy price variations.
+                </p>
+            </div>
+
+            <div class="writing-item">
+                <div class="writing-title">
+                    <a href="tax.html">German Income Tax Calculator</a>
+                </div>
+                <div class="writing-meta">German Taxation, Simulation</div>
+                <p class="writing-desc">
+                    Simulate and visualize progressive income tax rates, marginal tax brackets, and solidarity
+                    surcharges in Germany.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback?
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub
+                Issue</a>.
+        </p>
+        <p id="last-updated"
+            style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <script>
+            const lastUpdate = new Date(document.lastModified);
+            document.getElementById('last-updated').textContent =
+                "Last updated: " + lastUpdate.toLocaleDateString();
+        </script>
+    </footer>
+</body>
+
+</html>

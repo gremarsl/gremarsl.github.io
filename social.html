@@ -9,15 +9,18 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navmenu">
-        <div class="navlink">
-            <a href="index.html">Home</a>
-            <a href="housing.html">Housing Calculator</a>
-            <a href="inflation.html">Inflation Calculator</a>
-            <a href="heatpump.html">Heat Pump Calculator</a>
-            <a href="fpga.html">Development of a Runtime Measurement System</a>
-        </div>
-    </nav>
+        <header>
+        <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
+            <div class="navlink">
+                <a href="index.html">About</a>
+                <a href="writings.html" class="current">Writings</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
 
     <h2>Social Security Contributions für Deutschland 2025</h2>
     <p id="last-updated" style="font-size:1rem; color:#888; margin-top:2em;"></p>
@@ -416,5 +419,20 @@
         updateTable();
         updateCharts();
     </script>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback? 
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
+        </p>
+        <p id="last-updated-footer" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <script>
+            const lastUpdateFooter = new Date(document.lastModified);
+            const el = document.getElementById('last-updated-footer');
+            if (el) {
+                el.textContent = "Last updated: " + lastUpdateFooter.toLocaleDateString();
+            }
+        </script>
+    </footer>
 </body>
 </html>

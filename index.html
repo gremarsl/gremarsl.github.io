@@ -1,85 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Marcel Utermann – Embedded Systems Engineer. Projects in FPGA design, runtime analysis, and engineering tools.">
+    <meta name="description" content="Marcel Utermann – Senior Embedded Systems Engineer & Tech Lead. About, projects, writings, and contact.">
     <meta name="author" content="Marcel Utermann">
-    <title>Marcel Utermann – Embedded Systems Engineer</title>
+    <title>Marcel Utermann – About</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <header>
         <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
             <div class="navlink">
-                <a href="index.html" class="current">Home</a>
-                <a href="fpga.html">Development of a Runtime Measurement System</a>
-                <a href="housing.html">Housing Calculator</a>
-                <a href="inflation.html">Inflation Calculator</a>
-                <a href="heatpump.html">Heat Pump Calculator</a>
+                <a href="index.html" class="current">About</a>
+                <a href="writings.html">Writings</a>
+                <a href="contact.html">Contact</a>
             </div>
         </nav>
     </header>
 
     <main>
-        <h1>Marcel Utermann</h1>
-        <p style="font-size:1.1rem; color:#555; margin-bottom:0.5em;">Senior Embedded Systems Engineer</p>
-        <p id="last-updated" style="font-size:1rem; color:#888; margin-top:0.5em;"></p>
+        <div class="about-container">
+            <!-- Left Column: Portrait & Quick Links -->
+            <aside class="about-sidebar">
+                <div class="profile-img-container">
+                    <img src="img/IMG_4744.jpeg" alt="Marcel Utermann Portrait">
+                </div>
+                <div class="sidebar-links">
+                    <a href="https://www.linkedin.com/in/marcel-utermann/" class="sidebar-link-item" target="_blank" rel="noopener">
+                        <span>🔗</span> LinkedIn Profile
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Right Column: Bio & Core Experience -->
+            <section class="about-content">
+                <h1>Marcel Utermann</h1>
+                <p style="font-size: 1.25rem; color: var(--text-muted); margin-top: -0.25rem; margin-bottom: 1.5rem; font-weight: 500;">
+                    Senior Embedded Systems Engineer
+                </p>
+
+                <div class="about-bio">
+                    <p>
+                        I am a Senior Software Development Engineer at Vector Informatik GmbH in Stuttgart, Germany. I specialize in designing and implementing safe, high-performance embedded firmware, real-time control algorithms, and automated validation environments for automotive systems.
+                    </p>
+                    <p>
+                        Currently, I lead a team of developers focused on building remote execution environments and validation frameworks for electronic control units (ECUs). My work covers architectural decisions, C/C++ development for ARM Cortex-M and Aurix Tricore microcontrollers, timing analysis, and continuous runtime behavior profiling across a distributed hardware-in-the-loop (HIL) cloud execution network.
+                    </p>
+                    <p>
+                        I hold a Master of Science in Mechanical Engineering from the Technical University of Dresden, with a specialization in Systems Engineering and Product Development. My academic and early research work centered on automation technology, evaluating telematics arrays, and constructing mathematical drive models and simulations using Python, LabVIEW, and Modelica.
+                    </p>
+                    <p>
+                        My engineering philosophy is rooted in the belief that excellent systems solve real problems. I strongly follow the John Gall paradigm: <em>"A complex system that works is invariably found to have evolved from a simple system that worked."</em> Effective, reliable embedded systems are built from clean hardware-level bring-ups and iterative, measured development.
+                    </p>
+                    <p>
+                        Outside of engineering, I am an active endurance athlete, enjoying running and road cycling, as well as racket sports like tennis and badminton.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback? 
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
+        </p>
+        <p id="last-updated" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
         <script>
             const lastUpdate = new Date(document.lastModified);
             document.getElementById('last-updated').textContent =
                 "Last updated: " + lastUpdate.toLocaleDateString();
         </script>
-
-        <!-- Featured Project -->
-        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-        <h2>Featured Project</h2>
-        <p>
-            <a href="fpga.html"><strong>Development of a Runtime Measurement System</strong></a><br>
-            A custom FPGA-based system for non-intrusive, high-resolution runtime measurement on embedded targets.
-            Designed to replace software-based timing instrumentation with an external hardware observer —
-            enabling continuous performance monitoring without altering the system under test.
-        </p>
-
-        <!-- Side Projects -->
-        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-        <h2>Side Projects</h2>
-        <p>
-            Simple calculators to explore financial and energy scenarios.
-        </p>
-        <p>
-            <a href="housing.html"><strong>Housing Calculator</strong></a> —
-            Compare renting vs. buying property scenarios.
-        </p>
-        <p>
-            <a href="inflation.html"><strong>Inflation Calculator</strong></a> —
-            Visualize purchasing power over time across currencies.
-        </p>
-        <p>
-            <a href="heatpump.html"><strong>Heat Pump vs Gas Heating Calculator</strong></a> —
-            Compare long-term costs of heat pump vs. gas heating.
-        </p>
-
-        <!-- John Gall Quote Section -->
-        <hr style="margin: 2em 0; border: 0; border-top: 2px dashed #888;">
-        <div style="background: #f8f9fa; border-left: 4px solid #1b5e20; padding: 1em 1.5em; margin: 2em 0; border-radius: 0.5em; font-style: italic;">
-            <p style="margin: 0; font-size: 1.1em; line-height: 1.4; color: #2c3e50;">
-                "A complex system that works is invariably found to have evolved from a simple system that worked. A complex system designed from scratch never works and cannot be patched up to make it work. You have to start over with a working simple system."
-            </p>
-            <p style="margin: 0.5em 0 0 0; font-size: 0.9em; color: #666; font-style: normal;">
-                — John Gall, <em>The Systems Bible</em>
-            </p>
-            <p style="margin: 0.8em 0 0 0; font-size: 0.95em; color: #444; font-style: normal;">
-                This principle is at the core of how I approach embedded systems development. Start with something that works on real hardware, measure it, then iterate. The FPGA project above is a direct application of this idea — a simple, working measurement system that grew from a clear, minimal design.
-            </p>
-        </div>
-    </main>
-
-    <footer style="text-align:center; margin: 1.5em 0; color: #555;">
-        Questions or feedback?
-        <a href="https://github.com/gremarsl/gremarsl.github.io/issues">Open a GitHub Issue</a>
     </footer>
 </body>
 </html>

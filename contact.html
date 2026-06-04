@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description"
+        content="Marcel Utermann – Contact information. Get in touch via email, LinkedIn, or GitHub.">
+    <meta name="author" content="Marcel Utermann">
+    <title>Marcel Utermann – Contact</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
+            <div class="navlink">
+                <a href="index.html">About</a>
+                <a href="writings.html">Writings</a>
+                <a href="contact.html" class="current">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Contact</h1>
+        <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">
+            Feel free to reach out for professional inquiries, collaboration, or technical discussions.
+        </p>
+
+        <div class="contact-container">
+            <h3 style="margin-top: 0; text-align: center;">Get in Touch</h3>
+            <div class="contact-info-grid">
+
+                <div class="contact-label">Location</div>
+                <div>Stuttgart, Germany</div>
+
+                <div class="contact-label">LinkedIn</div>
+                <div><a href="https://www.linkedin.com/in/marcel-utermann/" target="_blank"
+                        rel="noopener">linkedin.com/in/marcel-utermann</a></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback?
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub
+                Issue</a>.
+        </p>
+        <p id="last-updated"
+            style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <script>
+            const lastUpdate = new Date(document.lastModified);
+            document.getElementById('last-updated').textContent =
+                "Last updated: " + lastUpdate.toLocaleDateString();
+        </script>
+    </footer>
+</body>
+
+</html>
