@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="Marcel Utermann – Experience layers as a Software Engineer. From processor architectures and FPGA design to embedded firmware, systems validation, and AI-augmented workflows.">
+    <meta name="author" content="Marcel Utermann">
+    <title>Marcel Utermann – Experience as a Software Engineer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Stack diagram ─────────────────────────────────────── */
+        .stack-intro {
+            max-width: 680px;
+            margin-bottom: 3rem;
+        }
+
+        .stack-intro p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #475569;
+        }
+
+        .stack-legend {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .stack-legend span {
+            display: inline-block;
+            width: 1.5rem;
+            height: 2px;
+            background: var(--border-dark);
+            vertical-align: middle;
+        }
+
+        .stack-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Each layer card */
+        .layer-card {
+            display: grid;
+            grid-template-columns: 5rem 1fr;
+            border: 1px solid #cbd5e1; /* slate-300 — clearly visible */
+            border-left: 4px solid #99d6d2; /* permanent teal-light accent */
+            border-radius: 10px;
+            background: #ffffff;
+            transition: background var(--transition-speed),
+                        box-shadow var(--transition-speed),
+                        border-left-color var(--transition-speed);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .layer-card:hover {
+            background: #f8fffe;
+            border-left-color: var(--primary-color); /* full teal on hover */
+            box-shadow: 0 4px 16px -4px rgba(15, 118, 110, 0.18);
+        }
+
+        /* Left badge column */
+        .layer-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 0.75rem;
+            border-right: 1px solid #cbd5e1;
+            background: #f0fdfc; /* very light teal tint */
+        }
+
+        .layer-number {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .layer-num-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        /* Right content column */
+        .layer-content {
+            padding: 1.5rem 1.75rem;
+        }
+
+        .layer-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.4rem;
+        }
+
+        .layer-desc {
+            font-size: 0.97rem;
+            color: #475569;
+            line-height: 1.65;
+            margin-bottom: 0.75rem;
+        }
+
+        .layer-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .tool-tag {
+            font-size: 0.78rem;
+            font-family: 'Inter', monospace;
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.2rem 0.55rem;
+            white-space: nowrap;
+            transition: background var(--transition-speed), color var(--transition-speed);
+        }
+
+        .layer-card:hover .tool-tag {
+            background: #e2e8f0;
+        }
+
+        /* Accent is now handled by border-left on .layer-card — no ::before needed */
+
+        /* Arrow connector between layers */
+        .layer-connector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Direction label */
+        .stack-direction {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.35rem;
+            margin-bottom: 2rem;
+        }
+
+        .direction-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+        }
+
+        .direction-arrow {
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 560px) {
+            .layer-card {
+                grid-template-columns: 3.5rem 1fr;
+            }
+            .layer-number {
+                font-size: 1.1rem;
+            }
+            .layer-content {
+                padding: 1.25rem 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
+            <div class="navlink">
+                <a href="index.html">About</a>
+                <a href="writings.html" class="current">Writings</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h1>Experience as a Software Engineer</h1>
+
+            <div class="stack-intro">
+                <p>
+                    The layers of software engineering where I had
+                    the opportunity to work on and willingness to improve.
+                    Read bottom-up: from silicon to hardware independence.
+                </p>
+            </div>
+
+            <div class="stack-direction">
+                <div class="direction-row">
+                    <span class="direction-arrow">↑</span>
+                    Higher abstraction · automation, AI
+                </div>
+                <div class="direction-row">
+                    <span class="direction-arrow">↓</span>
+                    Closer to silicon · hardware dependencies
+                </div>
+            </div>
+
+            <div class="stack-wrapper">
+
+                <!-- LAYER 7 -->
+                <div class="layer-card" id="layer-7">
+                    <div class="layer-badge">
+                        <div class="layer-number">7</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">AI-Augmented Engineering Workflows</div>
+                        <p class="layer-desc">
+                            Integrating AI tooling into everyday engineering practice:
+                            prompt-driven development and agent-based automation.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">GitHub Copilot</span>
+                            <span class="tool-tag">Anthropic Claude</span>
+                            <span class="tool-tag">Agent skills / YAML</span>
+                            <span class="tool-tag">LLM-assisted code review</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 6 -->
+                <div class="layer-card" id="layer-6">
+                    <div class="layer-badge">
+                        <div class="layer-number">6</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Automation</div>
+                        <p class="layer-desc">
+                            Scripting and automating repeated tasks: build pipelines, test execution,
+                            release packaging, and report generation.
+                            These automation scripts are the prerequisite for Layer 7.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">Python</span>
+                            <span class="tool-tag">Makefile</span>
+                            <span class="tool-tag">Batch</span>
+                            <span class="tool-tag">GitLab CI</span>
+                            <span class="tool-tag">CLI tooling</span>
+                            <span class="tool-tag">Release automation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 5 -->
+                <div class="layer-card" id="layer-5">
+                    <div class="layer-badge">
+                        <div class="layer-number">5</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Software Quality Engineering</div>
+                        <p class="layer-desc">
+                            Quality assurance across the development lifecycle:
+                            test case design, static analysis, runtime coverage measurement,
+                            and standards compliance.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">VectorCAST</span>
+                            <span class="tool-tag">Runtime statement coverage</span>
+                            <span class="tool-tag">Linting</span>
+                            <span class="tool-tag">CRA standards</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 4 -->
+                <div class="layer-card" id="layer-4">
+                    <div class="layer-badge">
+                        <div class="layer-number">4</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Systems Validation &amp; Test Infrastructure</div>
+                        <p class="layer-desc">
+                            Design and operation of SIL/HIL validation environments for software components.
+                            Timing analysis, runtime profiling, and distributed test execution at scale.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">SIL/HIL systems</span>
+                            <span class="tool-tag">CANoe</span>
+                            <span class="tool-tag">C#</span>
+                            <span class="tool-tag">vTESTstudio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 3 -->
+                <div class="layer-card" id="layer-3">
+                    <div class="layer-badge">
+                        <div class="layer-number">3</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Embedded Firmware &amp; Driver Development</div>
+                        <p class="layer-desc">
+                            Firmware development: hardware bring-up, peripheral driver implementation
+                            (I2C, UART, EEPROM), HAL generation, component development,
+                            and remote execution environments.
+                            Memory analysis and ELF/linker map inspection.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">C</span>
+                            <span class="tool-tag">C++</span>
+                            <span class="tool-tag">gcc</span>
+                            <span class="tool-tag">arm-none-eabi</span>
+                            <span class="tool-tag">MICROSAR</span>
+                            <span class="tool-tag">openocd</span>
+                            <span class="tool-tag">RTT</span>
+                            <span class="tool-tag">ELF/map analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 2 -->
+                <div class="layer-card" id="layer-2">
+                    <div class="layer-badge">
+                        <div class="layer-number">2</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Digital Hardware Design (RTL / FPGA)</div>
+                        <p class="layer-desc">
+                            FPGA implementation for real-time applications. Custom hardware for timing capture
+                            and runtime instrumentation on embedded systems.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">Verilog</span>
+                            <span class="tool-tag">Yosys</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAYER 1 -->
+                <div class="layer-card" id="layer-1">
+                    <div class="layer-badge">
+                        <div class="layer-number">1</div>
+                        <div class="layer-num-label">Layer</div>
+                    </div>
+                    <div class="layer-content">
+                        <div class="layer-name">Hardware — Processor Architectures &amp; Target Platforms</div>
+                        <p class="layer-desc">
+                            Understanding and working at the silicon level: memory maps,
+                            debug interfaces (SWD/JTAG), and hardware-specific constraints.
+                        </p>
+                        <div class="layer-tools">
+                            <span class="tool-tag">ARM Cortex-M (STM32F7)</span>
+                            <span class="tool-tag">Infineon Tricore</span>
+                            <span class="tool-tag">Lattice iCE40UP5K</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.stack-wrapper -->
+        </article>
+    </main>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback?
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
+        </p>
+        <p id="last-updated" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <script>
+            const lastUpdate = new Date(document.lastModified);
+            document.getElementById('last-updated').textContent =
+                "Last updated: " + lastUpdate.toLocaleDateString();
+        </script>
+    </footer>
+</body>
+</html>
