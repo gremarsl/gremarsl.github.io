@@ -149,11 +149,12 @@ Instead of representing "this pixel is orange", the RGB values encode an elevati
 - PNG is lossless (no JPEG artifacts destroying data) and compresses well
 - Standard web browsers can load PNG images
 
-
-
-
-
 ## Math
 
 Further reading: 
 https://www.fathom.global/product/fathomdem-global-terrain-data/
+
+
+# Now lets apply it!
+Here is an example we we can test it and visualize what we learned on the example Stuttgart:
+- ./elevation-profile/stuttgart_gradient.html
