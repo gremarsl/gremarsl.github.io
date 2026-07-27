@@ -1,6 +1,6 @@
 # How is the Gradient Map Created?
 
-Topology has always been one of my favourite features in Google Maps. Zooming into the Northern Alps and tracing the contour lines brings back a mix of curiosity and half-forgotten memories from past trips — where exactly was the Rappenseehütte? Which ridge did we cross to get there? What was the name of that valley?
+Zooming into the Northern Alps and tracing the contour lines brings back a mix of curiosity and half-forgotten memories from past trips — where exactly was the Rappenseehütte? Which ridge did we cross to get there? What was the name of that valley?
 
 The same questions come up when cycling through Stuttgart, where every route is shaped by the terrain beneath it.
 

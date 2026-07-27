@@ -1,0 +1,1 @@
+- build.sh creats the gradient-map.html based on gradient-map.md

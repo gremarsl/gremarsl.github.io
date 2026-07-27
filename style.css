@@ -401,6 +401,55 @@ ul li {
     font-weight: 600;
 }
 
+/* Article tables (e.g. pandoc-generated) */
+article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+article table th,
+article table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+article table th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+article table tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Article code blocks */
+article pre {
+    background-color: #1e293b;
+    color: #e2e8f0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+article code {
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.9em;
+}
+
+article :not(pre) > code {
+    background-color: #f1f5f9;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--primary-color);
+}
+
 .contact-button {
     display: inline-block;
     padding: 0.6rem 1.25rem;
