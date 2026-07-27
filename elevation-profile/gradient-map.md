@@ -43,6 +43,8 @@ A signed 15-bit integer covers ±16,384 m — just enough to represent Challenge
 
 #### Reference Points on the Elevation Scale
 
+<img src="elevation-scale.svg" alt="Elevation scale from Mt Everest to Challenger Deep" style="width:100%;max-width:700px;margin:1.5rem auto;display:block;">
+
 | Location | Elevation |
 |---|---|
 | Mt Everest | +8,849 m |
@@ -54,107 +56,100 @@ A signed 15-bit integer covers ±16,384 m — just enough to represent Challenge
 | Amsterdam | −2 m |
 | New Orleans | −2 m |
 | Baku | −28 m |
+| Sunda Trench | −3,200 m |
+| Calypso Deep | −5,200 m |
 | Mariana Trench (Challenger Deep) | −10,994 m |
 
 
-### Encode the geographics
+### Encoding Location
 
-The location is the important. Here we are just using the most popular appraoch. 
-Lets have a short, but a little more detailed look on the math. "for beginner"
+Elevation tells us how high a point is — but we also need to know where it is. The most widely used system for pinpointing any location on Earth is latitude and longitude.
 
-#### Lat and Long
+#### A Brief History
 
-**Latitude (lat)** = how far north or south of the equator
+The Prime Meridian (0° longitude) was fixed at the Royal Observatory in Greenwich, London, by international agreement in 1884. At the time, Britain was the dominant naval and cartographic power, and their observatory became the global reference point. Angles are measured counter-clockwise from this line — eastward is positive — matching the direction of Earth's rotation.
+
+#### Latitude and Longitude
+
+**Latitude** measures how far north or south a point lies from the equator:
+
 - Equator = 0°
-- North Pole = +90° (or 90°N)
-- South Pole = −90° (or 90°S)
-**Longitude (lng)** = how far east or west of the Prime Meridian (Greenwich, London)
+- North Pole = +90°
+- South Pole = −90°
+
+**Longitude** measures how far east or west a point lies from the Prime Meridian:
+
 - Prime Meridian = 0°
 - Eastward = positive, up to +180°
 - Westward = negative, down to −180°
 
-## Result 
-What is needed with 4 decimal bits (consumer GPD) we need 180 x 0000 digits
-And for the longitude it is 360 * 0000 digits.
-Resulting in
-Latitude	−90° to +90° (180°)	1,800,000	21 bits
-Longitude	−180° to +180° (360°)	3,600,000	22 bits
+For example, Stuttgart sits at **48.7758° N, 9.1829° E** — roughly halfway between the equator and the North Pole, and slightly east of London.
+
+#### How Precise Can Coordinates Be?
+
+The precision of a coordinate depends on how many decimal places we use. To calculate the ground distance represented by a given angular resolution, we model the Earth as a sphere with radius R = 6,371 km and apply:
+
+> **x = R × sin(Δ°)**
+
+| Decimal places | Angular step | Ground distance | Typical use |
+|---|---|---|---|
+| 4 | 0.0001° | **11.12 m** | Consumer GPS |
+| 5 | 0.00001° | **1.11 m** | Modern dual-frequency phones |
+| 6 | 0.000001° | **0.11 m** (11 cm) | Military GPS (PPS / M-code) |
+
+For consumer-grade applications, **four decimal places** (≈ 11 m) is the practical limit. Military GPS achieves roughly 30 cm accuracy using encrypted dual-frequency signals and can reach 10 cm with differential corrections (DGPS).
+
+#### Bit Requirements for Coordinates
+
+At four-decimal-place precision (0.0001°), how many distinct values do we need?
+
+| Axis | Range | Distinct values | Bits required |
+|---|---|---|---|
+| Latitude | −90° to +90° (180°) | 1,800,000 | **21 bits** |
+| Longitude | −180° to +180° (360°) | 3,600,000 | **22 bits** |
 
 
-#### Stuttgart
-This means: 48.78° north of the equator, 9.18° east of London.
+## Putting It Together
 
+With the requirements established above, every point on Earth's surface needs three values:
 
-```javascript
-const STUTTGART = [48.7758, 9.1829];  // [latitude, longitude]
-```
+| Field | Bits |
+|---|---|
+| Latitude | 21 |
+| Longitude | 22 |
+| Elevation | 16 |
+| **Total** | **59 bits ≈ 8 bytes per point** |
 
-#### What is the highest accuracy we can navigate on?
+At consumer GPS resolution, a global grid would contain roughly 6.5 billion points (1.8 M × 3.6 M). At 8 bytes each, that amounts to approximately 52 GB of raw data — far too large to serve directly over the web.
 
-#### Assumptions
-- World is a sphere
-- Theta and Phi for any point is given ( but how is it really done)
+So how do we make this practical?
 
-#### Depiction
--> Create the vertical triangle and then depict it. Resulting in: 
+### The Trick: Elevation Encoded in Pixels
 
-6371 × sin(0.0001°)   = 11.12 m          → consumer GPS precision
-6371 × sin(0.00001°)  = 1.11 m           → modern dual-freq phone GPS
-6371 × sin(0.000001°) = 0.11 m ≈ 11 cm  → military GPS precision
+Rather than transmitting raw coordinate-elevation tuples, the data is sliced into a grid of **256 × 256 pixel PNG tiles** .
 
-x=6371*sin(0.0001)
+Each tile covers a fixed geographic region, so the latitude and longitude are implicit from the tile's position in the grid. That eliminates 43 of the 59 bits entirely. Only the elevation needs to be stored — and it is encoded directly into the pixel's colour channels.
 
-0.0001 degrees	0.01112 km	11.12 m
-
-If you're exploring the precision of coordinates — 0.0001° ≈ 11 m is the key takeaway. That's the ground distance corresponding to the 4th decimal place of a lat/lng coordinate, which is roughly the practical limit of consumer GPS accuracy.
-
-#### Military Precision
-- Military GPS (PPS, M-code): 6 decimals -> 0.000001° -> ~11 cm
-- Military + DGPS corrections	~0.1 m (10 cm)	7 decimals
-
-x=6371*sin(0.000001)
-
-History:
-The Prime Meridian 0degree was fixed at Greenwhich, London by international agreement in 1884. Britain was the dominant naval and cartographic power, so their Royal Observatory became the reference. -> Referenz
-
-counter-clock: positive and earth rotates eastwards.
-
-https://de.wikipedia.org/wiki/Geographische_Koordinaten
-
-
-## Intermediate Step
-So to create a grid with consumer GPS (as we assumed above) we would need for every point on our sphere the following data structure:
-
-[Lat,Long, Height]
-[21bits, 22bits, 16 bits]
-
-Resulting in 59bits! 8 bytes for one point.
-
-### The Trick: How it is done
-
-This raw data is enormous (terabytes). To make it usable on the web: processed this data into **256×256 pixel PNG image tiles**, organized in the same `z/x/y` grid system that web maps use for street maps. Amazon hosts these tiles for free as a public dataset:
-
-A normal image stores color. Terrarium tiles **abuse** the color channels to store numbers instead:
+A normal image uses Red, Green, and Blue to represent colour. Terrarium tiles repurpose these three channels to store a number instead:
 
 ```
-Each pixel has 3 color channels: Red (0–255), Green (0–255), Blue (0–255)
+Each pixel: Red (0–255), Green (0–255), Blue (0–255)
+Elevation = (R × 256 + G + B / 256) − 32768
 ```
 
-Instead of representing "this pixel is orange", the RGB values encode an elevation number. When you look at a Terrarium tile in an image viewer, it looks like abstract pastel noise — because it's not meant to be seen, it's meant to be **decoded**.
+When viewed in an image editor, a Terrarium tile looks like abstract pastel noise — because it is not meant to be seen. It is meant to be **decoded**.
 
-#### Why is this clever?
-
-- **3 channels × 8 bits = 24 bits** → can represent 16,777,216 distinct values
-- That's enough to encode elevations from -32,768m to +32,767m with sub-meter precision
-- PNG is lossless (no JPEG artifacts destroying data) and compresses well
-- Standard web browsers can load PNG images
-
-## Math
-
-Further reading: 
-https://www.fathom.global/product/fathomdem-global-terrain-data/
+TODO: Show the visualzation of Stuttgart in a raw data picture and compare it.
 
 
-# Now lets apply it!
-Here is an example we we can test it and visualize what we learned on the example Stuttgart:
-- ./elevation-profile/stuttgart_gradient.html
+## Apply It
+
+With this foundation in place, we can build an interactive terrain visualisation. Here is an example applied to the Stuttgart region:
+
+[Stuttgart Gradient Map →](stuttgart_gradient.html)
+
+## References
+
+- [NASA SRTM Digital Elevation Data](https://www.earthdata.nasa.gov/topics/land-surface/digital-elevation-terrain-model-dem)
+- [Geographische Koordinaten — Wikipedia](https://de.wikipedia.org/wiki/Geographische_Koordinaten)
+- [Fathom Global Terrain Data](https://www.fathom.global/product/fathomdem-global-terrain-data/)

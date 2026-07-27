@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif">
+  <defs>
+    <linearGradient id="scaleGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f766e" stop-opacity="0.12"/>
+      <stop offset="38%" stop-color="#0f766e" stop-opacity="0.03"/>
+      <stop offset="42%" stop-color="#0369a1" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+
+  <!--
+    Scale: y = 260 - (elevation / 20000) * 420
+    Sea level (0m) at y=260
+    +8849 → y = 260 - 185.8 = 74
+    +4808 → y = 260 - 101.0 = 159
+    +750  → y = 260 - 15.8  = 244
+    +288  → y = 260 - 6.0   = 254
+    +6    → y ≈ 260
+    0     → y = 260
+    -2    → y ≈ 260
+    -28   → y = 260 + 0.6   ≈ 261
+    -3200 → y = 260 + 67.2  = 327
+    -5200 → y = 260 + 109.2 = 369
+    -10994→ y = 260 + 230.9 = 491
+  -->
+
+  <!-- Background band -->
+  <rect x="330" y="20" width="40" height="490" rx="4" fill="url(#scaleGrad)"/>
+
+  <!-- Main vertical axis line -->
+  <line x1="350" y1="35" x2="350" y2="500" stroke="#1e293b" stroke-width="2.5"/>
+
+  <!-- Top arrow (pointing UP) -->
+  <path d="M342,35 L350,19 L358,35" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Bottom arrow (pointing DOWN) -->
+  <path d="M342,500 L350,516 L358,500" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Labels at extremes -->
+  <text x="350" y="12" font-size="10" fill="#0f766e" font-weight="600" text-anchor="middle" letter-spacing="0.08em">ABOVE SEA LEVEL</text>
+  <text x="350" y="536" font-size="10" fill="#0369a1" font-weight="600" text-anchor="middle" letter-spacing="0.08em">BELOW SEA LEVEL</text>
+
+  <!-- =========== RIGHT SIDE =========== -->
+
+  <!-- Mt Everest +8849m -->
+  <line x1="335" y1="74" x2="365" y2="74" stroke="#0f766e" stroke-width="2"/>
+  <circle cx="350" cy="74" r="3.5" fill="#0f766e"/>
+  <line x1="367" y1="74" x2="392" y2="74" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="397" y="69" font-size="11" fill="#64748b" font-weight="500">+8,849 m</text>
+  <text x="397" y="83" font-size="13.5" fill="#1e293b" font-weight="700">Mt Everest</text>
+
+  <!-- Mont Blanc +4808m -->
+  <line x1="335" y1="159" x2="365" y2="159" stroke="#0f766e" stroke-width="1.5"/>
+  <circle cx="350" cy="159" r="3" fill="#0f766e"/>
+  <line x1="367" y1="159" x2="392" y2="159" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="397" y="154" font-size="11" fill="#64748b" font-weight="500">+4,808 m</text>
+  <text x="397" y="168" font-size="13.5" fill="#1e293b" font-weight="600">Mont Blanc</text>
+
+  <!-- Stuttgart +288m — label offset up -->
+  <line x1="335" y1="254" x2="365" y2="254" stroke="#0f766e" stroke-width="1.5"/>
+  <circle cx="350" cy="254" r="3" fill="#0f766e"/>
+  <line x1="367" y1="254" x2="392" y2="234" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="397" y="230" font-size="11" fill="#64748b" font-weight="500">+288 m</text>
+  <text x="397" y="244" font-size="13.5" fill="#1e293b" font-weight="600">Stuttgart</text>
+
+  <!-- Sea level — dashed line + label on right -->
+  <line x1="305" y1="260" x2="395" y2="260" stroke="#0369a1" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="397" y="264" font-size="12.5" fill="#0369a1" font-weight="700">Sea Level — 0 m</text>
+
+  <!-- Sunda Trench -3200m — right side -->
+  <line x1="335" y1="327" x2="365" y2="327" stroke="#0369a1" stroke-width="1.5"/>
+  <circle cx="350" cy="327" r="3" fill="#0369a1"/>
+  <line x1="367" y1="327" x2="392" y2="327" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="397" y="322" font-size="11" fill="#64748b" font-weight="500">−3,200 m</text>
+  <text x="397" y="336" font-size="13.5" fill="#1e293b" font-weight="600">Sunda Trench</text>
+
+  <!-- Calypso Deep -5200m — right side -->
+  <line x1="335" y1="369" x2="365" y2="369" stroke="#0369a1" stroke-width="1.5"/>
+  <circle cx="350" cy="369" r="3" fill="#0369a1"/>
+  <line x1="367" y1="369" x2="392" y2="369" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="397" y="364" font-size="11" fill="#64748b" font-weight="500">−5,200 m</text>
+  <text x="397" y="378" font-size="13.5" fill="#1e293b" font-weight="600">Calypso Deep</text>
+
+  <!-- =========== LEFT SIDE =========== -->
+
+  <!-- Grand Canyon +750m -->
+  <line x1="335" y1="244" x2="365" y2="244" stroke="#0f766e" stroke-width="1.5"/>
+  <circle cx="350" cy="244" r="3" fill="#0f766e"/>
+  <line x1="333" y1="244" x2="308" y2="222" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="303" y="218" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">+750 m</text>
+  <text x="303" y="232" font-size="13.5" fill="#1e293b" font-weight="600" text-anchor="end">Grand Canyon</text>
+
+  <!-- Hamburg +6m — tick mark -->
+  <line x1="340" y1="260" x2="360" y2="260" stroke="#64748b" stroke-width="1"/>
+  <circle cx="350" cy="260" r="2" fill="#64748b"/>
+
+  <!-- Amsterdam -2m — tick mark (visually at sea level) -->
+  <line x1="342" y1="260.2" x2="358" y2="260.2" stroke="#64748b" stroke-width="0.8"/>
+
+  <!-- New Orleans -2m — tick mark -->
+  <line x1="342" y1="260.4" x2="358" y2="260.4" stroke="#64748b" stroke-width="0.8"/>
+
+  <!-- Baku -28m — tick mark (slightly below) -->
+  <line x1="340" y1="261" x2="360" y2="261" stroke="#64748b" stroke-width="1"/>
+  <circle cx="350" cy="261" r="2" fill="#64748b"/>
+
+  <!-- Label cluster for near-sea-level cities -->
+  <line x1="333" y1="260" x2="308" y2="280" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="303" y="278" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">Hamburg +6 m</text>
+  <text x="303" y="292" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">Amsterdam −2 m</text>
+  <text x="303" y="306" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">New Orleans −2 m</text>
+  <text x="303" y="320" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">Baku −28 m</text>
+
+  <!-- Challenger Deep -10994m — left side -->
+  <line x1="335" y1="491" x2="365" y2="491" stroke="#0369a1" stroke-width="2"/>
+  <circle cx="350" cy="491" r="3.5" fill="#0369a1"/>
+  <line x1="333" y1="491" x2="308" y2="491" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="303" y="487" font-size="11" fill="#64748b" font-weight="500" text-anchor="end">−10,994 m</text>
+  <text x="303" y="501" font-size="13.5" fill="#1e293b" font-weight="700" text-anchor="end">Challenger Deep</text>
+</svg>
