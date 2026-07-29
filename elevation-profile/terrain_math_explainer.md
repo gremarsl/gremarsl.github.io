@@ -2,28 +2,6 @@
 
 ## 1. AWS Terrarium Elevation Tiles
 
-### What is it?
-
-
-
-
-```
-https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png
-```
-
-
-### How the Tile Grid Works
-
-Web maps divide the world into a grid of square tiles. At zoom level `z`, the world is divided into `2^z × 2^z` tiles:
-
-| Zoom | Tiles | Ground per tile (at equator) |
-|---|---|---|
-| 0 | 1×1 | Entire world |
-| 1 | 2×2 | Half the world |
-| 5 | 32×32 | ~1,200 km |
-| 11 | 2048×2048 | ~19 km ← **our default zoom** |
-| 15 | 32768×32768 | ~1.2 km |
-
 ### Converting Lat/Lng to Tile Coordinates
 
 This is what `latlngToTile()` does:
@@ -55,45 +33,7 @@ function latlngToTile(lat, lng, zoom) {
 
 ---
 
-## 3. The Math — Step by Step
 
-### Step 1: Decode Elevation from Pixel Color
-
-Each pixel in a Terrarium tile has RGB values. The formula to get elevation in meters:
-
-```
-elevation = (R × 256 + G + B / 256) − 32768
-```
-
-**Why this formula?**
-
-Think of it as a 3-digit number in base-256:
-- **R** is the "hundreds" digit (each unit = 256 meters)
-- **G** is the "ones" digit (each unit = 1 meter)
-- **B** is the "fractional" digit (each unit = 1/256 ≈ 0.004 meters)
-
-The `− 32768` shifts the range so it can represent negative elevations (ocean floors).
-
-**Concrete example** — a pixel with `R=128, G=105, B=0`:
-```
-elevation = (128 × 256 + 105 + 0/256) − 32768
-          = (32768 + 105) − 32768
-          = 105 meters above sea level
-```
-
-Another example — Dead Sea at ~−430m: `R=126, G=82, B=0`:
-```
-elevation = (126 × 256 + 82 + 0) − 32768
-          = (32338) − 32768
-          = −430 meters
-```
-
-In the code:
-```javascript
-function terrariumElevation(r, g, b) {
-    return (r * 256 + g + b / 256) - 32768;
-}
-```
 
 ### Step 2: Determine Ground Distance per Pixel
 
