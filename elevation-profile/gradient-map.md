@@ -173,11 +173,11 @@ Lets have a closer look how Terrarium calculates it
 Elevation = (R × 256 + G + B / 256) − 32768
 ```
 
-Terrarium formula is a polynominal, which is polularly used to calculate from dec to hexadecimal. Only difference: Terrarium is using the base 256:
+Terrarium's decoding formula is a polynomial, the same mathematical concept used to convert decimal numbers to hexadecimal. The only difference is that Terrarium uses base 256:
 ```
 Elevation = R × 256¹  +  G × 256⁰  +  B × 256⁻¹  −  32768
 ```
-The history goes back to Euklid [https://de.wikipedia.org/wiki/Elemente_(Euklid)] and François Viète[https://de.wikipedia.org/wiki/Fran%C3%A7ois_Vi%C3%A8te] 
+The history of polynomial equations traces back to [Euclid](https://de.wikipedia.org/wiki/Elemente_(Euklid)) and [François Viète](https://de.wikipedia.org/wiki/Fran%C3%A7ois_Vi%C3%A8te).
 
 Compare this to how binary (base 2) represents the number 6:
 
@@ -322,10 +322,14 @@ int y = std::floor(
 
 To get a better understanding of how the Mercator projection works, let's visualize how the entire Earth maps onto the Zoom 0 tile, and how we find Stuttgart's position within it:
 
-Stuttgart: 
+Stuttgart coordinates: 
 ```
-48,78° N und 9,18° O (Dezimalgrad)
+48.78° N, 9.18° E (Decimal Degrees)
 ```
+
+> [!WARNING]  
+> **Under Construction**  
+> The mercator projection and exploration I am currently working on. So stay tuned ;-).
 
 
 <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
@@ -353,6 +357,23 @@ Stuttgart:
 
 #### From Tile to Exact Pixel
 
+The best way to think about the formulas is that they calculate your x/y position.
+
+Let's look at a coordinate that computes to `x = 1076.45`. This single decimal number actually gives us two completely different pieces of information:
+
+1. **The Whole Number (`1076`) tells us WHICH file to download.**
+   Because tiles are distinct images on a server, we need whole numbers to request them (e.g., `https://.../11/1076/...`). The `1076` means "skip the first 1,076 tiles starting from the left edge of the map."
+
+2. **The Fraction (`0.45`) tells us WHERE we are inside that specific file.**
+   Once you download the tile `1076`, you have an image that might cover several square kilometres. But where exactly is your coordinate inside that image? The fraction `0.45` means you are 45% of the way across the tile. 
+
+Because every tile is exactly 256 pixels wide, you take that percentage and multiply it by the width of the image:
+
+`0.45 × 256 = 115.2`
+
+This tells the computer: *"Open tile 1076, and look exactly at the 115th pixel from the left."* 
+
+If we didn't use the fraction, we would only know *which* geographic tile we were in, but we would have no idea which of the 65,536 pixels inside that tile actually contained the elevation for our exact coordinate!
 
 
 ## Apply It
