@@ -126,12 +126,13 @@ So how do we make this practical?
 
 ### The Trick: Elevation Encoded in Pixels
 
-Rather than transmitting raw coordinate-elevation tuples, the data is sliced into a grid of **256 × 256 pixel PNG tiles** .
+Rather than transmitting raw coordinate-elevation tuples, the data is sliced into a grid of **256 × 256 pixel PNG tiles** — the same tile system (`z/x/y`) that web maps already use for street and satellite imagery.
 
 Each tile covers a fixed geographic region, so the latitude and longitude are implicit from the tile's position in the grid. That eliminates 43 of the 59 bits entirely. Only the elevation needs to be stored — and it is encoded directly into the pixel's colour channels.
 
 A normal image uses Red, Green, and Blue to represent colour. Terrarium tiles repurpose these three channels to store a number instead.
 
+#### How Terrarium Decodes RGB into Elevation
 
 Lets have a closer look how Terrarium calculates it
 
@@ -139,58 +140,123 @@ Lets have a closer look how Terrarium calculates it
 Elevation = (R × 256 + G + B / 256) − 32768
 ```
 
-Terrarium formula is a polynominal, which is used to calculate from dec to hexadecimal. Only difference: Terrarium is using the base 256:
-
+Terrarium formula is a polynominal, which is polularly used to calculate from dec to hexadecimal. Only difference: Terrarium is using the base 256:
 ```
 Elevation = R × 256¹  +  G × 256⁰  +  B × 256⁻¹  −  32768
+```
+The history goes back to Euklid [https://de.wikipedia.org/wiki/Elemente_(Euklid)] and François Viète[https://de.wikipedia.org/wiki/Fran%C3%A7ois_Vi%C3%A8te] 
+
+Compare this to how binary (base 2) represents the number 6:
 
 ```
-
-Binary (base 2):
-```
-1 × 2²   +  1 × 2¹   +  0 × 2⁰   =  6
+1 × 2²  +  1 × 2¹  +  0 × 2⁰  =  6
 ```
 
+The only difference is the base. In Terrarium, each "digit" is a byte (0–255), so the base is 256.
 
-With this formula we can represent the key reference point:
-0 0 0 | -32,768m Elevation
-128 0 0 | 0m Elevation
-255 255 255 | +32,768m Elevation
+#### Key Reference Points
 
-Lets do an example:
+| R | G | B | Elevation | Meaning |
+|:---:|:---:|:---:|---:|:---|
+| 0 | 0 | 0 | −32,768 m | Minimum (deepest encodable) |
+| **128** | **0** | **0** | **0 m** | **Sea level** |
+| 255 | 255 | 255 | +32,767 m | Maximum (highest encodable) |
+
+#### Worked Example: Stuttgart
+
+With R = 129, G = 214, B = 0:
+
 ```
 R × 256¹  +  G × 256⁰  +  B × 256⁻¹  =  33238.0
                                 − 32768  =  470.0 m
 ```
 
-
-
 When viewed in an image editor, a Terrarium tile looks like abstract pastel noise — because it is not meant to be seen. It is meant to be **decoded**.
 
-Lets get a better understanding with the tiles.
-Terrarium devides the dsurface of the earth into tiles.
+### Tiles and Zoom Levels
 
-Lets start with the biggest tile. With zoom level 0. This means the whole world is depicted.
+Terrarium divides the surface of the Earth into square tiles, organised by zoom level. At zoom 0, the entire world fits into a single tile. Each higher zoom level doubles the resolution in both directions.
 
-<embedded tile  /tiles/osm_z0_0_0.png> and next to the osm picture, show the terrarium z0_0_0.png
+#### Zoom 0 — The Whole World in One Tile
 
-Since every tile is 256x256pixes at zoom 0, 0 pixes is 156,5km 
+<div style="display:flex;gap:16px;align-items:flex-start;margin:1.5rem 0;">
+  <div style="text-align:center;">
+    <img src="tiles/osm_z0_0_0.png" alt="OSM world tile at zoom 0" style="width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;">
+    <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">OpenStreetMap — z0/0/0</div>
+  </div>
+  <div style="text-align:center;">
+    <img src="tiles/terrarium_z0_0_0.png" alt="Terrarium elevation tile at zoom 0" style="width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;">
+    <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">Terrarium (elevation) — z0/0/0</div>
+  </div>
+</div>
 
-``` 
-40,075 km ÷ 256 pixels = 156.5 km per pixel
-```
+The OSM tile shows the familiar world map. The Terrarium tile encodes the same geography as colour values — mountain ranges appear as brighter bands, oceans as uniform dark regions.
+
+#### Zoom 1 — The World in Four Tiles
+
+At zoom 1, the world is split into a 2×2 grid. Each tile covers a quarter of the globe.
+
+<div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:1.5rem 0;">
+  <div style="text-align:center;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+      <img src="tiles/osm_z1_0_0.png" alt="OSM z1/0/0" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/osm_z1_1_0.png" alt="OSM z1/1/0" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/osm_z1_0_1.png" alt="OSM z1/0/1" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/osm_z1_1_1.png" alt="OSM z1/1/1" style="width:128px;image-rendering:pixelated;">
+    </div>
+    <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">OpenStreetMap — Zoom 1 (2×2)</div>
+  </div>
+  <div style="text-align:center;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+      <img src="tiles/terrarium_z1_0_0.png" alt="Terrarium z1/0/0" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/terrarium_z1_1_0.png" alt="Terrarium z1/1/0" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/terrarium_z1_0_1.png" alt="Terrarium z1/0/1" style="width:128px;image-rendering:pixelated;">
+      <img src="tiles/terrarium_z1_1_1.png" alt="Terrarium z1/1/1" style="width:128px;image-rendering:pixelated;">
+    </div>
+    <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">Terrarium (elevation) — Zoom 1 (2×2)</div>
+  </div>
+</div>
+
+#### Ground Resolution per Zoom Level
+
+Since every tile is 256 × 256 pixels, the ground distance per pixel depends on how many tiles the world is divided into:
 
 ```
 Ground per pixel = 40,075 km ÷ (256 × 2ᶻ)
 ```
 
+| Zoom | Calculation | Ground per pixel | Covers roughly |
+|:---:|:---|---:|:---|
+| 0 | 40,075 ÷ (256 × 2⁰) = 40,075 ÷ 256 | **156.5 km** | Paris → London |
+| 1 | 40,075 ÷ (256 × 2¹) = 40,075 ÷ 512 | **78.3 km** | Stuttgart → Ulm |
+| 2 | 40,075 ÷ (256 × 2²) = 40,075 ÷ 1,024 | **39.1 km** | Stuttgart → Tübingen |
+| 3 | 40,075 ÷ (256 × 2³) = 40,075 ÷ 2,048 | **19.6 km** | Greater Stuttgart |
+| 4 | 40,075 ÷ (256 × 2⁴) = 40,075 ÷ 4,096 | **9.8 km** | Half of Stuttgart |
+| 8 | 40,075 ÷ (256 × 2⁸) = 40,075 ÷ 65,536 | **611 m** | A neighbourhood |
+| 11 | 40,075 ÷ (256 × 2¹¹) = 40,075 ÷ 524,288 | **76.4 m** | A city block |
+| 13 | 40,075 ÷ (256 × 2¹³) = 40,075 ÷ 2,097,152 | **19.1 m** | A building |
+| 14 | 40,075 ÷ (256 × 2¹⁴) = 40,075 ÷ 4,194,304 | **9.6 m** | A room |
+| 15 | 40,075 ÷ (256 × 2¹⁵) = 40,075 ÷ 8,388,608 | **4.8 m** | A car |
 
-Zoom	Ground per pixel	What one pixel covers
-oom 0:  40,075 ÷ (256 × 2⁰)  = 40,075 ÷     256 = 156.5 km/px
-Zoom 1:  40,075 ÷ (256 × 2¹)  = 40,075 ÷     512 =  78.3 km/px
-Zoom 2:  40,075 ÷ (256 × 2²)  = 40,075 ÷   1,024 =  39.1 km/px
-<Add the further zoom levels>
-Zoom 11: 40,075 ÷ (256 × 2¹¹) = 40,075 ÷ 524,288 =  76.4 m/px
+The original Shuttle Radar Topography Mission (SRTM) source data has a native resolution of approximately 30 m (1 arc-second). This means zoom 13 (~19 m/px) is the sweet spot — close to the native precision of the data. Higher zoom levels interpolate, while lower zoom levels average millions of measurements into a single pixel.
+
+#### What is an Arc-Second?
+
+Angles — like coordinates — are subdivided the same way as time:
+
+| Unit | Definition | As degrees |
+|---|---|---|
+| 1 degree | base unit | 1° |
+| 1 arc-minute | 1/60 of a degree | 0.0167° |
+| 1 arc-second | 1/60 of an arc-minute | 0.000278° |
+
+At the equator, one arc-second translates to:
+
+```
+x = 6,371 km × sin(1/3600°) ≈ 30.87 m
+```
+
+This is the native resolution of SRTM — one elevation sample approximately every **30 metres**.
 
 
 ## Apply It
