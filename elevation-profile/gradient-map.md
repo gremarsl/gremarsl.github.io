@@ -130,16 +130,67 @@ Rather than transmitting raw coordinate-elevation tuples, the data is sliced int
 
 Each tile covers a fixed geographic region, so the latitude and longitude are implicit from the tile's position in the grid. That eliminates 43 of the 59 bits entirely. Only the elevation needs to be stored — and it is encoded directly into the pixel's colour channels.
 
-A normal image uses Red, Green, and Blue to represent colour. Terrarium tiles repurpose these three channels to store a number instead:
+A normal image uses Red, Green, and Blue to represent colour. Terrarium tiles repurpose these three channels to store a number instead.
+
+
+Lets have a closer look how Terrarium calculates it
 
 ```
-Each pixel: Red (0–255), Green (0–255), Blue (0–255)
 Elevation = (R × 256 + G + B / 256) − 32768
 ```
 
+Terrarium formula is a polynominal, which is used to calculate from dec to hexadecimal. Only difference: Terrarium is using the base 256:
+
+```
+Elevation = R × 256¹  +  G × 256⁰  +  B × 256⁻¹  −  32768
+
+```
+
+Binary (base 2):
+```
+1 × 2²   +  1 × 2¹   +  0 × 2⁰   =  6
+```
+
+
+With this formula we can represent the key reference point:
+0 0 0 | -32,768m Elevation
+128 0 0 | 0m Elevation
+255 255 255 | +32,768m Elevation
+
+Lets do an example:
+```
+R × 256¹  +  G × 256⁰  +  B × 256⁻¹  =  33238.0
+                                − 32768  =  470.0 m
+```
+
+
+
 When viewed in an image editor, a Terrarium tile looks like abstract pastel noise — because it is not meant to be seen. It is meant to be **decoded**.
 
-TODO: Show the visualzation of Stuttgart in a raw data picture and compare it.
+Lets get a better understanding with the tiles.
+Terrarium devides the dsurface of the earth into tiles.
+
+Lets start with the biggest tile. With zoom level 0. This means the whole world is depicted.
+
+<embedded tile  /tiles/osm_z0_0_0.png> and next to the osm picture, show the terrarium z0_0_0.png
+
+Since every tile is 256x256pixes at zoom 0, 0 pixes is 156,5km 
+
+``` 
+40,075 km ÷ 256 pixels = 156.5 km per pixel
+```
+
+```
+Ground per pixel = 40,075 km ÷ (256 × 2ᶻ)
+```
+
+
+Zoom	Ground per pixel	What one pixel covers
+oom 0:  40,075 ÷ (256 × 2⁰)  = 40,075 ÷     256 = 156.5 km/px
+Zoom 1:  40,075 ÷ (256 × 2¹)  = 40,075 ÷     512 =  78.3 km/px
+Zoom 2:  40,075 ÷ (256 × 2²)  = 40,075 ÷   1,024 =  39.1 km/px
+<Add the further zoom levels>
+Zoom 11: 40,075 ÷ (256 × 2¹¹) = 40,075 ÷ 524,288 =  76.4 m/px
 
 
 ## Apply It
