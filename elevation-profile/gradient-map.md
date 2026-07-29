@@ -339,7 +339,7 @@ Stuttgart coordinates:
 </div>
 
 <div style="flex:1;min-width:320px;text-align:center;">
-<div style="font-weight:600;margin-bottom:12px;color:#334155;">Raw Map Verification (CSS Overlay)</div>
+<div style="font-weight:600;margin-bottom:12px;color:#334155;">Raw Map Verification</div>
 <div style="position:relative;width:256px;height:256px;border:1px solid #cbd5e1;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,0.1);background-color:#e2e8f0;">
 <img src="tiles/osm_z0_0_0.png" style="width:256px;height:256px;display:block;image-rendering:pixelated;">
 <!-- Vertical cross line -->
