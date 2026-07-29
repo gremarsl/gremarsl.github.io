@@ -39,6 +39,66 @@ every route is shaped by the terrain beneath it.</p>
 hood — what it takes to encode the shape of the Earth into something a
 browser can render, and how we can turn that data into a useful
 visualisation.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#requirements-for-the-elevation-profile">Requirements for
+the Elevation Profile</a>
+<ul>
+<li><a href="#encoding-elevation">Encoding Elevation</a>
+<ul>
+<li><a href="#how-many-bits-do-we-need">How many bits do we
+need?</a></li>
+<li><a href="#reference-points-on-the-elevation-scale">Reference Points
+on the Elevation Scale</a></li>
+</ul></li>
+<li><a href="#encoding-location">Encoding Location</a>
+<ul>
+<li><a href="#a-brief-history">A Brief History</a></li>
+<li><a href="#latitude-and-longitude">Latitude and Longitude</a></li>
+<li><a href="#how-precise-can-coordinates-be">How Precise Can
+Coordinates Be?</a></li>
+<li><a href="#bit-requirements-for-coordinates">Bit Requirements for
+Coordinates</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#putting-it-together">Putting It Together</a>
+<ul>
+<li><a href="#the-trick-elevation-encoded-in-pixels">The Trick:
+Elevation Encoded in Pixels</a>
+<ul>
+<li><a href="#how-terrarium-decodes-rgb-into-elevation">How Terrarium
+Decodes RGB into Elevation</a></li>
+<li><a href="#key-reference-points">Key Reference Points</a></li>
+<li><a href="#worked-example-stuttgart">Worked Example:
+Stuttgart</a></li>
+</ul></li>
+<li><a href="#tiles-and-zoom-levels">Tiles and Zoom Levels</a>
+<ul>
+<li><a href="#zoom-0--the-whole-world-in-one-tile">Zoom 0 — The Whole
+World in One Tile</a></li>
+<li><a href="#zoom-1--the-world-in-four-tiles">Zoom 1 — The World in
+Four Tiles</a></li>
+<li><a href="#ground-resolution-per-zoom-level">Ground Resolution per
+Zoom Level</a></li>
+<li><a href="#what-is-an-arc-second">What is an Arc-Second?</a></li>
+</ul></li>
+<li><a
+href="#finding-the-right-pixel-latitude--longitude-to-tiles">Finding the
+Right Pixel: Latitude &amp; Longitude to Tiles</a>
+<ul>
+<li><a href="#the-math">The Math</a></li>
+<li><a href="#example-visualization-tile---stuttgart">Example
+Visualization Tile - Stuttgart</a></li>
+<li><a href="#from-tile-to-exact-pixel">From Tile to Exact
+Pixel</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#apply-it">Apply It</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<hr />
+<h2 id="introduction">Introduction</h2>
 <p>It all starts with NASA’s Digital Elevation Model (DEM): a product of
 several air and space missions — most notably the Shuttle Radar
 Topography Mission (SRTM) — that mapped nearly the entire Earth’s
@@ -352,7 +412,9 @@ the web.</p>
 <h3 id="the-trick-elevation-encoded-in-pixels">The Trick: Elevation
 Encoded in Pixels</h3>
 <p>Rather than transmitting raw coordinate-elevation tuples, the data is
-sliced into a grid of <strong>256 × 256 pixel PNG tiles</strong> .</p>
+sliced into a grid of <strong>256 × 256 pixel PNG tiles</strong> — the
+same tile system (<code>z/x/y</code>) that web maps already use for
+street and satellite imagery.</p>
 <p>Each tile covers a fixed geographic region, so the latitude and
 longitude are implicit from the tile’s position in the grid. That
 eliminates 43 of the 59 bits entirely. Only the elevation needs to be
@@ -360,17 +422,332 @@ stored — and it is encoded directly into the pixel’s colour
 channels.</p>
 <p>A normal image uses Red, Green, and Blue to represent colour.
 Terrarium tiles repurpose these three channels to store a number
-instead:</p>
-<pre><code>Each pixel: Red (0–255), Green (0–255), Blue (0–255)
-Elevation = (R × 256 + G + B / 256) − 32768</code></pre>
+instead.</p>
+<h4 id="how-terrarium-decodes-rgb-into-elevation">How Terrarium Decodes
+RGB into Elevation</h4>
+<p>Lets have a closer look how Terrarium calculates it</p>
+<pre><code>Elevation = (R × 256 + G + B / 256) − 32768</code></pre>
+<p>Terrarium’s decoding formula is a polynomial, the same mathematical
+concept used to convert decimal numbers to hexadecimal. The only
+difference is that Terrarium uses base 256:</p>
+<pre><code>Elevation = R × 256¹  +  G × 256⁰  +  B × 256⁻¹  −  32768</code></pre>
+<p>The history of polynomial equations traces back to <a
+href="https://de.wikipedia.org/wiki/Elemente_(Euklid)">Euclid</a> and <a
+href="https://de.wikipedia.org/wiki/Fran%C3%A7ois_Vi%C3%A8te">François
+Viète</a>.</p>
+<p>Compare this to how binary (base 2) represents the number 6:</p>
+<pre><code>1 × 2²  +  1 × 2¹  +  0 × 2⁰  =  6</code></pre>
+<p>The only difference is the base. In Terrarium, each “digit” is a byte
+(0–255), so the base is 256.</p>
+<h4 id="key-reference-points">Key Reference Points</h4>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">R</th>
+<th style="text-align: center;">G</th>
+<th style="text-align: center;">B</th>
+<th style="text-align: right;">Elevation</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: right;">−32,768 m</td>
+<td style="text-align: left;">Minimum (deepest encodable)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>128</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: center;"><strong>0</strong></td>
+<td style="text-align: right;"><strong>0 m</strong></td>
+<td style="text-align: left;"><strong>Sea level</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">255</td>
+<td style="text-align: center;">255</td>
+<td style="text-align: center;">255</td>
+<td style="text-align: right;">+32,767 m</td>
+<td style="text-align: left;">Maximum (highest encodable)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="worked-example-stuttgart">Worked Example: Stuttgart</h4>
+<p>With R = 129, G = 214, B = 0:</p>
+<pre><code>R × 256¹  +  G × 256⁰  +  B × 256⁻¹  =  33238.0
+                                − 32768  =  470.0 m</code></pre>
 <p>When viewed in an image editor, a Terrarium tile looks like abstract
 pastel noise — because it is not meant to be seen. It is meant to be
 <strong>decoded</strong>.</p>
-<p>TODO: Show the visualzation of Stuttgart in a raw data picture and
-compare it.</p>
+<h3 id="tiles-and-zoom-levels">Tiles and Zoom Levels</h3>
+<p>Terrarium divides the surface of the Earth into square tiles,
+organised by zoom level. At zoom 0, the entire world fits into a single
+tile. Each higher zoom level doubles the resolution in both
+directions.</p>
+<h4 id="zoom-0-the-whole-world-in-one-tile">Zoom 0 — The Whole World in
+One Tile</h4>
+<div
+style="display:flex;gap:16px;align-items:flex-start;margin:1.5rem 0;">
+<div style="text-align:center;">
+<pre><code>&lt;img src=&quot;tiles/osm_z0_0_0.png&quot; alt=&quot;OSM world tile at zoom 0&quot; style=&quot;width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;&quot;&gt;
+&lt;div style=&quot;font-size:0.85rem;color:#64748b;margin-top:4px;&quot;&gt;OpenStreetMap — z0/0/0&lt;/div&gt;</code></pre>
+</div>
+<div style="text-align:center;">
+<pre><code>&lt;img src=&quot;tiles/terrarium_z0_0_0.png&quot; alt=&quot;Terrarium elevation tile at zoom 0&quot; style=&quot;width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;&quot;&gt;
+&lt;div style=&quot;font-size:0.85rem;color:#64748b;margin-top:4px;&quot;&gt;Terrarium (elevation) — z0/0/0&lt;/div&gt;</code></pre>
+</div>
+</div>
+<p>The OSM tile shows the familiar world map. The Terrarium tile encodes
+the same geography as colour values — mountain ranges appear as brighter
+bands, oceans as uniform dark regions.</p>
+<h4 id="zoom-1-the-world-in-four-tiles">Zoom 1 — The World in Four
+Tiles</h4>
+<p>At zoom 1, the world is split into a 2×2 grid. Each tile covers a
+quarter of the globe.</p>
+<div
+style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:1.5rem 0;">
+<div style="text-align:center;">
+<pre><code>&lt;div style=&quot;display:grid;grid-template-columns:1fr 1fr;gap:2px;&quot;&gt;
+  &lt;img src=&quot;tiles/osm_z1_0_0.png&quot; alt=&quot;OSM z1/0/0&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/osm_z1_1_0.png&quot; alt=&quot;OSM z1/1/0&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/osm_z1_0_1.png&quot; alt=&quot;OSM z1/0/1&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/osm_z1_1_1.png&quot; alt=&quot;OSM z1/1/1&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+&lt;/div&gt;
+&lt;div style=&quot;font-size:0.85rem;color:#64748b;margin-top:4px;&quot;&gt;OpenStreetMap — Zoom 1 (2×2)&lt;/div&gt;</code></pre>
+</div>
+<div style="text-align:center;">
+<pre><code>&lt;div style=&quot;display:grid;grid-template-columns:1fr 1fr;gap:2px;&quot;&gt;
+  &lt;img src=&quot;tiles/terrarium_z1_0_0.png&quot; alt=&quot;Terrarium z1/0/0&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/terrarium_z1_1_0.png&quot; alt=&quot;Terrarium z1/1/0&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/terrarium_z1_0_1.png&quot; alt=&quot;Terrarium z1/0/1&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+  &lt;img src=&quot;tiles/terrarium_z1_1_1.png&quot; alt=&quot;Terrarium z1/1/1&quot; style=&quot;width:128px;image-rendering:pixelated;&quot;&gt;
+&lt;/div&gt;
+&lt;div style=&quot;font-size:0.85rem;color:#64748b;margin-top:4px;&quot;&gt;Terrarium (elevation) — Zoom 1 (2×2)&lt;/div&gt;</code></pre>
+</div>
+</div>
+<h4 id="ground-resolution-per-zoom-level">Ground Resolution per Zoom
+Level</h4>
+<p>Since every tile is 256 × 256 pixels, the ground distance per pixel
+depends on how many tiles the world is divided into:</p>
+<pre><code>Ground per pixel = 40,075 km ÷ (256 × 2ᶻ)</code></pre>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Zoom</th>
+<th style="text-align: left;">Calculation</th>
+<th style="text-align: right;">Ground per pixel</th>
+<th style="text-align: left;">Covers roughly</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2⁰) = 40,075 ÷ 256</td>
+<td style="text-align: right;"><strong>156.5 km</strong></td>
+<td style="text-align: left;">Paris → London</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2¹) = 40,075 ÷ 512</td>
+<td style="text-align: right;"><strong>78.3 km</strong></td>
+<td style="text-align: left;">Stuttgart → Ulm</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2²) = 40,075 ÷ 1,024</td>
+<td style="text-align: right;"><strong>39.1 km</strong></td>
+<td style="text-align: left;">Stuttgart → Tübingen</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2³) = 40,075 ÷ 2,048</td>
+<td style="text-align: right;"><strong>19.6 km</strong></td>
+<td style="text-align: left;">Greater Stuttgart</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2⁴) = 40,075 ÷ 4,096</td>
+<td style="text-align: right;"><strong>9.8 km</strong></td>
+<td style="text-align: left;">Half of Stuttgart</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2⁸) = 40,075 ÷ 65,536</td>
+<td style="text-align: right;"><strong>611 m</strong></td>
+<td style="text-align: left;">A neighbourhood</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2¹¹) = 40,075 ÷
+524,288</td>
+<td style="text-align: right;"><strong>76.4 m</strong></td>
+<td style="text-align: left;">A city block</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2¹³) = 40,075 ÷
+2,097,152</td>
+<td style="text-align: right;"><strong>19.1 m</strong></td>
+<td style="text-align: left;">A building</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">14</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2¹⁴) = 40,075 ÷
+4,194,304</td>
+<td style="text-align: right;"><strong>9.6 m</strong></td>
+<td style="text-align: left;">A room</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">15</td>
+<td style="text-align: left;">40,075 ÷ (256 × 2¹⁵) = 40,075 ÷
+8,388,608</td>
+<td style="text-align: right;"><strong>4.8 m</strong></td>
+<td style="text-align: left;">A car</td>
+</tr>
+</tbody>
+</table>
+<p>The original Shuttle Radar Topography Mission (SRTM) source data has
+a native resolution of approximately 30 m (1 arc-second). This means
+zoom 13 (~19 m/px) is the sweet spot — close to the native precision of
+the data. Higher zoom levels interpolate, while lower zoom levels
+average millions of measurements into a single pixel.</p>
+<h4 id="what-is-an-arc-second">What is an Arc-Second?</h4>
+<p>Angles — like coordinates — are subdivided the same way as time:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Unit</th>
+<th>Definition</th>
+<th>As degrees</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1 degree</td>
+<td>base unit</td>
+<td>1°</td>
+</tr>
+<tr class="even">
+<td>1 arc-minute</td>
+<td>1/60 of a degree</td>
+<td>0.0167°</td>
+</tr>
+<tr class="odd">
+<td>1 arc-second</td>
+<td>1/60 of an arc-minute</td>
+<td>0.000278°</td>
+</tr>
+</tbody>
+</table>
+<p>At the equator, one arc-second translates to:</p>
+<pre><code>x = 6,371 km × sin(1/3600°) ≈ 30.87 m</code></pre>
+<p>This is the native resolution of SRTM — one elevation sample
+approximately every <strong>30 metres</strong>.</p>
+<h3 id="finding-the-right-pixel-latitude-longitude-to-tiles">Finding the
+Right Pixel: Latitude &amp; Longitude to Tiles</h3>
+<p>The coordinates (latitude and longitude) are not stored in the
+pixels. Instead, they are calculated purely mathematically using the
+Mercator projection (EPSG:3857).</p>
+<p>The entire map of the Earth is projected onto a massive square. The
+reference point <code>(0, 0)</code> is always the top-left corner of
+this square (which corresponds to the far north-west: 180° West,
+~85.0511° North).</p>
+<p>From there, the grid works like a coordinate system: - <strong>X-axis
+(Longitude):</strong> Moves left to right (West to East). This is a
+simple linear mapping from −180° to +180°. - <strong>Y-axis
+(Latitude):</strong> Moves top to bottom (North to South). Because the
+Mercator projection stretches the poles, this mapping is non-linear (it
+uses trigonometric functions).</p>
+<p>At any zoom level <code>z</code>, the world is divided into a grid of
+<code>2ᶻ × 2ᶻ</code> tiles.</p>
+<h4 id="the-math">The Math</h4>
+<p>To find which tile contains a specific coordinate, we use these
+formulas:</p>
+<pre class="cpp"><code>// Longitude to X (Linear)
+int x = std::floor((longitude + 180.0) / 360.0 * std::pow(2.0, zoom));
+
+// Latitude to Y (Non-Linear Mercator)
+double latRad = latitude * M_PI / 180.0;
+int y = std::floor(
+    (1.0 - std::log(std::tan(latRad) + 1.0 / std::cos(latRad)) / M_PI) / 2.0 * std::pow(2.0, zoom)
+);</code></pre>
+<h4 id="example-visualization-tile---stuttgart">Example Visualization
+Tile - Stuttgart</h4>
+<p>To get a better understanding of how the Mercator projection works,
+let’s visualize how the entire Earth maps onto the Zoom 0 tile, and how
+we find Stuttgart’s position within it:</p>
+<p>Stuttgart coordinates:</p>
+<pre><code>48.78° N, 9.18° E (Decimal Degrees)</code></pre>
+<blockquote>
+<p>[!WARNING]<br />
+<strong>Under Construction</strong><br />
+The mercator projection and exploration I am currently working on. So
+stay tuned ;-).</p>
+</blockquote>
+<div
+style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
+<div style="flex:1;min-width:320px;text-align:center;">
+<pre><code>&lt;div style=&quot;font-weight:600;margin-bottom:12px;color:#334155;&quot;&gt;1. Calculated Projection (SVG)&lt;/div&gt;
+&lt;img src=&quot;mercator-projection.svg&quot; alt=&quot;Mercator Projection Coordinate System mapping Stuttgart&quot; style=&quot;width:100%;max-width:400px;display:block;margin:0 auto;&quot;&gt;</code></pre>
+</div>
+<div style="flex:1;min-width:320px;text-align:center;">
+<pre><code>&lt;div style=&quot;font-weight:600;margin-bottom:12px;color:#334155;&quot;&gt;2. Raw Map Verification (CSS Overlay)&lt;/div&gt;
+&lt;div style=&quot;position:relative;width:256px;height:256px;border:1px solid #cbd5e1;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,0.1);background-color:#e2e8f0;&quot;&gt;
+  &lt;img src=&quot;tiles/osm_z0_0_0.png&quot; style=&quot;width:256px;height:256px;display:block;image-rendering:pixelated;&quot;&gt;
+  &lt;!-- Vertical cross line --&gt;
+  &lt;div style=&quot;position:absolute;left:134.5px;top:0;width:1px;height:256px;background-color:rgba(71,85,105,0.7);box-shadow:0 0 2px rgba(255,255,255,0.5);&quot;&gt;&lt;/div&gt;
+  &lt;!-- Horizontal cross line --&gt;
+  &lt;div style=&quot;position:absolute;left:0;top:88.5px;width:256px;height:1px;background-color:rgba(71,85,105,0.7);box-shadow:0 0 2px rgba(255,255,255,0.5);&quot;&gt;&lt;/div&gt;
+  &lt;!-- Center dot --&gt;
+  &lt;div style=&quot;position:absolute;left:132.5px;top:86.5px;width:5px;height:5px;background-color:#ef4444;border-radius:50%;box-shadow:0 0 0 1px white;&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div style=&quot;font-size:0.85rem;color:#64748b;margin-top:12px;&quot;&gt;
+  Crosshair placed mathematically at &lt;strong&gt;x: 134.5, y: 88.5&lt;/strong&gt;
+&lt;/div&gt;</code></pre>
+</div>
+</div>
+<h4 id="from-tile-to-exact-pixel">From Tile to Exact Pixel</h4>
+<p>The best way to think about the formulas is that they calculate your
+x/y position.</p>
+<p>Let’s look at a coordinate that computes to <code>x = 1076.45</code>.
+This single decimal number actually gives us two completely different
+pieces of information:</p>
+<ol type="1">
+<li><p><strong>The Whole Number (<code>1076</code>) tells us WHICH file
+to download.</strong> Because tiles are distinct images on a server, we
+need whole numbers to request them (e.g.,
+<code>https://.../11/1076/...</code>). The <code>1076</code> means “skip
+the first 1,076 tiles starting from the left edge of the map.”</p></li>
+<li><p><strong>The Fraction (<code>0.45</code>) tells us WHERE we are
+inside that specific file.</strong> Once you download the tile
+<code>1076</code>, you have an image that might cover several square
+kilometres. But where exactly is your coordinate inside that image? The
+fraction <code>0.45</code> means you are 45% of the way across the
+tile.</p></li>
+</ol>
+<p>Because every tile is exactly 256 pixels wide, you take that
+percentage and multiply it by the width of the image:</p>
+<p><code>0.45 × 256 = 115.2</code></p>
+<p>This tells the computer: <em>“Open tile 1076, and look exactly at the
+115th pixel from the left.”</em></p>
+<p>If we didn’t use the fraction, we would only know <em>which</em>
+geographic tile we were in, but we would have no idea which of the
+65,536 pixels inside that tile actually contained the elevation for our
+exact coordinate!</p>
 <h2 id="apply-it">Apply It</h2>
 <p>With this foundation in place, we can build an interactive terrain
-visualisation. Here is an example applied to the Stuttgart region:</p>
+visualisation. Here is an example applied to the Stuttgart region.</p>
+<p>The following website is 100% vibe coded. Claude is just impressive.
+The only thing I entered were some guardrails, ideas, specification.
+This is the result:</p>
 <p><a href="stuttgart_gradient.html">Stuttgart Gradient Map →</a></p>
 <h2 id="references">References</h2>
 <ul>
