@@ -6,6 +6,39 @@ The same questions come up when cycling through Stuttgart, where every route is 
 
 In this article, I want to explore how elevation data works under the hood — what it takes to encode the shape of the Earth into something a browser can render, and how we can turn that data into a useful visualisation.
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Requirements for the Elevation Profile](#requirements-for-the-elevation-profile)
+  - [Encoding Elevation](#encoding-elevation)
+    - [How many bits do we need?](#how-many-bits-do-we-need)
+    - [Reference Points on the Elevation Scale](#reference-points-on-the-elevation-scale)
+  - [Encoding Location](#encoding-location)
+    - [A Brief History](#a-brief-history)
+    - [Latitude and Longitude](#latitude-and-longitude)
+    - [How Precise Can Coordinates Be?](#how-precise-can-coordinates-be)
+    - [Bit Requirements for Coordinates](#bit-requirements-for-coordinates)
+- [Putting It Together](#putting-it-together)
+  - [The Trick: Elevation Encoded in Pixels](#the-trick-elevation-encoded-in-pixels)
+    - [How Terrarium Decodes RGB into Elevation](#how-terrarium-decodes-rgb-into-elevation)
+    - [Key Reference Points](#key-reference-points)
+    - [Worked Example: Stuttgart](#worked-example-stuttgart)
+  - [Tiles and Zoom Levels](#tiles-and-zoom-levels)
+    - [Zoom 0 — The Whole World in One Tile](#zoom-0--the-whole-world-in-one-tile)
+    - [Zoom 1 — The World in Four Tiles](#zoom-1--the-world-in-four-tiles)
+    - [Ground Resolution per Zoom Level](#ground-resolution-per-zoom-level)
+    - [What is an Arc-Second?](#what-is-an-arc-second)
+  - [Finding the Right Pixel: Latitude & Longitude to Tiles](#finding-the-right-pixel-latitude--longitude-to-tiles)
+    - [The Math](#the-math)
+    - [Example Visualization Tile - Stuttgart](#example-visualization-tile---stuttgart)
+    - [From Tile to Exact Pixel](#from-tile-to-exact-pixel)
+- [Apply It](#apply-it)
+- [References](#references)
+
+---
+
+## Introduction
+
 It all starts with NASA's Digital Elevation Model (DEM): a product of several air and space missions — most notably the Shuttle Radar Topography Mission (SRTM) — that mapped nearly the entire Earth's surface. The result is a global grid where every cell stores a single value: *how many meters above sea level is this point?* Originally built to support ecological conservation, wildfire planning, and flood risk modelling, this dataset has since become a foundation for countless mapping applications. ([NASA Earth Data](https://www.earthdata.nasa.gov/topics/land-surface/digital-elevation-terrain-model-dem))
 
 
@@ -258,10 +291,75 @@ x = 6,371 km × sin(1/3600°) ≈ 30.87 m
 
 This is the native resolution of SRTM — one elevation sample approximately every **30 metres**.
 
+### Finding the Right Pixel: Latitude & Longitude to Tiles
+
+The coordinates (latitude and longitude) are not stored in the pixels. Instead, they are calculated purely mathematically using the Mercator projection (EPSG:3857).
+
+The entire map of the Earth is projected onto a massive square. The reference point `(0, 0)` is always the top-left corner of this square (which corresponds to the far north-west: 180° West, ~85.0511° North).
+
+From there, the grid works like a coordinate system:
+- **X-axis (Longitude):** Moves left to right (West to East). This is a simple linear mapping from −180° to +180°.
+- **Y-axis (Latitude):** Moves top to bottom (North to South). Because the Mercator projection stretches the poles, this mapping is non-linear (it uses trigonometric functions).
+
+At any zoom level `z`, the world is divided into a grid of `2ᶻ × 2ᶻ` tiles. 
+
+#### The Math
+
+To find which tile contains a specific coordinate, we use these formulas:
+
+```cpp
+// Longitude to X (Linear)
+int x = std::floor((longitude + 180.0) / 360.0 * std::pow(2.0, zoom));
+
+// Latitude to Y (Non-Linear Mercator)
+double latRad = latitude * M_PI / 180.0;
+int y = std::floor(
+    (1.0 - std::log(std::tan(latRad) + 1.0 / std::cos(latRad)) / M_PI) / 2.0 * std::pow(2.0, zoom)
+);
+```
+
+#### Example Visualization Tile - Stuttgart
+
+To get a better understanding of how the Mercator projection works, let's visualize how the entire Earth maps onto the Zoom 0 tile, and how we find Stuttgart's position within it:
+
+Stuttgart: 
+```
+48,78° N und 9,18° O (Dezimalgrad)
+```
+
+
+<div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
+  <div style="flex:1;min-width:320px;text-align:center;">
+    <div style="font-weight:600;margin-bottom:12px;color:#334155;">1. Calculated Projection (SVG)</div>
+    <img src="mercator-projection.svg" alt="Mercator Projection Coordinate System mapping Stuttgart" style="width:100%;max-width:400px;display:block;margin:0 auto;">
+  </div>
+  
+  <div style="flex:1;min-width:320px;text-align:center;">
+    <div style="font-weight:600;margin-bottom:12px;color:#334155;">2. Raw Map Verification (CSS Overlay)</div>
+    <div style="position:relative;width:256px;height:256px;border:1px solid #cbd5e1;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,0.1);background-color:#e2e8f0;">
+      <img src="tiles/osm_z0_0_0.png" style="width:256px;height:256px;display:block;image-rendering:pixelated;">
+      <!-- Vertical cross line -->
+      <div style="position:absolute;left:134.5px;top:0;width:1px;height:256px;background-color:rgba(71,85,105,0.7);box-shadow:0 0 2px rgba(255,255,255,0.5);"></div>
+      <!-- Horizontal cross line -->
+      <div style="position:absolute;left:0;top:88.5px;width:256px;height:1px;background-color:rgba(71,85,105,0.7);box-shadow:0 0 2px rgba(255,255,255,0.5);"></div>
+      <!-- Center dot -->
+      <div style="position:absolute;left:132.5px;top:86.5px;width:5px;height:5px;background-color:#ef4444;border-radius:50%;box-shadow:0 0 0 1px white;"></div>
+    </div>
+    <div style="font-size:0.85rem;color:#64748b;margin-top:12px;">
+      Crosshair placed mathematically at <strong>x: 134.5, y: 88.5</strong>
+    </div>
+  </div>
+</div>
+
+#### From Tile to Exact Pixel
+
+
 
 ## Apply It
 
-With this foundation in place, we can build an interactive terrain visualisation. Here is an example applied to the Stuttgart region:
+With this foundation in place, we can build an interactive terrain visualisation. Here is an example applied to the Stuttgart region.
+
+The following website is 100% vibe coded. Claude is just impressive. The only thing I entered were some guardrails, ideas, specification. This is the result:
 
 [Stuttgart Gradient Map →](stuttgart_gradient.html)
 
