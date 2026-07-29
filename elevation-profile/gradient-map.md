@@ -231,20 +231,20 @@ At zoom 1, the world is split into a 2×2 grid. Each tile covers a quarter of th
 
 <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:1.5rem 0;">
 <div style="text-align:center;">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
-<img src="tiles/osm_z1_0_0.png" alt="OSM z1/0/0" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/osm_z1_1_0.png" alt="OSM z1/1/0" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/osm_z1_0_1.png" alt="OSM z1/0/1" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/osm_z1_1_1.png" alt="OSM z1/1/1" style="width:128px;image-rendering:pixelated;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;width:258px;margin:0 auto;">
+<div><img src="tiles/osm_z1_0_0.png" alt="OSM z1/0/0" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/osm_z1_1_0.png" alt="OSM z1/1/0" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/osm_z1_0_1.png" alt="OSM z1/0/1" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/osm_z1_1_1.png" alt="OSM z1/1/1" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
 </div>
 <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">OpenStreetMap — Zoom 1 (2×2)</div>
 </div>
 <div style="text-align:center;">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
-<img src="tiles/terrarium_z1_0_0.png" alt="Terrarium z1/0/0" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/terrarium_z1_1_0.png" alt="Terrarium z1/1/0" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/terrarium_z1_0_1.png" alt="Terrarium z1/0/1" style="width:128px;image-rendering:pixelated;">
-<img src="tiles/terrarium_z1_1_1.png" alt="Terrarium z1/1/1" style="width:128px;image-rendering:pixelated;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;width:258px;margin:0 auto;">
+<div><img src="tiles/terrarium_z1_0_0.png" alt="Terrarium z1/0/0" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/terrarium_z1_1_0.png" alt="Terrarium z1/1/0" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/terrarium_z1_0_1.png" alt="Terrarium z1/0/1" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
+<div><img src="tiles/terrarium_z1_1_1.png" alt="Terrarium z1/1/1" style="width:128px;height:128px;display:block;image-rendering:pixelated;"></div>
 </div>
 <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">Terrarium (elevation) — Zoom 1 (2×2)</div>
 </div>
