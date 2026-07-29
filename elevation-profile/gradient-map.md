@@ -18,7 +18,7 @@ In this article, I want to explore how elevation data works under the hood — w
     - [Latitude and Longitude](#latitude-and-longitude)
     - [How Precise Can Coordinates Be?](#how-precise-can-coordinates-be)
     - [Bit Requirements for Coordinates](#bit-requirements-for-coordinates)
-- [Putting It Together](#putting-it-together)
+- [Unterstanding Map Tiles - Terrarium](#the-web-map-tile-architecture)
   - [The Trick: Elevation Encoded in Pixels](#the-trick-elevation-encoded-in-pixels)
     - [How Terrarium Decodes RGB into Elevation](#how-terrarium-decodes-rgb-into-elevation)
     - [Key Reference Points](#key-reference-points)
@@ -142,7 +142,7 @@ At four-decimal-place precision (0.0001°), how many distinct values do we need?
 | Longitude | −180° to +180° (360°) | 3,600,000 | 22 bits |
 
 
-## Putting It Together
+## Unterstanding Map Tiles - Terrarium
 
 With the requirements established above, every point on Earth's surface needs three values:
 
