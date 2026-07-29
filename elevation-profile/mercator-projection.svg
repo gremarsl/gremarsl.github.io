@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-90 -60 480 360" font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif">
+  <defs>
+    <marker id="arrowX" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L8,5 L0,9 Z" fill="#0f766e"/>
+    </marker>
+    <marker id="arrowY" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L8,5 L0,9 Z" fill="#0369a1"/>
+    </marker>
+    
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Background for map -->
+  <rect x="0" y="0" width="256" height="256" fill="#e2e8f0"/>
+  <!-- Image of OSM tile -->
+  <image href="tiles/osm_z0_0_0.png" x="0" y="0" width="256" height="256" opacity="0.9" style="image-rendering: pixelated;"/>
+  <rect x="0" y="0" width="256" height="256" fill="url(#grid)"/>
+  
+  <rect x="0" y="0" width="256" height="256" fill="none" stroke="#1e293b" stroke-width="2" rx="2"/>
+
+  <!-- X-axis -->
+  <line x1="0" y1="-12" x2="256" y2="-12" stroke="#0f766e" stroke-width="2" marker-end="url(#arrowX)"/>
+  <text x="128" y="-22" font-size="12" fill="#0f766e" font-weight="600" text-anchor="middle">X-axis (Longitude)</text>
+  <text x="0" y="-22" font-size="10" fill="#64748b" text-anchor="middle">−180°</text>
+  <text x="256" y="-22" font-size="10" fill="#64748b" text-anchor="middle">+180°</text>
+
+  <!-- Y-axis -->
+  <line x1="-12" y1="0" x2="-12" y2="256" stroke="#0369a1" stroke-width="2" marker-end="url(#arrowY)"/>
+  <text x="-24" y="128" font-size="12" fill="#0369a1" font-weight="600" text-anchor="middle" transform="rotate(-90 -24 128)">Y-axis (Latitude)</text>
+  <text x="-22" y="4" font-size="10" fill="#64748b" text-anchor="end">85.05°N</text>
+  <text x="-22" y="256" font-size="10" fill="#64748b" text-anchor="end">85.05°S</text>
+
+  <!-- Origin -->
+  <circle cx="0" cy="0" r="5" fill="#ef4444"/>
+  <circle cx="0" cy="0" r="9" fill="none" stroke="#ef4444" stroke-width="1.5" opacity="0.5"/>
+  <text x="-12" y="-10" font-size="11" fill="#ef4444" font-weight="700" text-anchor="end">Origin (0,0)</text>
+
+  <!-- Point for Stuttgart (zoom 0 tile coords: ~134.5, ~88.5) -->
+  <g transform="translate(134.5, 88.5)">
+    <circle cx="0" cy="0" r="4.5" fill="#f97316"/>
+    <circle cx="0" cy="0" r="14" fill="none" stroke="#f97316" stroke-width="1" opacity="0.6"/>
+    <!-- Projection lines to axes -->
+    <line x1="-134.5" y1="0" x2="-6" y2="0" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" opacity="0.8"/>
+    <line x1="0" y1="-88.5" x2="0" y2="-6" stroke="#f97316" stroke-width="1" stroke-dasharray="3,3" opacity="0.8"/>
+    
+    <!-- Text labels -->
+    <text x="10" y="4" font-size="12" fill="#ea580c" font-weight="600">Stuttgart</text>
+    <text x="10" y="18" font-size="10" fill="#78716c">x: 134.5, y: 88.5 (px)</text>
+  </g>
+
+  <!-- Zoom Level Grid lines visualization -> 2x2 grid to hint at zooming -->
+  <line x1="128" y1="0" x2="128" y2="256" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"/>
+  <line x1="0" y1="128" x2="256" y2="128" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"/>
+  <text x="128" y="270" font-size="11" fill="#94a3b8" font-weight="500" text-anchor="middle">Equator (0°)</text>
+  <line x1="128" y1="258" x2="128" y2="262" stroke="#94a3b8" stroke-width="1.5"/>
+</svg>
