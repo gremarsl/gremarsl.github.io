@@ -142,7 +142,7 @@ At four-decimal-place precision (0.0001°), how many distinct values do we need?
 | Longitude | −180° to +180° (360°) | 3,600,000 | 22 bits |
 
 
-## Unterstanding Map Tiles - Terrarium
+## Understanding Map Tiles - Terrarium
 
 With the requirements established above, every point on Earth's surface needs three values:
 
@@ -327,9 +327,12 @@ Stuttgart coordinates:
 48.78° N, 9.18° E (Decimal Degrees)
 ```
 
-> [!WARNING]  
-> Under Construction  
-> The mercator projection and exploration I am currently working on. So stay tuned ;-).
+<div style="background-color:#fffbeb;border-left:4px solid #f59e0b;padding:1rem;margin:1.5rem 0;color:#92400e;border-radius:0 4px 4px 0;">
+<div style="font-weight:bold;margin-bottom:0.5rem;display:flex;align-items:center;gap:8px;">
+<span style="font-size:1.2em;">🚧</span> Under Construction
+</div>
+I am currently working on a more detailed exploration of the Mercator projection. Stay tuned! ;-)
+</div>
 
 
 <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
