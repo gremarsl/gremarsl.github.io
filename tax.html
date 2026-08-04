@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bruttojahresverdienst 1991-2024</title>
+  <title>Bruttojahresverdienst 1991-2025</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
@@ -28,9 +28,9 @@
             Alle Graphen werden in Euro dargestellt. <br> In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
         </div>
     </div>
-    <h3>Gehaltswachstumsanalyse 1991-2024</h3>
+    <h3>Gehaltswachstumsanalyse 1991-2025</h3>
 
-            Dieser Graph zeigt die Entwicklung des durchschnittlichen Bruttojahresverdienstes in Deutschland zwischen 1991 und 2024.
+            Dieser Graph zeigt die Entwicklung des durchschnittlichen Bruttojahresverdienstes in Deutschland zwischen 1991 und 2025.
             Die Daten zeigen ein stetiges Lohnwachstum mit einem Knick im Jahr 2020, der auf die wirtschaftlichen Unsicherheiten durch die Corona-Pandemie zurückgeführt werden kann. Der Graph zeigt den nominalen, nicht-inflationsbereinigten Verlauf des Bruttojahresverdienstes in Deutschland.
 
             Dieser Graph zeigt den Durchschnittsverdienst. Daten zum Median-Einkommen (mittleres Einkommen) konnte ich leider nicht finden. Der Durchschnitt kann durch extrem hohe Einkommen verzerrt werden und spiegelt die Einkommenssituation der meisten Menschen möglicherweise nicht genau wider. Trotzdem wird der Durchschnitt oft genutzt, um einen allgemeinen Überblick über das Wachstum und die wirtschaftliche Leistung zu geben.
@@ -61,15 +61,15 @@
         <div class="info-icon">ℹ️</div>
         <div>
             Wie ist dieser Graph zu verstehen?<br><br>
-            Beispiel 1: Im Jahr 190 lag der durchschnittliche Bruttojahresverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
+            Beispiel 1: Im Jahr 1990 lag der durchschnittliche Bruttojahresverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 2: Im Jahr 2010 lag der durchschnittliche Bruttojahresverdienst bei 39.732€. <br> Der Beginn der letzten Tarifzone lag bei 52.882€. <br> Der Spitzensteuersatz griff also bei einem ~1.33fachen des durchschnittlichen Einkommens.<br><br>
             Beispiel 3: Im Jahr 2024 lag der durchschnittliche Bruttojahresverdienst bei 56.412€. <br> Der Beginn der letzten Tarifzone lag bei 66.760€. <br> Der Spitzensteuersatz griff also bei einem ~1.183fachen des durchschnittlichen Einkommens.<br><br>
         </div>
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="currentNominal">Bruttojahresgehalt (2024): 56.412€</div>
-    <div class="stats-display" id="realValueChange">Prozentuale Veränderung seit 1990: -45.5%</div>
+    <div class="stats-display" id="avgSalaryStat">Durchschnittsgehalt (2025): €64.440</div>
+    <div class="stats-display" id="taxThresholdStat">Spitzensteuersatz-Grenze (2025): €68.481</div>
 
     <div class="thin-black-line"></div>
 <h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
@@ -96,8 +96,16 @@
     </div>
     
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="currentNominal">Bruttojahresgehalt (2024): 56.412€</div>
-    <div class="stats-display" id="realValueChange">Prozentuale Veränderung seit 1990: -45.5%</div>
+    <div class="stats-display" id="currentTaxThreshold">Spitzensteuersatz-Grenze (2025): €68.481</div>
+    <div class="stats-display" id="realTaxThresholdChange">Kaufkraftbereinigte Änderung seit 1990: -45.2%</div>
+
+<div class="thin-black-line"></div>
+<h3>Changelog / Versionsverlauf</h3>
+<ul style="line-height: 1.6; margin-bottom: 2rem; color: var(--text); font-size: 0.95rem;">
+    <li><strong>August 2026:</strong> Daten für das Jahr 2025 hinzugefügt. Die Einkommensgrenze für den Spitzensteuersatz wurde auf 68.481 € (2025) aktualisiert. Das durchschnittliche Bruttojahresgehalt wurde auf Basis des Destatis-Berichts auf 64.440 € (2025) fortgeschrieben.</li>
+    <li><strong>Juli 2026:</strong> Mobile Responsivität verbessert und Optimierungen für Smartphones/Tablets vorgenommen.</li>
+    <li><strong>März 2025:</strong> Erstveröffentlichung des Steuerrechners und der Graphen zur Lohnentwicklung seit 1990.</li>
+</ul>
 
 <div class="thin-black-line"></div>
 <!-- Reference Section added here -->
@@ -113,6 +121,7 @@
         document.getElementById('last-updated').textContent = "Last updated: " + lastUpdate.toLocaleDateString();
 
         const Bruttojahresverdienste = [
+            { "Jahr": 2025, "Bruttojahresverdienst": 5370*12 },
             { "Jahr": 2024, "Bruttojahresverdienst": 4701*12 },
             { "Jahr": 2023, "Bruttojahresverdienst": 4479*12 },
             { "Jahr": 2022, "Bruttojahresverdienst": 4244*12 },
@@ -191,7 +200,8 @@
         2021,57918,67010
         2022,58596,63418
         2023,62809,64191
-        2024,66760,66760`;
+        2024,66760,66760
+        2025,68481,67007`;
 
         const tarifzoneLines = tarifzoneData.trim().split('\n').slice(1); // Skip header
         const tarifzoneYears = [];
@@ -222,8 +232,10 @@
         const lastNominal = nominalValues[nominalValues.length - 1];
         const realValueChangePercent = ((lastInflationAdjusted - firstInflationAdjusted) / firstInflationAdjusted * 100).toFixed(1);
 
-        document.getElementById('currentNominal').textContent = `Bruttojahresgehalt (2024): €${lastNominal.toLocaleString('de-DE')}`;
-        document.getElementById('realValueChange').textContent = `Prozentuale Veränderung seit 1990: ${realValueChangePercent}%`;
+        document.getElementById('avgSalaryStat').textContent = `Durchschnittsgehalt (2025): €${lastSalary.toLocaleString('de-DE')}`;
+        document.getElementById('taxThresholdStat').textContent = `Spitzensteuersatz-Grenze (2025): €${lastNominal.toLocaleString('de-DE')}`;
+        document.getElementById('currentTaxThreshold').textContent = `Spitzensteuersatz-Grenze (2025): €${lastNominal.toLocaleString('de-DE')}`;
+        document.getElementById('realTaxThresholdChange').textContent = `Kaufkraftbereinigte Änderung seit 1990: ${realValueChangePercent}%`;
         // Create the chart
         const ctx = document.getElementById('salaryChart').getContext('2d');
         const chart = new Chart(ctx, {
@@ -254,7 +266,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Entwicklung des Bruttojahresverdienstes 1991-2024',
+                        text: 'Entwicklung des Bruttojahresverdienstes 1991-2025',
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -584,23 +596,6 @@
         });
 
     </script>
-
-    <footer>
-        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
-            © 2026 Marcel Utermann. Questions or feedback? 
-            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
-        </p>
-        <p id="last-updated-footer" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
-        <script>
-            const lastUpdateFooter = new Date(document.lastModified);
-            const el = document.getElementById('last-updated-footer');
-            if (el) {
-                el.textContent = "Last updated: " + lastUpdateFooter.toLocaleDateString();
-            }
-        </script>
-    </footer>
-</body>
-</html>
 
     <footer>
         <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
