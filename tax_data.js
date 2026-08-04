@@ -1,5 +1,6 @@
 
 const bruttomonatsverdienste = [
+  { "Jahr": 2025, "Bruttomonatsverdienst": 5370 },
   { "Jahr": 2024, "Bruttomonatsverdienst": 4701 },
   { "Jahr": 2023, "Bruttomonatsverdienst": 4479 },
   { "Jahr": 2022, "Bruttomonatsverdienst": 4244 },
