@@ -7,8 +7,54 @@
     <meta name="description"
         content="How elevation data and gradient maps work — from NASA's Digital Elevation Model to browser-rendered terrain visualisations.">
     <meta name="author" content="Marcel Utermann">
-    <title>How is the Gradient Map Created? – Marcel Utermann</title>
+    <title>${TITLE} – Marcel Utermann</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Responsive design overrides for content layout */
+        article table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        article table th,
+        article table td {
+            white-space: nowrap;
+            padding: 0.6rem 0.8rem;
+        }
+        article img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+                margin-top: 1.2em;
+            }
+            h3 {
+                font-size: 1.1rem;
+            }
+            p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            article pre {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
+            div[style*="display:flex"] {
+                gap: 16px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -491,7 +537,7 @@ directions.</p>
 <h4 id="zoom-0-the-whole-world-in-one-tile">Zoom 0 — The Whole World in
 One Tile</h4>
 <div
-style="display:flex;gap:16px;align-items:flex-start;margin:1.5rem 0;">
+style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;margin:1.5rem 0;">
 <div style="text-align:center;">
 <img src="tiles/osm_z0_0_0.png" alt="OSM world tile at zoom 0" style="width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;">
 <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">
@@ -724,13 +770,13 @@ projection. Stay tuned! ;-)</p>
 </div>
 <div
 style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
-<div style="flex:1;min-width:320px;text-align:center;">
+<div style="flex:1;min-width:280px;text-align:center;">
 <div style="font-weight:600;margin-bottom:12px;color:#334155;">
 Calculated Projection (SVG)
 </div>
 <p><img src="mercator-projection.svg" alt="Mercator Projection Coordinate System mapping Stuttgart" style="width:100%;max-width:400px;display:block;margin:0 auto;"></p>
 </div>
-<div style="flex:1;min-width:320px;text-align:center;">
+<div style="flex:1;min-width:280px;text-align:center;">
 <div style="font-weight:600;margin-bottom:12px;color:#334155;">
 Raw Map Verification
 </div>

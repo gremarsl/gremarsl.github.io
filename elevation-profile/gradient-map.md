@@ -212,7 +212,7 @@ Terrarium divides the surface of the Earth into square tiles, organised by zoom 
 
 #### Zoom 0 — The Whole World in One Tile
 
-<div style="display:flex;gap:16px;align-items:flex-start;margin:1.5rem 0;">
+<div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;margin:1.5rem 0;">
 <div style="text-align:center;">
 <img src="tiles/osm_z0_0_0.png" alt="OSM world tile at zoom 0" style="width:256px;image-rendering:pixelated;border:1px solid #e2e8f0;border-radius:4px;">
 <div style="font-size:0.85rem;color:#64748b;margin-top:4px;">OpenStreetMap — z0/0/0</div>
@@ -336,12 +336,12 @@ I am currently working on a more detailed exploration of the Mercator projection
 
 
 <div style="display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap;margin:2rem 0;">
-<div style="flex:1;min-width:320px;text-align:center;">
+<div style="flex:1;min-width:280px;text-align:center;">
 <div style="font-weight:600;margin-bottom:12px;color:#334155;">Calculated Projection (SVG)</div>
 <img src="mercator-projection.svg" alt="Mercator Projection Coordinate System mapping Stuttgart" style="width:100%;max-width:400px;display:block;margin:0 auto;">
 </div>
 
-<div style="flex:1;min-width:320px;text-align:center;">
+<div style="flex:1;min-width:280px;text-align:center;">
 <div style="font-weight:600;margin-bottom:12px;color:#334155;">Raw Map Verification</div>
 <div style="position:relative;width:256px;height:256px;border:1px solid #cbd5e1;margin:0 auto;box-shadow:0 1px 3px rgba(0,0,0,0.1);background-color:#e2e8f0;">
 <img src="tiles/osm_z0_0_0.png" style="width:256px;height:256px;display:block;image-rendering:pixelated;">

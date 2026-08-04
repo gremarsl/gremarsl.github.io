@@ -39,8 +39,54 @@ cat > "$HTML_FILE" << HTMLEOF
     <meta name="description"
         content="How elevation data and gradient maps work — from NASA's Digital Elevation Model to browser-rendered terrain visualisations.">
     <meta name="author" content="Marcel Utermann">
-    <title>${TITLE} – Marcel Utermann</title>
+    <title>\${TITLE} – Marcel Utermann</title>
     <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Responsive design overrides for content layout */
+        article table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        article table th,
+        article table td {
+            white-space: nowrap;
+            padding: 0.6rem 0.8rem;
+        }
+        article img {
+            max-width: 100%;
+            height: auto;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+                margin-top: 1.2em;
+            }
+            h3 {
+                font-size: 1.1rem;
+            }
+            p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            article pre {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
+            div[style*="display:flex"] {
+                gap: 16px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
