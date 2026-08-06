@@ -1,10 +1,10 @@
 // Annual salary data (Bruttojahresverdienst = monthly * 12, converted from DM pre-2002)
 // Source: Statistisches Bundesamt (Destatis)
 const Bruttojahresverdienste = [
-    { "Jahr": 2025, "Bruttojahresverdienst": 5370 * 12, "Medianjahresverdienst": 54066 },
-    { "Jahr": 2024, "Bruttojahresverdienst": 4701 * 12, "Medianjahresverdienst": 3978 * 12 },
-    { "Jahr": 2023, "Bruttojahresverdienst": 4479 * 12, "Medianjahresverdienst": 3762 * 12 },
-    { "Jahr": 2022, "Bruttojahresverdienst": 4244 * 12, "Medianjahresverdienst": 3565 * 12 },
+    { "Jahr": 2025, "Bruttojahresverdienst": 4851 * 12, "Medianjahresverdienst": 54066 },
+    { "Jahr": 2024, "Bruttojahresverdienst": 4691 * 12, "Medianjahresverdienst": 3978 * 12 },
+    { "Jahr": 2023, "Bruttojahresverdienst": 4468 * 12, "Medianjahresverdienst": 3762 * 12 },
+    { "Jahr": 2022, "Bruttojahresverdienst": 4234 * 12, "Medianjahresverdienst": 3565 * 12 },
     { "Jahr": 2021, "Bruttojahresverdienst": 4100 * 12, "Medianjahresverdienst": 3444 * 12 },
     { "Jahr": 2020, "Bruttojahresverdienst": 3975 * 12, "Medianjahresverdienst": 3339 * 12 },
     { "Jahr": 2019, "Bruttojahresverdienst": 3994 * 12, "Medianjahresverdienst": 3355 * 12 },
@@ -67,12 +67,12 @@ const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsber
 2014,52882,67087
 2015,52882,66754
 2016,53666,67406
-2017,54057,66894
+2017,54058,66894
 2018,54950,66797
 2019,55961,67086
-2020,57051,68053
-2021,57918,67010
-2022,58596,63418
-2023,62809,64191
+2020,57052,68053
+2021,57919,67010
+2022,58597,63418
+2023,62820,64191
 2024,66760,66760
 2025,68481,67007`;
