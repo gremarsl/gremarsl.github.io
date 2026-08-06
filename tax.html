@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bruttojahresverdienst 1991-2025</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bruttojahresverdienst 1991-2025</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
+
 <body>
-        <header>
+    <header>
         <nav class="navmenu">
             <div class="nav-brand">
                 <a href="index.html">Marcel Utermann</a>
@@ -25,16 +27,21 @@
     <div class="info-box">
         <div class="info-icon">ℹ</div>
         <div>
-            Alle Graphen werden in Euro dargestellt. <br> In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
+            Alle Graphen werden in Euro dargestellt. <br> In den Zeiträumen vor der Euro-Einführung (1991-2001) wurden
+            die Daten von DM in Euro umgerechnet (1 Euro = 1,95 DM).
         </div>
     </div>
     <h3>Gehaltswachstumsanalyse 1991-2025</h3>
 
-            Dieser Graph zeigt die Entwicklung des durchschnittlichen Bruttojahresverdienstes in Deutschland zwischen 1991 und 2025.
-            Die Daten zeigen ein stetiges Lohnwachstum mit einem Knick im Jahr 2020, der auf die wirtschaftlichen Unsicherheiten durch die Corona-Pandemie zurückgeführt werden kann. Der Graph zeigt den nominalen, nicht-inflationsbereinigten Verlauf des Bruttojahresverdienstes in Deutschland.
+    Dieser Graph zeigt die Entwicklung des durchschnittlichen sowie des Median-Bruttojahresverdienstes in Deutschland zwischen 1991 und
+    2025.
+    Die Daten zeigen ein stetiges Lohnwachstum mit einem Knick im Jahr 2020, der auf die wirtschaftlichen Unsicherheiten
+    durch die Corona-Pandemie zurückgeführt werden kann. Der Graph zeigt den nominalen, nicht-inflationsbereinigten
+    Verlauf der Verdienste in Deutschland.
 
-            Dieser Graph zeigt den Durchschnittsverdienst. Daten zum Median-Einkommen (mittleres Einkommen) konnte ich leider nicht finden. Der Durchschnitt kann durch extrem hohe Einkommen verzerrt werden und spiegelt die Einkommenssituation der meisten Menschen möglicherweise nicht genau wider. Trotzdem wird der Durchschnitt oft genutzt, um einen allgemeinen Überblick über das Wachstum und die wirtschaftliche Leistung zu geben.
-
+    Neben dem arithmetischen Mittelwert (Durchschnitt) ist der Median-Bruttojahresverdienst (das mittlere Einkommen) dargestellt.
+    Der Median ist oft aussagekräftiger als der Durchschnitt, da er nicht durch extrem hohe Gehälter verzerrt wird.
+    Als Quelle werden Daten des Statistischen Bundesamts (Destatis) herangezogen.
     <div class="chart-container">
         <canvas id="salaryChart"></canvas>
     </div>
@@ -43,14 +50,17 @@
     <div class="stats-display" id="totalGrowth">Gesamtwachstum seit 1991: +157%</div>
     <div class="stats-display" id="avgGrowth">Durchschnittliches jährliches Wachstum: +2.9%</div>
 
-<div class="thin-black-line"></div>
+    <div class="thin-black-line"></div>
 
-    <h3>Gegenüberstellung: ⌀ Bruttojahresverdienst & Beginn der letzten Tarifzone</h3>
+    <h3>Gegenüberstellung: Verdienste & Beginn der letzten Tarifzone</h3>
 
     <div class="info-box">
         <div class="info-icon">ℹ️</div>
         <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint. <br> <br> In Blau ist die Entwicklung des durchschnittlichen, nominellen Bruttojahresverdienstes in Deutschland dargestellt. <br> <br> In Grün ist die Einkommensgrenze eingezeichnet, ab der in Deutschland der Spitzensteuersatz auf das Bruttojahresgehalt erhoben wird. <br> <br>
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%)
+            gemeint. <br> <br> In Blau ist die Entwicklung des durchschnittlichen Bruttojahresverdienstes dargestellt.
+            <br> <br> In Türkis/Teal ist der Median-Bruttojahresverdienst (das mittlere Einkommen) dargestellt.
+            <br> <br> In Grün ist die Einkommensgrenze eingezeichnet, ab der in Deutschland der Spitzensteuersatz erhoben wird.
         </div>
     </div>
 
@@ -61,26 +71,35 @@
         <div class="info-icon">ℹ️</div>
         <div>
             Wie ist dieser Graph zu verstehen?<br><br>
-            Beispiel 1: Im Jahr 1990 lag der durchschnittliche Bruttojahresverdienst bei 21.984€ (wurde von DM in Euro umgerechnet). <br> Der Beginn der letzten Tarifzone lag bei 61.376€.<br> Der Spitzensteuersatz griff also bei einem ~2,8-fachen des durchschnittlichen Einkommens.<br><br>
-            Beispiel 2: Im Jahr 2010 lag der durchschnittliche Bruttojahresverdienst bei 39.732€. <br> Der Beginn der letzten Tarifzone lag bei 52.882€. <br> Der Spitzensteuersatz griff also bei einem ~1.33fachen des durchschnittlichen Einkommens.<br><br>
-            Beispiel 3: Im Jahr 2024 lag der durchschnittliche Bruttojahresverdienst bei 56.412€. <br> Der Beginn der letzten Tarifzone lag bei 66.760€. <br> Der Spitzensteuersatz griff also bei einem ~1.183fachen des durchschnittlichen Einkommens.<br><br>
+            Beispiel 1: Im Jahr 1991 lag der durchschnittliche Bruttojahresverdienst bei 21.984€, der Median bei 18.468€ (umgerechnet aus DM).
+            Der Beginn der letzten Tarifzone lag bei 61.376€. Der Spitzensteuersatz griff also bei dem ~2,79-fachen des Durchschnittsgehalts bzw. dem ~3,32-fachen des Median-Einkommens.<br><br>
+            Beispiel 2: Im Jahr 2010 lag der durchschnittliche Bruttojahresverdienst bei 38.724€, der Median bei 31.908€.
+            Der Beginn der letzten Tarifzone lag bei 52.882€. Der Spitzensteuersatz griff also bei dem ~1,37-fachen des Durchschnittsgehalts bzw. dem ~1,66-fachen des Median-Einkommens.<br><br>
+            Beispiel 3: Im Jahr 2025 liegt der durchschnittliche Bruttojahresverdienst bei 64.440€, der Median bei 54.066€.
+            Der Beginn der letzten Tarifzone liegt bei 68.481€. Der Spitzensteuersatz greift somit bereits ab dem ~1,06-fachen des Durchschnittsgehalts bzw. dem ~1,27-fachen des Median-Einkommens.
         </div>
     </div>
-    
+
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
-    <div class="stats-display" id="avgSalaryStat">Durchschnittsgehalt (2025): €64.440</div>
+    <div class="stats-display" id="avgSalaryStat">Durchschnittsgehalt (2025): €64.441</div>
+    <div class="stats-display" id="medianSalaryStat">Median-Jahresverdienst (2025): €54.066</div>
     <div class="stats-display" id="taxThresholdStat">Spitzensteuersatz-Grenze (2025): €68.481</div>
 
     <div class="thin-black-line"></div>
-<h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
+    <h3>Beginn der letzten Tarifzone - Nominal vs. Inflationsbereinigt</h3>
     <div class="info-box">
         <div class="info-icon">ℹ</div>
         <div>
-            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%) gemeint.
-         </div>
+            Mit dem Beginn der letzten Tarifzone ist der im Sprachgebrauch häufig verwendete Spitzensteuersatz (42%)
+            gemeint.
+        </div>
     </div>
 
- In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis 2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und inflationsbereinigten Werten dar. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht betrachtet.
+    In Blau ist der nominelle Bruttoverdienst ab welcher der Spitzensteuersatz in Deutschland mit 42% greift
+    dargestellt. <br> <br> In Grün ist der inflationsbereinigte (kaufkraftbereinigte) Bruttoverdienst dargestellt (Basis
+    2024). <br> <br> Dieser Vergleich stellt also die Entwicklung des Bruttoverdienstes in nominalen und
+    inflationsbereinigten Werten dar. Die Reichensteuer (45%) die ab ~250.000€ greift wird in diesem Kontext nicht
+    betrachtet.
 
 
     <div class="chart-container">
@@ -90,30 +109,42 @@
         <div class="info-icon">ℹ️</div>
         <div>
             Wie ist dieser Graph zu verstehen?<br><br>
-            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
-            Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
+            Beispiel 1: Im Jahr 1992 lag der Beginn der letzten Tarifzone bei 61.376€ (wurde von DM in Euro
+            umgerechnet). Inflationsbereinigt (Basis 2024) wären dies im Jahr 2024 118.025€. <br><br>
+            Beispiel 2: Im Jahr 2010 lag der Beginn der letzten Tarifzone bei 52.882€. Inflationsbereinigt (Basis 2024)
+            wären dies im Jahr 2024 71.553€. Kaufkraftbereinigt also 46.472€ niedriger als noch im Jahr 1992. <br><br>
         </div>
     </div>
-    
+
     <h3 class="kleinere-ueberschrift">Hauptstatistiken</h3>
     <div class="stats-display" id="currentTaxThreshold">Spitzensteuersatz-Grenze (2025): €68.481</div>
     <div class="stats-display" id="realTaxThresholdChange">Kaufkraftbereinigte Änderung seit 1990: -45.2%</div>
 
-<div class="thin-black-line"></div>
-<h3>Changelog / Versionsverlauf</h3>
-<ul style="line-height: 1.6; margin-bottom: 2rem; color: var(--text); font-size: 0.95rem;">
-    <li><strong>August 2026:</strong> Daten für das Jahr 2025 hinzugefügt. Die Einkommensgrenze für den Spitzensteuersatz wurde auf 68.481 € (2025) aktualisiert. Das durchschnittliche Bruttojahresgehalt wurde auf Basis des Destatis-Berichts auf 64.440 € (2025) fortgeschrieben.</li>
-    <li><strong>Juli 2026:</strong> Mobile Responsivität verbessert und Optimierungen für Smartphones/Tablets vorgenommen.</li>
-    <li><strong>März 2025:</strong> Erstveröffentlichung des Steuerrechners und der Graphen zur Lohnentwicklung seit 1990.</li>
-</ul>
+    <div class="thin-black-line"></div>
+    <h3>Changelog / Versionsverlauf</h3>
+    <ul style="line-height: 1.6; margin-bottom: 2rem; color: var(--text); font-size: 0.95rem;">
+        <li>August 2026:Integration von Destatis-Mediandaten zur realistischen Darstellung der mittleren Einkommen. Behebung einer historischen Jahresverschiebung in der Gegenüberstellungstabelle und Aktualisierung aller Rechenbeispiele.</li>
+        <li>August 2026:Daten für das Jahr 2025 hinzugefügt. Die Einkommensgrenze für den
+            Spitzensteuersatz wurde auf 68.481 € (2025) aktualisiert. Das durchschnittliche Bruttojahresgehalt wurde auf
+            Basis des Destatis-Berichts auf 64.441 € (2025) fortgeschrieben.</li>
+        <li>Juli 2026:Mobile Responsivität verbessert und Optimierungen für Smartphones/Tablets
+            vorgenommen.</li>
+        <li>März 2025:Erstveröffentlichung des Steuerrechners und der Graphen zur Lohnentwicklung seit
+            1990.</li>
+    </ul>
 
-<div class="thin-black-line"></div>
-<!-- Reference Section added here -->
-<h3>Referenzen / Datenquellen</h3>
+    <div class="thin-black-line"></div>
+    <!-- Reference Section added here -->
+    <h3>Referenzen / Datenquellen</h3>
 
-    <p>(1) <a href="https://www.destatis.de/DE/Themen/Arbeit/Verdienste/Verdienste-Branche-Berufe/Tabellen/liste-bruttomonatsverdienste.html#134694" target="_blank">Statistisches Bundesamt</a></p>
+    <p>(1) <a
+            href="https://www.destatis.de/DE/Themen/Arbeit/Verdienste/Verdienste-Branche-Berufe/Tabellen/liste-bruttomonatsverdienste.html#134694"
+            target="_blank">Statistisches Bundesamt: Durchschnittliche Bruttomonatsverdienste</a></p>
 
-    <p>(2) <a href="https://de.wikipedia.org/wiki/Tarifgeschichte_der_Einkommensteuer_in_Deutschland" target="_blank">Wikipedia: Tarifgeschichte der Einkommensteuer in Deutschland</a></p>
+    <p>(2) <a href="https://de.wikipedia.org/wiki/Tarifgeschichte_der_Einkommensteuer_in_Deutschland"
+            target="_blank">Wikipedia: Tarifgeschichte der Einkommensteuer in Deutschland</a></p>
+
+    <p>(3) Statistisches Bundesamt (Destatis): Verdienststrukturerhebung (VSE) 2006, 2010, 2014, 2018 sowie Pressemitteilungen zur Verdienstentwicklung (Median-Bruttojahresverdienst 2024 & 2025).</p>
 
     <script>
         // Set last updated date
@@ -121,41 +152,41 @@
         document.getElementById('last-updated').textContent = "Last updated: " + lastUpdate.toLocaleDateString();
 
         const Bruttojahresverdienste = [
-            { "Jahr": 2025, "Bruttojahresverdienst": 5370*12 },
-            { "Jahr": 2024, "Bruttojahresverdienst": 4701*12 },
-            { "Jahr": 2023, "Bruttojahresverdienst": 4479*12 },
-            { "Jahr": 2022, "Bruttojahresverdienst": 4244*12 },
-            { "Jahr": 2021, "Bruttojahresverdienst": 4100*12 },
-            { "Jahr": 2020, "Bruttojahresverdienst": 3975*12 },
-            { "Jahr": 2019, "Bruttojahresverdienst": 3994*12 },
-            { "Jahr": 2018, "Bruttojahresverdienst": 3880*12 },
-            { "Jahr": 2017, "Bruttojahresverdienst": 3771*12 },
-            { "Jahr": 2016, "Bruttojahresverdienst": 3703*12 },
-            { "Jahr": 2015, "Bruttojahresverdienst": 3612*12 },
-            { "Jahr": 2014, "Bruttojahresverdienst": 3527*12 },
-            { "Jahr": 2013, "Bruttojahresverdienst": 3449*12 },
-            { "Jahr": 2012, "Bruttojahresverdienst": 3391*12 },
-            { "Jahr": 2011, "Bruttojahresverdienst": 3311*12 },
-            { "Jahr": 2010, "Bruttojahresverdienst": 3227*12 },
-            { "Jahr": 2009, "Bruttojahresverdienst": 3141*12 },
-            { "Jahr": 2008, "Bruttojahresverdienst": 3103*12 },
-            { "Jahr": 2007, "Bruttojahresverdienst": 3023*12 },
-            { "Jahr": 2006, "Bruttojahresverdienst": 2950*12 },
-            { "Jahr": 2005, "Bruttojahresverdienst": 2901*12 },
-            { "Jahr": 2004, "Bruttojahresverdienst": 2846*12 },
-            { "Jahr": 2003, "Bruttojahresverdienst": 2783*12 },
-            { "Jahr": 2002, "Bruttojahresverdienst": 2701*12 },
-            { "Jahr": 2001, "Bruttojahresverdienst": 2617*12 },
-            { "Jahr": 2000, "Bruttojahresverdienst": 2551*12 },
-            { "Jahr": 1999, "Bruttojahresverdienst": 2518*12 },
-            { "Jahr": 1998, "Bruttojahresverdienst": 2447*12 },
-            { "Jahr": 1997, "Bruttojahresverdienst": 2389*12 },
-            { "Jahr": 1996, "Bruttojahresverdienst": 2344*12 },
-            { "Jahr": 1995, "Bruttojahresverdienst": 2281*12 },
-            { "Jahr": 1994, "Bruttojahresverdienst": 2185*12 },
-            { "Jahr": 1993, "Bruttojahresverdienst": 2103*12 },
-            { "Jahr": 1992, "Bruttojahresverdienst": 2003*12 },
-            { "Jahr": 1991, "Bruttojahresverdienst": 1832*12 }
+            { "Jahr": 2025, "Bruttojahresverdienst": 5370 * 12, "Medianjahresverdienst": 54066 },
+            { "Jahr": 2024, "Bruttojahresverdienst": 4701 * 12, "Medianjahresverdienst": 3978 * 12 },
+            { "Jahr": 2023, "Bruttojahresverdienst": 4479 * 12, "Medianjahresverdienst": 3762 * 12 },
+            { "Jahr": 2022, "Bruttojahresverdienst": 4244 * 12, "Medianjahresverdienst": 3565 * 12 },
+            { "Jahr": 2021, "Bruttojahresverdienst": 4100 * 12, "Medianjahresverdienst": 3444 * 12 },
+            { "Jahr": 2020, "Bruttojahresverdienst": 3975 * 12, "Medianjahresverdienst": 3339 * 12 },
+            { "Jahr": 2019, "Bruttojahresverdienst": 3994 * 12, "Medianjahresverdienst": 3355 * 12 },
+            { "Jahr": 2018, "Bruttojahresverdienst": 3880 * 12, "Medianjahresverdienst": 3304 * 12 },
+            { "Jahr": 2017, "Bruttojahresverdienst": 3771 * 12, "Medianjahresverdienst": 3168 * 12 },
+            { "Jahr": 2016, "Bruttojahresverdienst": 3703 * 12, "Medianjahresverdienst": 3111 * 12 },
+            { "Jahr": 2015, "Bruttojahresverdienst": 3612 * 12, "Medianjahresverdienst": 3034 * 12 },
+            { "Jahr": 2014, "Bruttojahresverdienst": 3527 * 12, "Medianjahresverdienst": 2955 * 12 },
+            { "Jahr": 2013, "Bruttojahresverdienst": 3449 * 12, "Medianjahresverdienst": 2897 * 12 },
+            { "Jahr": 2012, "Bruttojahresverdienst": 3391 * 12, "Medianjahresverdienst": 2848 * 12 },
+            { "Jahr": 2011, "Bruttojahresverdienst": 3311 * 12, "Medianjahresverdienst": 2781 * 12 },
+            { "Jahr": 2010, "Bruttojahresverdienst": 3227 * 12, "Medianjahresverdienst": 2659 * 12 },
+            { "Jahr": 2009, "Bruttojahresverdienst": 3141 * 12, "Medianjahresverdienst": 2638 * 12 },
+            { "Jahr": 2008, "Bruttojahresverdienst": 3103 * 12, "Medianjahresverdienst": 2607 * 12 },
+            { "Jahr": 2007, "Bruttojahresverdienst": 3023 * 12, "Medianjahresverdienst": 2539 * 12 },
+            { "Jahr": 2006, "Bruttojahresverdienst": 2950 * 12, "Medianjahresverdienst": 2518 * 12 },
+            { "Jahr": 2005, "Bruttojahresverdienst": 2901 * 12, "Medianjahresverdienst": 2437 * 12 },
+            { "Jahr": 2004, "Bruttojahresverdienst": 2846 * 12, "Medianjahresverdienst": 2391 * 12 },
+            { "Jahr": 2003, "Bruttojahresverdienst": 2783 * 12, "Medianjahresverdienst": 2338 * 12 },
+            { "Jahr": 2002, "Bruttojahresverdienst": 2701 * 12, "Medianjahresverdienst": 2269 * 12 },
+            { "Jahr": 2001, "Bruttojahresverdienst": 2617 * 12, "Medianjahresverdienst": 2198 * 12 },
+            { "Jahr": 2000, "Bruttojahresverdienst": 2551 * 12, "Medianjahresverdienst": 2143 * 12 },
+            { "Jahr": 1999, "Bruttojahresverdienst": 2518 * 12, "Medianjahresverdienst": 2115 * 12 },
+            { "Jahr": 1998, "Bruttojahresverdienst": 2447 * 12, "Medianjahresverdienst": 2055 * 12 },
+            { "Jahr": 1997, "Bruttojahresverdienst": 2389 * 12, "Medianjahresverdienst": 2007 * 12 },
+            { "Jahr": 1996, "Bruttojahresverdienst": 2344 * 12, "Medianjahresverdienst": 1969 * 12 },
+            { "Jahr": 1995, "Bruttojahresverdienst": 2281 * 12, "Medianjahresverdienst": 1916 * 12 },
+            { "Jahr": 1994, "Bruttojahresverdienst": 2185 * 12, "Medianjahresverdienst": 1835 * 12 },
+            { "Jahr": 1993, "Bruttojahresverdienst": 2103 * 12, "Medianjahresverdienst": 1767 * 12 },
+            { "Jahr": 1992, "Bruttojahresverdienst": 2003 * 12, "Medianjahresverdienst": 1683 * 12 },
+            { "Jahr": 1991, "Bruttojahresverdienst": 1832 * 12, "Medianjahresverdienst": 1539 * 12 }
         ];
 
         // Sort data by year for proper visualization
@@ -164,9 +195,10 @@
         // Extract data for chart
         const years = Bruttojahresverdienste.map(item => item.Jahr);
         const salaries = Bruttojahresverdienste.map(item => item.Bruttojahresverdienst);
+        const medians = Bruttojahresverdienste.map(item => item.Medianjahresverdienst);
 
         // Parse the new Tarifzone data
-        const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsbereinigt (Basis 2024)
+        const tarifzoneData = `Zeitraum,Beginn der letzten Tarifzone [€],Inflationsbereinigt
         1990,61376,122392
         1991,61376,118025
         1992,61376,118025
@@ -232,7 +264,9 @@
         const lastNominal = nominalValues[nominalValues.length - 1];
         const realValueChangePercent = ((lastInflationAdjusted - firstInflationAdjusted) / firstInflationAdjusted * 100).toFixed(1);
 
+        const lastMedian = medians[medians.length - 1];
         document.getElementById('avgSalaryStat').textContent = `Durchschnittsgehalt (2025): €${lastSalary.toLocaleString('de-DE')}`;
+        document.getElementById('medianSalaryStat').textContent = `Median-Jahresverdienst (2025): €${lastMedian.toLocaleString('de-DE')}`;
         document.getElementById('taxThresholdStat').textContent = `Spitzensteuersatz-Grenze (2025): €${lastNominal.toLocaleString('de-DE')}`;
         document.getElementById('currentTaxThreshold').textContent = `Spitzensteuersatz-Grenze (2025): €${lastNominal.toLocaleString('de-DE')}`;
         document.getElementById('realTaxThresholdChange').textContent = `Kaufkraftbereinigte Änderung seit 1990: ${realValueChangePercent}%`;
@@ -243,7 +277,7 @@
             data: {
                 labels: years,
                 datasets: [{
-                    label: 'Bruttojahresverdienst (€)',
+                    label: '⌀ Bruttojahresverdienst (€)',
                     data: salaries,
                     borderColor: 'darkblue',
                     backgroundColor: 'darkblue',
@@ -253,6 +287,22 @@
                     pointRadius: 3,
                     pointHoverRadius: 6,
                     pointBackgroundColor: 'darkblue',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 1,
+                    pointHoverBackgroundColor: 'red',
+                    pointHoverBorderColor: '#ffffff',
+                    pointHoverBorderWidth: 2
+                }, {
+                    label: 'Median-Bruttojahresverdienst (€)',
+                    data: medians,
+                    borderColor: '#0d9488',
+                    backgroundColor: '#0d9488',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 3,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: '#0d9488',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 1,
                     pointHoverBackgroundColor: 'red',
@@ -285,7 +335,7 @@
                         cornerRadius: 4,
                         displayColors: false,
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return `€${context.parsed.y.toLocaleString('de-DE')}`;
                             }
                         }
@@ -326,7 +376,7 @@
                             font: {
                                 size: 10
                             },
-                            callback: function(value) {
+                            callback: function (value) {
                                 return '€' + value.toLocaleString('de-DE');
                             }
                         },
@@ -411,7 +461,7 @@
                         cornerRadius: 4,
                         displayColors: true,
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return context.dataset.label + ': €' + context.parsed.y.toLocaleString('de-DE');
                             }
                         }
@@ -452,7 +502,7 @@
                             font: {
                                 size: 10
                             },
-                            callback: function(value) {
+                            callback: function (value) {
                                 return '€' + value.toLocaleString('de-DE');
                             }
                         },
@@ -469,15 +519,29 @@
             }
         });
 
-        // Create the comparison chart (Nominal vs. Inflation-adjusted Tarifzone)
+        // Create the comparison chart (Average & Median Salary vs. Spitzensteuersatz)
+        const comparisonYears = [];
+        for (let y = 1991; y <= 2025; y++) {
+            comparisonYears.push(y);
+        }
+
+        const tarifzoneMap = {};
+        tarifzoneLines.forEach(line => {
+            const [year, nominal] = line.split(',');
+            tarifzoneMap[parseInt(year)] = parseInt(nominal);
+        });
+        tarifzoneMap[2012] = 52882; // Fill missing 2012
+
+        const comparisonNominalValues = comparisonYears.map(year => tarifzoneMap[year]);
+
         const ctx3 = document.getElementById('comparisonChart3').getContext('2d');
         const comparisonChart3 = new Chart(ctx3, {
             type: 'line',
             data: {
-                labels: tarifzoneYears,
+                labels: comparisonYears,
                 datasets: [
                     {
-                        label: 'Bruttojahresverdienst (€)',
+                        label: '⌀ Bruttojahresverdienst (€)',
                         data: salaries,
                         borderColor: 'darkblue',
                         backgroundColor: 'darkblue',
@@ -494,8 +558,25 @@
                         pointHoverBorderWidth: 2
                     },
                     {
-                        label: 'Beginn des Spitzensteuersatzes [€]',
-                        data: nominalValues,
+                        label: 'Median-Bruttojahresverdienst (€)',
+                        data: medians,
+                        borderColor: '#0d9488',
+                        backgroundColor: '#0d9488',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#0d9488',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 1,
+                        pointHoverBackgroundColor: 'red',
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2
+                    },
+                    {
+                        label: 'Beginn des Spitzensteuersatzes (€)',
+                        data: comparisonNominalValues,
                         borderColor: 'darkgreen',
                         backgroundColor: 'darkgreen',
                         borderWidth: 2,
@@ -518,7 +599,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Gegenüberstellung ⌀ Bruttojahresverdienst mit Beginn des Spitzensteuersatzes (42%)',
+                        text: 'Gegenüberstellung ⌀ & Median-Bruttojahresverdienst mit Beginn des Spitzensteuersatzes (42%)',
                         font: {
                             size: 16,
                             weight: 'bold'
@@ -537,7 +618,7 @@
                         cornerRadius: 4,
                         displayColors: true,
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return context.dataset.label + ': €' + context.parsed.y.toLocaleString('de-DE');
                             }
                         }
@@ -578,7 +659,7 @@
                             font: {
                                 size: 10
                             },
-                            callback: function(value) {
+                            callback: function (value) {
                                 return '€' + value.toLocaleString('de-DE');
                             }
                         },
@@ -599,10 +680,12 @@
 
     <footer>
         <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
-            © 2026 Marcel Utermann. Questions or feedback? 
-            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
+            © 2026 Marcel Utermann. Questions or feedback?
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub
+                Issue</a>.
         </p>
-        <p id="last-updated-footer" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <p id="last-updated-footer"
+            style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
         <script>
             const lastUpdateFooter = new Date(document.lastModified);
             const el = document.getElementById('last-updated-footer');
@@ -612,4 +695,5 @@
         </script>
     </footer>
 </body>
+
 </html>
