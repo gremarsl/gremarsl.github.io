@@ -172,6 +172,36 @@
     </div>
     <p>The first part alone, ½<i>ρv</i>², is a pressure: kg/(m·s²) = N/m² = Pa. Pressure times area gives a force.</p>
     <p>Example at 50 m/s and sea level: stopped air pushes with ½ · 1.225 · 50² = 1531 Pa. The cube has <i>C</i><sub>d</sub> = 1.05 and a front of 0.01 m², so its drag is 1531 · 1.05 · 0.01 = 16.1 N. That is more than three times its weight of 4.9 N. The drop has <i>C</i><sub>d</sub> = 0.05 and a front of 0.0079 m², so its drag is 0.6 N.</p>
+    <div class="scroll">
+      <table style="width: auto">
+        <thead><tr><th>Shape</th><th>Front</th><th><i>A</i><sub>f</sub></th><th><i>C</i><sub>d</sub></th><th><i>C</i><sub>d</sub> · <i>A</i><sub>f</sub></th><th>Drag at 50 m/s</th></tr></thead>
+        <tbody>
+          <tr><td>Cube</td><td>Square, 10 × 10 cm</td><td>0.0100 m²</td><td>1.05</td><td>0.0105 m²</td><td>16.1 N</td></tr>
+          <tr><td>Drone</td><td>Flat body, 15 × 10 cm</td><td>0.0150 m²</td><td>1.2</td><td>0.0180 m²</td><td>27.6 N</td></tr>
+          <tr><td>Ball</td><td>Circle, 12.4 cm across</td><td>0.0121 m²</td><td>0.47</td><td>0.0057 m²</td><td>8.7 N</td></tr>
+          <tr><td>Drop</td><td>Circle, 10 cm across</td><td>0.0079 m²</td><td>0.05</td><td>0.0004 m²</td><td>0.6 N</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">At sea level. The drop with its default settings. For a circle, <i>A</i><sub>f</sub> = π · (diameter / 2)².</p>
+
+    <h3>Where the drag coefficient comes from</h3>
+    <p><i>C</i><sub>d</sub> is not calculated from the shape with a simple formula. It is measured, in a wind tunnel or a flow simulation: measure the drag and divide it by ½<i>ρv</i>² · <i>A</i><sub>f</sub>. But it can be split into three parts that explain the number:</p>
+    <div class="eq"><math display="block"><msub><mi>C</mi><mi>d</mi></msub><mo>&asymp;</mo><munder><msub><mi>c</mi><mtext>front</mtext></msub><mtext>extra push on the front</mtext></munder><mo>&minus;</mo><munder><msub><mi>c</mi><mtext>back</mtext></msub><mtext>pressure at the back</mtext></munder><mo>+</mo><munder><msub><mi>c</mi><mtext>friction</mtext></msub><mtext>rubbing along the skin</mtext></munder></math></div>
+    <p>Each part is a pressure, averaged over the frontal area and divided by the pressure of stopped air. +1 means the full stopped-air pressure, 0 means normal air pressure, and a negative value means less than normal, as in a wake.</p>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div class="bar-row"><span class="key"><span class="sw cube"></span>Cube</span><div><div class="track"><span class="seg" style="width:58.3%;background:var(--s1);"></span><span class="seg" style="width:29.2%;background:var(--s1);opacity:0.5"></span></div><div class="muted">Front +0.70, back −0.35, friction about 0. Total 1.05.</div></div></div>
+      <div class="bar-row"><span class="key"><span class="sw drone"></span>Drone</span><div><div class="track"><span class="seg" style="width:66.4%;background:var(--s2);"></span><span class="seg" style="width:33.2%;background:var(--s2);opacity:0.5"></span></div><div class="muted">Front +0.80, back −0.40, friction about 0. Total 1.2.</div></div></div>
+      <div class="bar-row"><span class="key"><span class="sw ball"></span>Ball</span><div><div class="track"><span class="seg" style="width:4.2%;background:var(--s3);"></span><span class="seg" style="width:33.3%;background:var(--s3);opacity:0.5"></span><span class="seg" style="width:1.7%;background:var(--neutral);"></span></div><div class="muted">Front +0.05, back −0.40, friction 0.02. Total 0.47.</div></div></div>
+      <div class="bar-row"><span class="key"><span class="sw drop"></span>Drop</span><div><div class="track"><span class="seg" style="width:0.8%;background:var(--s4);opacity:0.5"></span><span class="seg" style="width:3.3%;background:var(--neutral);"></span></div><div class="muted">Front about 0, back −0.01, friction 0.04. Total 0.05.</div></div></div>
+    </div>
+    <p class="muted">The bar length is the drag coefficient. Solid: extra push on the front. Pale: missing push at the back. Grey: friction. Rough textbook values, they shift with speed and surface.</p>
+    <ul>
+      <li><b>Cube, 1.05.</b> The flat front stops the air. The pressure is the full stopped-air pressure in the middle and less towards the edges, +0.70 on average. The back sits in the wake at −0.35. Front minus back is 0.70 + 0.35 = 1.05. At 50 m/s that is 1072 Pa more on the front and 536 Pa less on the back, 1608 Pa in total. Times 0.01 m² gives the 16.1 N from the example.</li>
+      <li><b>Ball, 0.47.</b> The stopped air at the tip pushes back, but the air speeding around the shoulders has low pressure and pulls forward. The two nearly cancel, so the round front adds only 0.05. The wake behind costs 0.40.</li>
+      <li><b>Drop, 0.05.</b> The front works like the ball's. The tail closes the flow, so the pressure behind is almost back to normal and only 0.01 is left. The rest is friction. The air rubs on every bit of skin with about 0.005 of the stopped-air pressure, and the skin is about 8 times as large as the frontal area: 0.005 · 8 = 0.04.</li>
+    </ul>
+    <p>Without friction, the air would close perfectly behind every shape, front and back would cancel, and the drag would be zero. Friction slows the thin layer of air next to the surface. On a blunt shape that layer cannot follow the sharp turn at the back, so the flow breaks away and the wake appears. The drop's gentle taper is what lets it follow.</p>
     <ul>
       <li><b>Cube and drone.</b> The air breaks away at the sharp front edges. The wake is wider than the body, so the whole back sits in low pressure. The flat drone body is also the widest.</li>
       <li><b>Ball.</b> The air follows the round front and breaks away later. The front is pushed less and the wake is narrower.</li>
