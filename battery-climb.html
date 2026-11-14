@@ -222,7 +222,7 @@
     <h3>2. Why hovering costs power</h3>
     <p>A propeller holds the object up by pushing air down. The steps below lead from that idea to the power needed to hover.</p>
 
-    <p><b>Step 1. Forces on the object.</b> The propeller pushes the air down. The air pushes back on the propeller with the same force, upward. That reaction is the thrust <i>T</i>. The push down acts on the air, not on the object. So only two forces act on the object, the thrust up and the weight down, and for hovering they must be equal:</p>
+    <p><b>Step 1. Forces on the object.</b> The propeller pushes the air down. By Newton's third law, every force has an equal and opposite counterpart: the air pushes back on the propeller with the same force, upward. That reaction is the thrust <i>T</i>. The push down acts on the air, not on the object. So only two forces act on the object, the thrust up and the weight down, and for hovering they must be equal:</p>
     <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mi>m</mi><mi>g</mi></math></div>
     <svg viewBox="0 0 520 190" role="img" aria-label="Left: thrust up and weight down on the object. Right: the propeller pushes the air down." style="width: 100%; max-width: 520px; height: auto; color: var(--fg)" font-size="12" fill="currentColor" stroke="none" text-anchor="middle">
       <text x="125" y="16" font-weight="600" font-size="13">Forces on the object</text>
@@ -259,14 +259,9 @@
     <div class="eq"><math display="block"><mi>m</mi><mi>g</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt></math></div>
     <p><b>Step 8. Power for hovering.</b> Use <i>P</i> = <i>T v</i><sub>i</sub> from step 5 with <i>T</i> = <i>m g</i>:</p>
     <div class="eq"><math display="block"><msub><mi>P</mi><mtext>hover</mtext></msub><mo>=</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><mi>m</mi><mi>g</mi><mo>&sdot;</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></msqrt></mfrac></math></div>
-    <p><b>In numbers.</b> Two 12.7 cm propellers have <i>A</i> = 0.0253 m². At sea level <i>ρ</i> = 1.225 kg/m³ and the weight is 4.9 N.</p>
-    <ul>
-      <li>Air speed at the disk: <i>v</i><sub>i</sub> = √(4.9 / (2 · 1.225 · 0.0253)) = 8.9 m/s. Far below: <i>w</i> = 17.8 m/s.</li>
-      <li>Air per second: <i>ṁ</i> = 1.225 · 0.0253 · 8.9 = 0.28 kg/s. That is about 225 litres of air every second.</li>
-      <li>Check of the thrust: <i>ṁ w</i> = 0.28 kg/s · 17.8 m/s = 4.9 N, the weight.</li>
-      <li>Power: <i>T v</i><sub>i</sub> = 4.9 N · 8.9 m/s = 43.6 W in the air. At 50 % efficiency that is 87 W from the battery.</li>
-    </ul>
-    <p>Thrust grows with the air speed, but power grows with its square. Moving a lot of air slowly is cheaper than moving a little air fast, so large propellers are efficient.</p>
+    <p><b>What this means.</b> Compare step 2 and step 4. For the same amount of air per second, the thrust <i>ṁ w</i> grows with the air speed <i>w</i>, but the power ½<i>ṁ w</i>² grows with its square. Step 5 says the same in one line. The power needed for each newton of thrust is the air speed at the disk:</p>
+    <div class="eq"><math display="block"><mi>P</mi><mo>=</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><mfrac><mi>P</mi><mi>T</mi></mfrac><mo>=</mo><msub><mi>v</mi><mi>i</mi></msub></math></div>
+    <p>The slower the air, the cheaper the thrust. A larger propeller makes the same thrust with more air that moves more slowly, so it needs less power. In step 7 a larger area <i>A</i> gives a smaller <i>v</i><sub>i</sub>.</p>
 
     <h3>3. Lift-off</h3>
     <p>Three forces act on the object. The thrust <i>T</i> of the propellers pushes up. The weight <i>m g</i> and the drag <i>D</i> pull down. Newton's second law gives the acceleration <i>a</i>:</p>
