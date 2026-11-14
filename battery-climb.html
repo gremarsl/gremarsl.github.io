@@ -78,6 +78,7 @@
       <input type="range" id="power" min="0" max="1000" step="1" value="384">
       <output id="powerOut" for="power">500 W</output>
     </div>
+    <p class="muted">Power draw is the electrical power the motors take from the battery, in watts. One watt is one joule of energy per second. It is not a force. At 500 W the 1 kWh battery is empty after 2 hours.</p>
     <div class="row">
       <button id="play" type="button">Play flight</button>
       <span class="muted" id="status">Battery lasts 2 h</span>
@@ -136,7 +137,8 @@
 
   <section>
     <h2>Why the ball and the drop climb faster</h2>
-    <p>The four objects differ only in drag. Air that hits the front is slowed down and pushes on it with high pressure. Where the air cannot follow the surface, it breaks away and leaves a wake of swirling, low-pressure air behind the body. Drag is mostly this pressure difference between front and back.</p>
+    <p>The four objects differ only in drag. Drag is a force, measured in newtons. It is the push of the air against the motion, so on a climbing object it points down, like the weight.</p>
+    <p>Air presses on every part of the surface. Air that hits the front is slowed down and presses harder than normal. Where the air cannot follow the surface, it breaks away and leaves a wake of swirling air behind the body, which presses less than normal. The front is pushed back harder than the back is pushed forward, and the difference is the drag. A smaller part comes from air rubbing along the surface.</p>
     <div class="row">
       <label for="speed">Climb speed</label>
       <input type="range" class="slide" id="speed" min="0" max="250" step="1" value="50">
@@ -153,12 +155,28 @@
     <div id="bars"></div>
     <p class="muted">Grey is the weight, the same for every object. Colour is the drag. Together they are the thrust the propellers must deliver at this speed and altitude.</p>
     <div class="eq"><math display="block"><mi>D</mi><mo>=</mo><munder><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ρ</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><mtext>pressure of stopped air</mtext></munder><mo>&sdot;</mo><munder><msub><mi>C</mi><mi>d</mi></msub><mtext>shape</mtext></munder><mo>&sdot;</mo><munder><msub><mi>A</mi><mi>f</mi></msub><mtext>frontal area</mtext></munder></math></div>
+    <p>The same formula in units:</p>
+    <div class="eq"><math display="block"><mtext>N</mtext><mo>=</mo><mfrac><mtext>kg</mtext><msup><mtext>m</mtext><mn>3</mn></msup></mfrac><mo>&sdot;</mo><msup><mrow><mo>(</mo><mfrac><mtext>m</mtext><mtext>s</mtext></mfrac><mo>)</mo></mrow><mn>2</mn></msup><mo>&sdot;</mo><mn>1</mn><mo>&sdot;</mo><msup><mtext>m</mtext><mn>2</mn></msup><mo>=</mo><mfrac><mrow><mtext>kg</mtext><mo>&sdot;</mo><mtext>m</mtext></mrow><msup><mtext>s</mtext><mn>2</mn></msup></mfrac></math></div>
+    <div class="scroll">
+      <table style="width: auto">
+        <thead><tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr></thead>
+        <tbody>
+          <tr><td><i>D</i></td><td>Drag force</td><td>N (newton) = kg·m/s²</td></tr>
+          <tr><td><i>ρ</i></td><td>Air density</td><td>kg/m³</td></tr>
+          <tr><td><i>v</i></td><td>Speed through the air</td><td>m/s</td></tr>
+          <tr><td><i>C</i><sub>d</sub></td><td>Drag coefficient of the shape</td><td>none, a pure number</td></tr>
+          <tr><td><i>A</i><sub>f</sub></td><td>Frontal area</td><td>m²</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The first part alone, ½<i>ρv</i>², is a pressure: kg/(m·s²) = N/m² = Pa. Pressure times area gives a force.</p>
     <p>Example at 50 m/s and sea level: stopped air pushes with ½ · 1.225 · 50² = 1531 Pa. The cube has <i>C</i><sub>d</sub> = 1.05 and a front of 0.01 m², so its drag is 1531 · 1.05 · 0.01 = 16.1 N. That is more than three times its weight of 4.9 N. The drop has <i>C</i><sub>d</sub> = 0.05 and a front of 0.0079 m², so its drag is 0.6 N.</p>
     <ul>
       <li><b>Cube and drone.</b> The air breaks away at the sharp front edges. The wake is wider than the body, so the whole back sits in low pressure. The flat drone body is also the widest.</li>
       <li><b>Ball.</b> The air follows the round front and breaks away later. The front is pushed less and the wake is narrower.</li>
       <li><b>Drop.</b> The long tail fills the space where the wake would be. The air stays attached and the pressure recovers behind the body. Almost only skin friction is left.</li>
       <li><b>Speed and altitude.</b> Drag grows with the square of the speed and shrinks with the air density. Set the altitude to 30 km and the drag almost disappears. Shape decides how fast an object gets through the dense lower air, but not where its ceiling is.</li>
+      <li><b>Why the cube still gets as high as the drop.</b> At its highest point an object no longer climbs. Its speed is zero, so its drag is zero, whatever the shape. What is left is hovering, and that depends only on weight, propellers, air density and power. Drag only costs time on the way up. At 500 W the cube needs 20 minutes and the drop 15, and the battery lasts 2 hours. The drop only gets higher when the battery runs out during the climb, at around 10 kW and more.</li>
     </ul>
   </section>
 
