@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive simulation: how high a 500 g cube, drone, ball and drop with two propellers climb on a 1 kWh battery, with the physics explained.">
+  <meta name="author" content="Marcel Utermann">
+  <title>Battery Climb Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg: #ffffff; --fg: #1e293b; --muted: #64748b; --grid: #e2e8f0; --axis: #cbd5e1; --neutral: #94a3b8;
+      --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .climb { max-width: 720px; display: flex; flex-direction: column; gap: 28px; font-size: 15px; line-height: 1.5; color: var(--fg); }
+    .climb section { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .climb h1 { font-size: clamp(1.8rem, 4vw, 2.2rem); margin: 0; text-wrap: balance; }
+    .climb h2 { font-size: 1.4rem; margin: 0; }
+    .climb h3 { font-size: 1.1rem; margin: 10px 0 0; }
+    .climb p, .climb ul { margin: 0; max-width: 65ch; font-size: inherit; color: inherit; }
+    .climb ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+    .climb ul li { margin: 0; }
+    .climb .muted { color: var(--muted); font-size: 13px; }
+    .climb .row { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; }
+    .climb label { display: flex; gap: 6px; align-items: center; margin: 0; font-size: inherit; font-weight: 400; color: inherit; }
+    .climb input[type="range"] { flex: 1 1 220px; min-width: 0; width: auto; max-width: none; margin: 0; }
+    .climb input[type="number"] { width: 5em; min-width: 0; max-width: none; margin: 0; font: inherit; padding: 2px 4px; border-radius: 4px; }
+    .climb button { font: inherit; padding: 4px 14px; cursor: pointer; }
+    .climb :focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+    .climb output { font-variant-numeric: tabular-nums; font-weight: 600; min-width: 5.5em; }
+    .climb canvas { display: block; width: 100%; height: 340px; }
+    .climb #sweep { height: 280px; cursor: crosshair; touch-action: pan-y; }
+    .climb .scroll { overflow-x: auto; }
+    .climb table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+    .climb th, .climb td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+    .climb th { font-weight: 600; font-size: 13px; color: var(--muted); }
+    .climb .key { display: inline-flex; align-items: center; gap: 6px; }
+    .sw { display: inline-block; width: 12px; height: 12px; }
+    .sw.cube { background: var(--s1); }
+    .sw.drone { background: var(--s2); height: 5px; width: 16px; }
+    .sw.ball { background: var(--s3); border-radius: 50%; }
+    .sw.drop { background: var(--s4); border-radius: 50% 50% 50% 0; transform: rotate(-45deg) scale(0.85); }
+    .climb .eq { overflow-x: auto; overflow-y: hidden; padding: 10px 0; }
+    .climb math { font-size: 1.15em; }
+    .climb .physics table { width: auto; }
+    .climb .physics td { white-space: normal; }
+    #bars { display: flex; flex-direction: column; gap: 10px; font-variant-numeric: tabular-nums; }
+    .bar-row { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); gap: 4px 10px; align-items: start; }
+    .track { display: flex; gap: 2px; height: 14px; margin-top: 4px; }
+    .seg { height: 100%; min-width: 1px; }
+    .seg.weight { background: var(--neutral); }
+  </style>
+</head>
+<body>
+    <header>
+        <nav class="navmenu">
+            <div class="nav-brand">
+                <a href="index.html">Marcel Utermann</a>
+            </div>
+            <div class="navlink">
+                <a href="index.html">About</a>
+                <a href="writings.html" class="current">Writings</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+<main class="climb">
+  <section>
+    <h1>How high can 500 g fly on 1 kWh?</h1>
+    <p>A cube, a drone, a ball and a drop you can tune. Each weighs 500 g, has two propellers and a 1 kWh battery, and starts at sea level. The motors draw constant power until the battery is empty.</p>
+  </section>
+
+  <section>
+    <div class="row">
+      <label for="power">Power draw</label>
+      <input type="range" id="power" min="0" max="1000" step="1" value="384">
+      <output id="powerOut" for="power">500 W</output>
+    </div>
+    <div class="row">
+      <button id="play" type="button">Play flight</button>
+      <span class="muted" id="status">Battery lasts 2 h</span>
+    </div>
+    <div class="row muted">
+      <span>All objects:</span>
+      <label for="eta">Efficiency, battery to air <input type="number" id="eta" min="5" max="100" step="1" value="50"> %</label>
+    </div>
+    <div class="row muted">
+      <span class="key"><span class="sw cube"></span><span class="sw drone"></span><span class="sw ball"></span>Cube, drone, ball:</span>
+      <label for="prop">Propeller diameter <input type="number" id="prop" min="2" max="100" step="0.1" value="12.7"> cm</label>
+    </div>
+    <div class="row muted">
+      <span class="key"><span class="sw drop"></span>Drop:</span>
+      <label for="dropProp">Propeller diameter <input type="number" id="dropProp" min="2" max="100" step="0.1" value="12.7"> cm</label>
+      <label for="dropD">Body diameter <input type="number" id="dropD" min="2" max="50" step="0.5" value="10"> cm</label>
+      <label for="dropCd">Drag coefficient <input type="number" id="dropCd" min="0.01" max="2" step="0.01" value="0.05"></label>
+    </div>
+  </section>
+
+  <section>
+    <h2>Flight</h2>
+    <p class="muted">Altitude in km</p>
+    <canvas id="flight" role="img" aria-label="Side view of the three objects at their current altitude"></canvas>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Object</th><th>Top altitude</th><th>Time to top</th><th>Then hovers for</th><th>Battery turned into height</th><th>Best power for this object</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Top altitude for every power setting</h2>
+    <div class="row muted">
+      <span class="key"><span class="sw cube"></span>Cube</span>
+      <span class="key"><span class="sw drone"></span>Drone</span>
+      <span class="key"><span class="sw ball"></span>Ball</span>
+      <span class="key"><span class="sw drop"></span>Drop</span>
+      <span>Altitude in km. Objects with the same propellers overlap until the battery becomes the limit. Click or drag to set the power.</span>
+    </div>
+    <canvas id="sweep" role="img" aria-label="Line chart of top altitude against power draw for the three objects"></canvas>
+  </section>
+
+  <section>
+    <h2>What the model says</h2>
+    <ul>
+      <li>Below <b id="hoverW">87 W</b> the cube, drone and ball do not lift off. That is the power needed to hover at sea level.</li>
+      <li>Just above that, the object rises slowly and then hangs in the air for hours. Almost all of the battery goes into holding position.</li>
+      <li>More power means more height. Thinner air needs more power to hover, so the object stops where its power is only enough to hover. Height is set by power, and the energy is rarely the limit: 1 kWh could lift 500 g about 730 km if nothing were lost.</li>
+      <li>Too much power empties the battery before the object reaches that ceiling. The best setting here is about <b id="bestP">10 kW</b>.</li>
+      <li>Shape only changes drag. Up to the best power, objects with the same propellers reach the same height. Low drag gets there sooner, and at very high power it also gets higher.</li>
+      <li>Propeller size changes much more. Give the drop 25 cm propellers and it climbs about 9 km higher at the same power.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why the ball and the drop climb faster</h2>
+    <p>The four objects differ only in drag. Air that hits the front is slowed down and pushes on it with high pressure. Where the air cannot follow the surface, it breaks away and leaves a wake of swirling, low-pressure air behind the body. Drag is mostly this pressure difference between front and back.</p>
+    <div class="row">
+      <label for="speed">Climb speed</label>
+      <input type="range" class="slide" id="speed" min="0" max="250" step="1" value="50">
+      <output id="speedOut" for="speed">50 m/s</output>
+    </div>
+    <div class="row">
+      <label for="alt">Altitude</label>
+      <input type="range" class="slide" id="alt" min="0" max="60" step="1" value="0">
+      <output id="altOut" for="alt">0 km</output>
+    </div>
+    <p class="muted" id="qOut">Air density 1.225 kg/m³. Pressure of stopped air 1531 Pa.</p>
+    <canvas id="flow" role="img" aria-label="Air flowing past the cube, drone, ball and drop, with the wake behind each"></canvas>
+    <p class="muted">Schematic drawing to scale, not a flow calculation. The objects climb, so the air comes from above. The shaded area is the wake. + marks high pressure, − marks low pressure.</p>
+    <div id="bars"></div>
+    <p class="muted">Grey is the weight, the same for every object. Colour is the drag. Together they are the thrust the propellers must deliver at this speed and altitude.</p>
+    <div class="eq"><math display="block"><mi>D</mi><mo>=</mo><munder><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ρ</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><mtext>pressure of stopped air</mtext></munder><mo>&sdot;</mo><munder><msub><mi>C</mi><mi>d</mi></msub><mtext>shape</mtext></munder><mo>&sdot;</mo><munder><msub><mi>A</mi><mi>f</mi></msub><mtext>frontal area</mtext></munder></math></div>
+    <p>Example at 50 m/s and sea level: stopped air pushes with ½ · 1.225 · 50² = 1531 Pa. The cube has <i>C</i><sub>d</sub> = 1.05 and a front of 0.01 m², so its drag is 1531 · 1.05 · 0.01 = 16.1 N. That is more than three times its weight of 4.9 N. The drop has <i>C</i><sub>d</sub> = 0.05 and a front of 0.0079 m², so its drag is 0.6 N.</p>
+    <ul>
+      <li><b>Cube and drone.</b> The air breaks away at the sharp front edges. The wake is wider than the body, so the whole back sits in low pressure. The flat drone body is also the widest.</li>
+      <li><b>Ball.</b> The air follows the round front and breaks away later. The front is pushed less and the wake is narrower.</li>
+      <li><b>Drop.</b> The long tail fills the space where the wake would be. The air stays attached and the pressure recovers behind the body. Almost only skin friction is left.</li>
+      <li><b>Speed and altitude.</b> Drag grows with the square of the speed and shrinks with the air density. Set the altitude to 30 km and the drag almost disappears. Shape decides how fast an object gets through the dense lower air, but not where its ceiling is.</li>
+    </ul>
+  </section>
+
+  <section class="physics">
+    <h2>The physics</h2>
+
+    <h3>1. Energy is not the limit</h3>
+    <p>The battery holds <i>E</i> = 1 kWh = 3.6 MJ. Lifting a mass <i>m</i> to a height <i>h</i> stores the energy <i>m g h</i>. If the whole battery went into height:</p>
+    <div class="eq"><math display="block"><mi>h</mi><mo>=</mo><mfrac><mi>E</mi><mrow><mi>m</mi><mi>g</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>3 600 000</mn><mtext>&nbsp;J</mtext></mrow><mrow><mn>0.5</mn><mtext>&nbsp;kg</mtext><mo>&sdot;</mo><mn>9.81</mn><mtext>&nbsp;m/s²</mtext></mrow></mfrac><mo>&asymp;</mo><mn>734</mn><mtext>&nbsp;km</mtext></math></div>
+    <p>The simulation reaches only a few percent of that. A propeller has to pay for staying in the air every second, even when it gains no height.</p>
+
+    <h3>2. Why hovering costs power</h3>
+    <p>A propeller makes thrust by pushing air downward. The thrust <i>T</i> equals the momentum it gives to the air each second. Momentum theory treats the propellers as a disk of area <i>A</i>. Air passes through the disk at the speed <i>v</i><sub>i</sub> and ends up at twice that speed, <i>w</i> = 2<i>v</i><sub>i</sub>, further below. With the air density <i>ρ</i>, the air mass per second and the thrust are:</p>
+    <div class="eq"><math display="block"><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mo>=</mo><mi>ρ</mi><mi>A</mi><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><mspace width="1.5em"></mspace><mi>T</mi><mo>=</mo><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mi>w</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup></math></div>
+    <p>The power is the kinetic energy given to that air each second:</p>
+    <div class="eq"><math display="block"><mi>P</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mover><mi>m</mi><mo>&#x2D9;</mo></mover><msup><mi>w</mi><mn>2</mn></msup><mo>=</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub></math></div>
+    <p>To hover, the thrust must equal the weight, <i>T</i> = <i>m g</i>. That fixes the air speed and the power:</p>
+    <div class="eq"><math display="block"><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt><mo>,</mo><mspace width="1.5em"></mspace><msub><mi>P</mi><mtext>hover</mtext></msub><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></msqrt></mfrac></math></div>
+    <p>Thrust grows with the air speed, but power grows with its square. Moving a lot of air slowly is cheaper than moving a little air fast, so large propellers are efficient.</p>
+    <p>Example: two 12.7 cm propellers have <i>A</i> = 0.0253 m². At sea level (<i>ρ</i> = 1.225 kg/m³) the air passes through them at 8.9 m/s and hovering puts 43.6 W into the air. At 50 % efficiency that is 87 W from the battery.</p>
+
+    <h3>3. Climbing</h3>
+    <p>When the object climbs at the speed <i>v</i>, air passes through the disk at <i>v</i> + <i>v</i><sub>i</sub>:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><mo>(</mo><mi>v</mi><mo>+</mo><msub><mi>v</mi><mi>i</mi></msub><mo>)</mo><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><mspace width="1.5em"></mspace><msub><mi>P</mi><mtext>air</mtext></msub><mo>=</mo><mi>T</mi><mo>(</mo><mi>v</mi><mo>+</mo><msub><mi>v</mi><mi>i</mi></msub><mo>)</mo></math></div>
+    <p>The part <i>T v</i> is useful work against gravity and drag. The part <i>T v</i><sub>i</sub> is lost in the downwash. Eliminating <i>v</i><sub>i</sub> gives the equation the simulation solves for <i>v</i>. Here <i>P</i> is the power drawn from the battery and <i>η</i> the efficiency from battery to air:</p>
+    <div class="eq"><math display="block"><mi>η</mi><mi>P</mi><mo>=</mo><mi>T</mi><mrow><mo>(</mo><mfrac><mi>v</mi><mn>2</mn></mfrac><mo>+</mo><msqrt><mrow><mfrac><msup><mi>v</mi><mn>2</mn></msup><mn>4</mn></mfrac><mo>+</mo><mfrac><mi>T</mi><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></mrow></msqrt><mo>)</mo></mrow></math></div>
+    <p>In a steady climb the thrust carries the weight plus the drag:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mi>m</mi><mi>g</mi><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>ρ</mi><msub><mi>C</mi><mi>d</mi></msub><msub><mi>A</mi><mi>f</mi></msub><msup><mi>v</mi><mn>2</mn></msup></math></div>
+    <p><i>A</i><sub>f</sub> is the frontal area of the body and <i>C</i><sub>d</sub> its drag coefficient. Drag grows with the square of the speed, so it only matters in a fast climb.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Shape</th><th><i>C</i><sub>d</sub></th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Flat drone body</td><td>1.2</td><td>The flow breaks away at the edges and leaves a wide wake.</td></tr>
+          <tr><td>Cube</td><td>1.05</td><td>Same, with a slightly narrower wake.</td></tr>
+          <tr><td>Ball</td><td>0.47</td><td>The flow follows the front half and breaks away behind it.</td></tr>
+          <tr><td>Drop</td><td>about 0.05</td><td>The long tail lets the flow close again, so there is almost no wake.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>4. Thinner air</h3>
+    <p>Air density falls by about half every 5 km. As a rule of thumb:</p>
+    <div class="eq"><math display="block"><mi>ρ</mi><mo>(</mo><mi>h</mi><mo>)</mo><mo>&asymp;</mo><msub><mi>ρ</mi><mn>0</mn></msub><msup><mi>e</mi><mrow><mo>&minus;</mo><mi>h</mi><mo>/</mo><mi>H</mi></mrow></msup><mo>,</mo><mspace width="1.5em"></mspace><mi>H</mi><mo>&asymp;</mo><mn>7.5</mn><mtext>&nbsp;km</mtext></math></div>
+    <p>The simulation uses the International Standard Atmosphere, which also follows the temperature layers. Thin air means less drag, but also less air to push against. Hover power grows with 1/√<i>ρ</i>.</p>
+
+    <h3>5. The ceiling</h3>
+    <p>The object stops climbing at the density <i>ρ</i><sub>c</sub> where all of its power is needed to hover:</p>
+    <div class="eq"><math display="block"><mi>η</mi><mi>P</mi><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><msub><mi>ρ</mi><mi>c</mi></msub><mi>A</mi></mrow></msqrt></mfrac><mspace width="1em"></mspace><mo>&rArr;</mo><mspace width="1em"></mspace><msub><mi>ρ</mi><mi>c</mi></msub><mo>=</mo><msub><mi>ρ</mi><mn>0</mn></msub><msup><mrow><mo>(</mo><mfrac><msub><mi>P</mi><mn>0</mn></msub><mi>P</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup></math></div>
+    <p><i>P</i><sub>0</sub> is the battery power needed to hover at sea level. With the rule of thumb for the density, the ceiling height is:</p>
+    <div class="eq"><math display="block"><msub><mi>h</mi><mi>c</mi></msub><mo>&asymp;</mo><mn>2</mn><mi>H</mi><mi>ln</mi><mfrac><mi>P</mi><msub><mi>P</mi><mn>0</mn></msub></mfrac></math></div>
+    <p>Example: 500 W gives 2 · 7.5 km · ln(500 / 87) ≈ 26 km. The simulation says 25.6 km. Every doubling of power adds roughly 9 to 10 km. The shape does not appear in this formula. That is why objects with the same propellers reach the same height.</p>
+
+    <h3>6. The battery sets the time</h3>
+    <div class="eq"><math display="block"><mi>t</mi><mo>=</mo><mfrac><mi>E</mi><mi>P</mi></mfrac></math></div>
+    <p>At 500 W the battery lasts 2 hours, at 10 kW only 6 minutes. If the climb takes longer than that, the object never reaches its ceiling. This is the falling right side of the chart. The best power is the one where the battery runs empty just as the object arrives at its ceiling. Below it, energy is wasted hovering at the top. Above it, the ceiling is out of reach, and a low-drag shape helps because it climbs faster.</p>
+
+    <h3>7. Where the energy goes</h3>
+    <div class="eq"><math display="block"><mi>E</mi><mo>=</mo><munder><mrow><mi>m</mi><mi>g</mi><mi>h</mi></mrow><mtext>height</mtext></munder><mo>+</mo><munder><mrow><mo>&int;</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mi>d</mi><mi>t</mi></mrow><mtext>downwash</mtext></munder><mo>+</mo><munder><mrow><mo>&int;</mo><mi>D</mi><mi>v</mi><mi>d</mi><mi>t</mi></mrow><mtext>drag</mtext></munder><mo>+</mo><munder><mrow><mo>(</mo><mn>1</mn><mo>&minus;</mo><mi>η</mi><mo>)</mo><mi>E</mi></mrow><mtext>motor and propeller losses</mtext></munder></math></div>
+    <p>The table column "Battery turned into height" is the first term divided by <i>E</i>:</p>
+    <div class="eq"><math display="block"><msub><mi>η</mi><mi>h</mi></msub><mo>=</mo><mfrac><mrow><mi>m</mi><mi>g</mi><mi>h</mi></mrow><mi>E</mi></mfrac></math></div>
+    <p>At 500 W it is about 3.5 %. Half of the battery is lost in the motors and propellers. Almost all of the rest goes into downwash while the object hovers at the top.</p>
+
+    <h3>8. How to improve it</h3>
+    <ul>
+      <li><b>Larger propellers.</b> Hover power falls with 1/diameter. Doubling the diameter halves it and lifts the ceiling by about 9 km. Try 25 cm for the drop.</li>
+      <li><b>Better efficiency <i>η</i>.</b> It raises the ceiling like extra power, without draining the battery faster.</li>
+      <li><b>Less mass.</b> Hover power grows with <i>m</i><sup>3/2</sup>, so 20 % less mass needs about 28 % less power.</li>
+      <li><b>The right power.</b> Choose it so the battery is empty when the object arrives at the top. Time spent hovering buys no height.</li>
+      <li><b>Less drag.</b> It pays off only near and above the best power. Compare the drop with the cube at 10 kW, then at 500 W.</li>
+      <li><b>Wings.</b> Not modelled here. A wing moves far more air than a small propeller, so a winged climb needs much less power for the same weight.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Limits of the model</h2>
+    <ul class="muted">
+      <li>Ideal propellers (momentum theory) scaled by the efficiency above. Standard atmosphere. Gravity weakens with altitude.</li>
+      <li>Drag: cube with 10 cm edges, drag coefficient 1.05. Ball with 12.4 cm diameter, 0.47. Drone with a flat 15 × 10 cm body, 1.2. Drop as set above.</li>
+      <li>Climb speed is capped at 250 m/s, because propellers stop working near the speed of sound.</li>
+      <li>When the battery is empty the object coasts upward a little, then falls.</li>
+      <li>Not modelled: a real 1 kWh battery weighs about 4 kg, and a real fixed propeller of this size cannot spin fast enough to hold 500 g above roughly 10 to 15 km.</li>
+    </ul>
+  </section>
+</main>
+
+    <footer>
+        <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+            © 2026 Marcel Utermann. Questions or feedback?
+            <a href="https://github.com/gremarsl/gremarsl.github.io/issues" target="_blank" rel="noopener">Open a GitHub Issue</a>.
+        </p>
+        <p id="last-updated" style="text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+        <script>
+            const lastUpdate = new Date(document.lastModified);
+            document.getElementById('last-updated').textContent =
+                "Last updated: " + lastUpdate.toLocaleDateString();
+        </script>
+    </footer>
+
+<script>
+// ---------- physics ----------
+const VMAX = 250, G0 = 9.80665, RE = 6371000, MASS = 0.5, E0 = 3.6e6;
+const LAYERS = [
+  [0, 288.15, -0.0065, 101325], [11000, 216.65, 0, 22632.06], [20000, 216.65, 0.001, 5474.889],
+  [32000, 228.65, 0.0028, 868.0187], [47000, 270.65, 0, 110.9063], [51000, 270.65, -0.0028, 66.93887],
+  [71000, 214.65, -0.002, 3.95642], [84852, 186.946, 0, 0.3734]
+];
+function density(h) {
+  const H = RE * h / (RE + h);
+  let L = LAYERS[0];
+  for (const l of LAYERS) if (H >= l[0]) L = l;
+  const dH = H - L[0], T = L[1] + L[2] * dH, k = G0 / 287.053;
+  const P = L[2] === 0 ? L[3] * Math.exp(-k * dH / L[1]) : L[3] * Math.pow(L[1] / T, k / L[2]);
+  return P / (287.053 * T);
+}
+function gravity(h) { const r = RE / (RE + h); return G0 * r * r; }
+// power the propellers must put into the air to climb steadily at speed v
+function airPower(v, rho, g, cdA, disk) {
+  const T = MASS * g + 0.5 * rho * cdA * v * v;
+  return T * (v / 2 + Math.sqrt(v * v / 4 + T / (2 * rho * disk)));
+}
+function climbSpeed(h, pAir, cdA, disk) {
+  const rho = density(h), g = gravity(h);
+  if (airPower(0, rho, g, cdA, disk) >= pAir) return 0;
+  let lo = 0, hi = 10;
+  while (airPower(hi, rho, g, cdA, disk) < pAir) hi *= 2;
+  for (let i = 0; i < 40; i++) {
+    const mid = (lo + hi) / 2;
+    if (airPower(mid, rho, g, cdA, disk) < pAir) lo = mid; else hi = mid;
+  }
+  return Math.min((lo + hi) / 2, VMAX);
+}
+function simulate(pElec, cdA, disk, eta, steps) {
+  const pAir = pElec * eta, tEnd = E0 / pElec, dt = tEnd / steps;
+  const ts = [0], hs = [0];
+  let h = 0, v = 0;
+  for (let i = 0; i < steps; i++) {
+    const v1 = climbSpeed(h, pAir, cdA, disk);
+    v = climbSpeed(h + v1 * dt / 2, pAir, cdA, disk);
+    h += v * dt;
+    ts.push((i + 1) * dt); hs.push(h);
+  }
+  const vEnd = v;
+  let t = tEnd;
+  while (v > 0) {                       // battery empty: coast upward
+    v -= (gravity(h) + 0.5 * density(h) * cdA * v * v / MASS) * 0.02;
+    h += Math.max(v, 0) * 0.02; t += 0.02;
+  }
+  if (t > tEnd) { ts.push(t); hs.push(h); }
+  return { ts, hs, max: h, tEnd, dt, steps, vEnd };
+}
+function altitudeAt(run, t) {
+  if (t >= run.ts[run.ts.length - 1]) return run.max;
+  if (t >= run.tEnd) {
+    const f = (t - run.tEnd) / (run.ts[run.ts.length - 1] - run.tEnd);
+    return run.hs[run.steps] + f * (run.max - run.hs[run.steps]);
+  }
+  const x = t / run.dt, i = Math.floor(x);
+  return run.hs[i] + (x - i) * (run.hs[i + 1] - run.hs[i]);
+}
+
+// ---------- setup ----------
+const propDisk = cm => { const d = cm / 100; return 2 * Math.PI * d * d / 4; };
+const mainDisk = () => propDisk(clampInput(propEl, 2, 100, 12.7));
+const SHAPES = [
+  { id: 'cube', name: 'Cube', color: '--s1', disk: mainDisk, cdA: () => 1.05 * 0.01 },
+  { id: 'drone', name: 'Drone', color: '--s2', disk: mainDisk, cdA: () => 1.2 * 0.015 },
+  { id: 'ball', name: 'Ball', color: '--s3', disk: mainDisk, cdA: () => 0.47 * Math.PI * 0.062 * 0.062 },
+  { id: 'drop', name: 'Drop', color: '--s4',
+    disk: () => propDisk(clampInput($('dropProp'), 2, 100, 12.7)),
+    cdA: () => { const d = clampInput($('dropD'), 2, 50, 10) / 100; return clampInput($('dropCd'), 0.01, 2, 0.05) * Math.PI * d * d / 4; } }
+];
+const REFS = [[8.849, 'Mount Everest'], [35, 'Weather balloons'], [100, 'Edge of space']];
+const PMIN = 50, PSPAN = 400, SWEEP_N = 100;
+const $ = id => document.getElementById(id);
+const powerEl = $('power'), propEl = $('prop'), etaEl = $('eta');
+const flightC = $('flight'), sweepC = $('sweep');
+let runs = [], sweep = [], best = [], anim = null, shownT = Infinity;
+
+function power() {
+  const raw = PMIN * Math.pow(PSPAN, powerEl.value / 1000);
+  const q = raw < 100 ? 1 : raw < 1000 ? 5 : raw < 10000 ? 50 : 100;
+  return Math.round(raw / q) * q;
+}
+function clampInput(el, lo, hi, fallback) {
+  const v = parseFloat(el.value);
+  return Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : fallback;
+}
+const eta = () => clampInput(etaEl, 5, 100, 50) / 100;
+
+const fmtKm = m => (m / 1000).toFixed(m < 10000 ? 2 : 1) + ' km';
+const fmtPower = w => w >= 1000 ? (w / 1000).toFixed(w >= 10000 ? 0 : 1) + ' kW' : Math.round(w) + ' W';
+function fmtTime(s) {
+  s = Math.round(s);
+  if (s >= 3600) { const m = Math.round(s / 60); return Math.floor(m / 60) + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : ''); }
+  if (s >= 600) return Math.round(s / 60) + ' min';
+  if (s >= 60) return Math.floor(s / 60) + ' min ' + (s % 60) + ' s';
+  return s + ' s';
+}
+function nice(v) {
+  for (const s of [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50])
+    if (v / s <= 6) return { step: s, max: Math.ceil(v / s - 1e-9) * s };
+  return { step: 100, max: Math.ceil(v / 100) * 100 };
+}
+function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function prep(c) {
+  const r = c.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  const W = Math.round(r.width * d), H = Math.round(r.height * d);
+  if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
+  const ctx = c.getContext('2d');
+  ctx.setTransform(d, 0, 0, d, 0, 0);
+  ctx.clearRect(0, 0, r.width, r.height);
+  ctx.font = '12px ' + css('--font');
+  return { ctx, w: r.width, h: r.height };
+}
+function hline(ctx, x0, x1, y, color, dash) {
+  ctx.strokeStyle = color; ctx.lineWidth = 1; ctx.setLineDash(dash || []);
+  ctx.beginPath(); ctx.moveTo(x0, Math.round(y) + 0.5); ctx.lineTo(x1, Math.round(y) + 0.5); ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+// ---------- calculations ----------
+function computeSweep() {
+  const e = eta();
+  sweep = SHAPES.map(s => {
+    const pts = [], d = s.disk(), cdA = s.cdA();
+    for (let i = 0; i <= SWEEP_N; i++) {
+      const p = PMIN * Math.pow(PSPAN, i / SWEEP_N);
+      pts.push([p, simulate(p, cdA, d, e, 500).max]);
+    }
+    return pts;
+  });
+  best = sweep.map(pts => pts.reduce((a, b) => (b[1] > a[1] ? b : a)));
+  const hover = airPower(0, density(0), G0, 0, mainDisk()) / e;
+  $('hoverW').textContent = fmtPower(hover);
+  const lo = Math.min(...best.map(b => b[0])), hi = Math.max(...best.map(b => b[0]));
+  $('bestP').textContent = fmtPower(lo) === fmtPower(hi) ? fmtPower(lo) : fmtPower(lo).replace(/ k?W/, '') + ' to ' + fmtPower(hi);
+}
+function computeRuns() {
+  const p = power(), e = eta();
+  runs = SHAPES.map(s => simulate(p, s.cdA(), s.disk(), e, 2000));
+  $('powerOut').textContent = fmtPower(p);
+  $('rows').innerHTML = SHAPES.map((s, i) => {
+    const r = runs[i];
+    let top = fmtKm(r.max), tTop = '–', hover = '–';
+    if (r.max < 1) top = 'Does not lift off';
+    else if (r.vEnd < 0.5) {
+      const t = r.ts[r.hs.findIndex(h => h >= 0.99 * r.max)];
+      tTop = fmtTime(t); hover = fmtTime(r.tEnd - t);
+    } else { tTop = fmtTime(r.ts[r.ts.length - 1]); hover = 'Battery empty'; }
+    const share = (MASS * G0 * RE * r.max / (RE + r.max) / E0 * 100).toFixed(1) + ' %';
+    return '<tr><td><span class="key"><span class="sw ' + s.id + '"></span>' + s.name + '</span></td><td>' + top +
+      '</td><td>' + tTop + '</td><td>' + hover + '</td><td>' + share + '</td><td>' + fmtPower(best[i][0]) + ', ' + fmtKm(best[i][1]) + '</td></tr>';
+  }).join('');
+}
+
+// ---------- drawing ----------
+function glyph(ctx, id, x, y, color) {
+  ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineWidth = 2;
+  let top;
+  if (id === 'cube') { ctx.fillRect(x - 7, y - 14, 14, 14); top = y - 14; }
+  else if (id === 'ball') { ctx.beginPath(); ctx.arc(x, y - 7, 7, 0, Math.PI * 2); ctx.fill(); top = y - 14; }
+  else if (id === 'drop') {
+    ctx.beginPath(); ctx.arc(x, y - 12, 6, Math.PI, 0);
+    ctx.quadraticCurveTo(x + 6, y - 6, x, y); ctx.quadraticCurveTo(x - 6, y - 6, x - 6, y - 12);
+    ctx.fill(); top = y - 18;
+  }
+  else { ctx.fillRect(x - 11, y - 6, 22, 6); top = y - 6; }
+  ctx.beginPath();                      // the two propellers
+  ctx.moveTo(x - 10, top - 3); ctx.lineTo(x - 2, top - 3);
+  ctx.moveTo(x + 2, top - 3); ctx.lineTo(x + 10, top - 3);
+  ctx.stroke();
+  return top - 4;
+}
+function drawFlight(t) {
+  shownT = t;
+  const { ctx, w, h } = prep(flightC);
+  const fg = css('--fg'), muted = css('--muted'), grid = css('--grid'), axis = css('--axis');
+  const L = 40, R = 8, T = 36, B = 26, pw = w - L - R, ph = h - T - B;
+  const sc = nice(Math.max(...runs.map(r => r.max), 1000) / 1000);
+  const y = km => T + ph - km / sc.max * ph;
+  ctx.textBaseline = 'middle';
+  for (let k = 0; k <= sc.max + 1e-9; k += sc.step) {
+    hline(ctx, L, L + pw, y(k), k === 0 ? axis : grid);
+    ctx.fillStyle = muted; ctx.textAlign = 'right';
+    ctx.fillText(sc.step < 1 ? k.toFixed(1) : String(Math.round(k)), L - 6, y(k));
+  }
+  for (const [km, label] of REFS) {
+    if (km > sc.max) continue;
+    hline(ctx, L, L + pw, y(km), axis, [4, 4]);
+    ctx.fillStyle = muted; ctx.textAlign = 'right';
+    ctx.fillText(label, L + pw, y(km) - 9);
+  }
+  SHAPES.forEach((s, i) => {
+    const x = L + pw * [0.11, 0.29, 0.47, 0.65][i], color = css(s.color);
+    const alt = altitudeAt(runs[i], t), yy = y(alt / 1000);
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(x, y(0)); ctx.lineTo(x, yy); ctx.stroke();
+    const top = glyph(ctx, s.id, x, yy, color);
+    ctx.fillStyle = fg; ctx.textAlign = 'center';
+    ctx.fillText(fmtKm(alt), x, top - 8);
+    ctx.fillText(s.name, x, y(0) + 14);
+  });
+}
+const sweepX = (p, L, pw) => L + Math.log(p / PMIN) / Math.log(PSPAN) * pw;
+const SW = { L: 40, R: 14, T: 12, B: 40 };
+function drawSweep() {
+  const { ctx, w, h } = prep(sweepC);
+  const fg = css('--fg'), muted = css('--muted'), grid = css('--grid'), axis = css('--axis'), bg = css('--bg');
+  const { L, R, T, B } = SW, pw = w - L - R, ph = h - T - B;
+  const sc = nice(Math.max(...best.map(b => b[1]), 1000) / 1000);
+  const y = m => T + ph - m / 1000 / sc.max * ph;
+  ctx.textBaseline = 'middle';
+  for (let k = 0; k <= sc.max + 1e-9; k += sc.step) {
+    hline(ctx, L, L + pw, y(k * 1000), k === 0 ? axis : grid);
+    ctx.fillStyle = muted; ctx.textAlign = 'right';
+    ctx.fillText(sc.step < 1 ? k.toFixed(1) : String(Math.round(k)), L - 6, y(k * 1000));
+  }
+  ctx.textAlign = 'center'; ctx.fillStyle = muted;
+  for (const p of [50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000])
+    ctx.fillText(p >= 1000 ? p / 1000 + 'k' : String(p), sweepX(p, L, pw), T + ph + 12);
+  ctx.fillText('Power draw in W', L + pw / 2, T + ph + 30);
+  const p = power(), px = sweepX(p, L, pw);
+  ctx.strokeStyle = fg; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(Math.round(px) + 0.5, T); ctx.lineTo(Math.round(px) + 0.5, T + ph); ctx.stroke();
+  sweep.forEach((pts, i) => {
+    ctx.strokeStyle = css(SHAPES[i].color); ctx.lineWidth = 2; ctx.lineJoin = 'round';
+    ctx.beginPath();
+    pts.forEach(([pp, m], j) => j ? ctx.lineTo(sweepX(pp, L, pw), y(m)) : ctx.moveTo(sweepX(pp, L, pw), y(m)));
+    ctx.stroke();
+  });
+  runs.forEach((r, i) => {
+    ctx.beginPath(); ctx.arc(px, y(r.max), 4, 0, Math.PI * 2);
+    ctx.fillStyle = css(SHAPES[i].color); ctx.fill();
+    ctx.strokeStyle = bg; ctx.lineWidth = 2; ctx.stroke();
+  });
+}
+
+// ---------- interaction ----------
+function restStatus() { $('status').textContent = 'Battery lasts ' + fmtTime(E0 / power()); }
+function stop() { if (anim) cancelAnimationFrame(anim); anim = null; }
+function refresh(withSweep) {
+  stop();
+  if (withSweep) computeSweep();
+  computeRuns();
+  drawFlight(Infinity); drawSweep(); restStatus();
+  updateForces(); if (!flowAnim) drawFlow();
+}
+function play() {
+  stop();
+  const total = Math.max(...runs.map(r => r.ts[r.ts.length - 1])), tEnd = runs[0].tEnd, start = performance.now();
+  const frame = now => {
+    const f = Math.min(1, (now - start) / 8000), t = f * total;
+    drawFlight(t);
+    $('status').textContent = 'Time ' + fmtTime(t) + ' · Battery ' + Math.round(Math.max(0, 1 - t / tEnd) * 100) + ' %';
+    if (f < 1) anim = requestAnimationFrame(frame); else { anim = null; drawFlight(Infinity); }
+  };
+  anim = requestAnimationFrame(frame);
+}
+powerEl.addEventListener('input', () => refresh(false));
+propEl.addEventListener('change', () => refresh(true));
+etaEl.addEventListener('change', () => refresh(true));
+['dropProp', 'dropD', 'dropCd'].forEach(id => $(id).addEventListener('change', () => refresh(true)));
+$('play').addEventListener('click', play);
+function pick(ev) {
+  const r = sweepC.getBoundingClientRect(), pw = r.width - SW.L - SW.R;
+  const f = Math.min(1, Math.max(0, (ev.clientX - r.left - SW.L) / pw));
+  powerEl.value = Math.round(f * 1000);
+  refresh(false);
+}
+sweepC.addEventListener('pointerdown', ev => { sweepC.setPointerCapture(ev.pointerId); pick(ev); });
+sweepC.addEventListener('pointermove', ev => { if (ev.buttons) pick(ev); });
+
+// ---------- drag: flow picture and force bars ----------
+const flowC = $('flow'), speedEl = $('speed'), altEl = $('alt');
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let flowAnim = null, flowVisible = false, flowLast = 0, flowPhase = 0, eddyPhase = 0;
+const FLOW_SPEC = {
+  cube: { w: 10, l: 10, wake: 1.15, lc: 0.8, cd: 1.05, wReal: 10 },
+  drone: { w: 15, l: 2.5, wake: 1.15, lc: 0.8, cd: 1.2, wReal: 15 },
+  ball: { w: 12.4, l: 12.4, wake: 0.8, lc: 0.5, cd: 0.47, wReal: 12.4, round: true }
+};
+function flowGeom(id) {
+  if (id !== 'drop') return FLOW_SPEC[id];
+  const wReal = clampInput($('dropD'), 2, 50, 10), cd = clampInput($('dropCd'), 0.01, 2, 0.05);
+  const w = Math.min(12, Math.max(6, wReal));
+  return { w, l: w * 2.8, wake: Math.min(1.15, 0.03 + cd * 0.7), lc: 1, cd, wReal, round: true, tail: true };
+}
+// half-width of the body at distance y behind its front
+function sil(g, R, L, y) {
+  if (y < 0 || y > L) return 0;
+  if (!g.round) return R;
+  if (y < R || !g.tail) return Math.sqrt(Math.max(0, R * R - (y - R) * (y - R)));
+  return R * (1 - Math.pow((y - R) / (L - R), 1.6));
+}
+// half-width of body plus wake: the line the outer flow follows
+function envelope(g, R, L, y) {
+  const a = (g.round ? 0.5 : 1.2) * R, yW = g.round ? R : 0;
+  let b = 0;
+  if (y > -a && y < yW) { const s = (y + a) / (yW + a); b = R * s * s * (3 - 2 * s); }
+  else if (y >= yW) b = R * (g.wake + (1 - g.wake) * Math.exp(-(y - yW) / (g.lc * R)));
+  return Math.max(b, sil(g, R, L, y));
+}
+const rnd = (i, j) => { const x = Math.sin(i * 12.9898 + j * 78.233) * 43758.5453; return x - Math.floor(x); };
+function drawFlow(now) {
+  const v = +speedEl.value;
+  if (now) {
+    const dt = Math.min(0.1, (now - flowLast) / 1000), k = Math.sqrt(v / 250);
+    flowLast = now; flowPhase += dt * 140 * k; eddyPhase += dt * 9 * k;
+  }
+  const cols = flowC.parentElement.clientWidth >= 560 ? 4 : 2, PH = 262;
+  const hpx = 4 / cols * PH + 'px';
+  if (flowC.style.height !== hpx) flowC.style.height = hpx;
+  const { ctx, w } = prep(flowC);
+  const muted = css('--muted'), fg = css('--fg'), font = css('--font');
+  const pwid = w / cols, sc = Math.min(3.4, 0.34 * pwid / 15);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  SHAPES.forEach((sh, i) => {
+    const g = flowGeom(sh.id), px = (i % cols) * pwid, py = Math.floor(i / cols) * PH;
+    const cx = px + pwid / 2, top = py + 40, yF = top + 44, bottom = py + PH - 6;
+    const R = g.w * sc / 2, L = g.l * sc, yW = g.round ? R : 0;
+    const env = y => envelope(g, R, L, y - yF);
+    ctx.fillStyle = fg; ctx.font = '600 13px ' + font; ctx.fillText(sh.name, cx, py + 12);
+    ctx.fillStyle = muted; ctx.font = '12px ' + font; ctx.fillText('Cd ' + g.cd + ', ' + g.wReal + ' cm wide', cx, py + 28);
+    ctx.save(); ctx.beginPath(); ctx.rect(px + 2, top, pwid - 4, bottom - top); ctx.clip();
+    ctx.beginPath();                                   // wake
+    for (let y = yF + yW; y <= bottom; y += 3) ctx.lineTo(cx + env(y), y);
+    for (let y = bottom; y >= yF + yW; y -= 3) ctx.lineTo(cx - env(y), y);
+    ctx.closePath(); ctx.globalAlpha = 0.14; ctx.fillStyle = muted; ctx.fill(); ctx.globalAlpha = 1;
+    ctx.strokeStyle = muted; ctx.lineWidth = 1;         // streamlines
+    ctx.setLineDash([11, 6]);
+    for (let k = 0; k * 9 < pwid / 2; k++) for (const side of [-1, 1]) {
+      const x0 = k === 0 ? 0.5 : k * 9;
+      ctx.lineDashOffset = -flowPhase + rnd(k, side) * 17;
+      ctx.beginPath();
+      for (let y = top; y <= bottom; y += 3) {
+        const x = cx + side * Math.hypot(x0, env(y));
+        if (y === top) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    let row = 0;                                        // eddies in the wake
+    for (let y = yF + L + 26; y < bottom - 4; y += 13, row++) {
+      const bw = env(y) - 5;
+      if (bw < 4) continue;
+      const n = Math.max(1, Math.floor(2 * bw / 13));
+      for (let j = 0; j < n; j++) {
+        const ex = cx - bw + (j + 0.5) * 2 * bw / n + (rnd(row, j) - 0.5) * 4;
+        const a0 = (ex < cx ? -1 : 1) * eddyPhase + rnd(j, row) * 6.28;
+        ctx.beginPath(); ctx.arc(ex, y + (rnd(row + 7, j) - 0.5) * 4, 3.5, a0, a0 + 4.4); ctx.stroke();
+      }
+    }
+    ctx.beginPath();                                   // body
+    for (let y = 0; y <= L; y += 1) ctx.lineTo(cx + sil(g, R, L, y), yF + y);
+    for (let y = L; y >= 0; y -= 1) ctx.lineTo(cx - sil(g, R, L, y), yF + y);
+    ctx.closePath(); ctx.fillStyle = css(sh.color); ctx.fill();
+    ctx.fillStyle = fg; ctx.font = '600 15px ' + font;
+    ctx.fillText('+', cx, yF - 9);
+    if (env(yF + L + 13) > 9) ctx.fillText('−', cx, yF + L + 13);
+    ctx.restore();
+  });
+}
+function flowLoop(now) {
+  drawFlow(now);
+  flowAnim = flowVisible && !reduceMotion.matches ? requestAnimationFrame(flowLoop) : null;
+}
+new IntersectionObserver(entries => {
+  flowVisible = entries[0].isIntersecting;
+  if (flowVisible && !flowAnim) flowAnim = requestAnimationFrame(flowLoop);
+}).observe(flowC);
+const fmtN = n => n.toFixed(n < 10 ? 2 : 1) + ' N';
+function updateForces() {
+  const v = +speedEl.value, h = altEl.value * 1000, rho = density(h), q = 0.5 * rho * v * v;
+  const wgt = MASS * gravity(h), p = power(), e = eta();
+  $('speedOut').textContent = v + ' m/s';
+  $('altOut').textContent = altEl.value + ' km';
+  $('qOut').textContent = 'Air density ' + rho.toPrecision(4) + ' kg/m³. Pressure of stopped air ' +
+    (q >= 100 ? Math.round(q) : q.toPrecision(2)) + ' Pa.';
+  const rows = SHAPES.map(s => {
+    const cdA = s.cdA();
+    return { s, D: q * cdA, vc: climbSpeed(h, p * e, cdA, s.disk()) };
+  });
+  const maxT = Math.max(...rows.map(r => wgt + r.D));
+  $('bars').innerHTML = rows.map(r => {
+    const ratio = r.D / wgt;
+    return '<div class="bar-row"><span class="key"><span class="sw ' + r.s.id + '"></span>' + r.s.name + '</span><div>' +
+      '<div class="track"><span class="seg weight" style="width:' + (wgt / maxT * 100).toFixed(2) + '%"></span>' +
+      '<span class="seg" style="width:' + (r.D / maxT * 100).toFixed(2) + '%;background:var(' + r.s.color + ')"></span></div>' +
+      '<div class="muted">Weight ' + fmtN(wgt) + ' + drag ' + fmtN(r.D) + ' (' + ratio.toFixed(ratio < 0.1 ? 2 : ratio < 10 ? 1 : 0) + ' × weight). ' +
+      'Power against drag ' + fmtPower(r.D * v) + '. ' +
+      (r.vc > 0 ? 'At ' + fmtPower(p) + ' it climbs here at ' + Math.round(r.vc) + ' m/s.' : 'At ' + fmtPower(p) + ' it cannot climb here.') +
+      '</div></div></div>';
+  }).join('');
+}
+[speedEl, altEl].forEach(el => el.addEventListener('input', () => { updateForces(); if (!flowAnim) drawFlow(); }));
+const redraw = () => { if (runs.length) { drawFlight(shownT); drawSweep(); if (!flowAnim) drawFlow(); } };
+new ResizeObserver(redraw).observe(flightC);
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', redraw);
+new MutationObserver(redraw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+refresh(true);
+</script>
+</body>
+</html>
