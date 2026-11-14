@@ -199,7 +199,20 @@
     <p>Thrust grows with the air speed, but power grows with its square. Moving a lot of air slowly is cheaper than moving a little air fast, so large propellers are efficient.</p>
     <p>Example: two 12.7 cm propellers have <i>A</i> = 0.0253 m². At sea level (<i>ρ</i> = 1.225 kg/m³) the air passes through them at 8.9 m/s and hovering puts 43.6 W into the air. At 50 % efficiency that is 87 W from the battery.</p>
 
-    <h3>3. Climbing</h3>
+    <h3>3. Lift-off</h3>
+    <p>Three forces act on the object. The thrust <i>T</i> of the propellers pushes up. The weight <i>m g</i> and the drag <i>D</i> pull down. Newton's second law gives the acceleration <i>a</i>:</p>
+    <div class="eq"><math display="block"><mi>m</mi><mi>a</mi><mo>=</mo><mi>T</mi><mo>&minus;</mo><mi>m</mi><mi>g</mi><mo>&minus;</mo><mi>D</mi></math></div>
+    <p>On the ground the speed is zero, so there is no drag. The object lifts off when the thrust is larger than the weight:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>&gt;</mo><mi>m</mi><mi>g</mi><mo>=</mo><mn>0.5</mn><mtext>&nbsp;kg</mtext><mo>&sdot;</mo><mn>9.81</mn><mtext>&nbsp;m/s²</mtext><mo>=</mo><mn>4.9</mn><mtext>&nbsp;N</mtext></math></div>
+    <p>The thrust is the force the propellers create by pushing air down, as in part 2. Combining the two formulas there, <i>T</i> = 2<i>ρA v</i><sub>i</sub>² and <i>ηP</i> = <i>T v</i><sub>i</sub>, gives the thrust at standstill for a given battery power <i>P</i>:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><msup><mrow><mo>(</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><mo>)</mo></mrow><mrow><mn>1</mn><mo>/</mo><mn>3</mn></mrow></msup><msup><mrow><mo>(</mo><mi>η</mi><mi>P</mi><mo>)</mo></mrow><mrow><mn>2</mn><mo>/</mo><mn>3</mn></mrow></msup></math></div>
+    <p>Setting <i>T</i> = <i>m g</i> gives the smallest power that lifts off. It is the hover power from part 2, divided by the efficiency:</p>
+    <div class="eq"><math display="block"><mi>P</mi><mo>&gt;</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><mrow><mi>η</mi><msqrt><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></msqrt></mrow></mfrac><mo>=</mo><mn>87</mn><mtext>&nbsp;W</mtext></math></div>
+    <p>Example: at 100 W the thrust is 5.4 N, only 0.5 N more than the weight. The object starts gently with <i>a</i> = 0.5 N / 0.5 kg ≈ 0.9 m/s². At 500 W the thrust is 15.7 N, more than three times the weight, and the object starts with about 22 m/s².</p>
+    <p class="muted" id="liftOut"></p>
+    <p>Thrust grows with <i>P</i><sup>2/3</sup>, so doubling the power gives 59 % more thrust, not double. Once the object moves, the thrust drops and the drag grows until the forces balance. From then on it climbs at a steady speed, which is part 4. The simulation skips the short acceleration phase and uses that steady speed.</p>
+
+    <h3>4. Climbing</h3>
     <p>When the object climbs at the speed <i>v</i>, air passes through the disk at <i>v</i> + <i>v</i><sub>i</sub>:</p>
     <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><mo>(</mo><mi>v</mi><mo>+</mo><msub><mi>v</mi><mi>i</mi></msub><mo>)</mo><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><mspace width="1.5em"></mspace><msub><mi>P</mi><mtext>air</mtext></msub><mo>=</mo><mi>T</mi><mo>(</mo><mi>v</mi><mo>+</mo><msub><mi>v</mi><mi>i</mi></msub><mo>)</mo></math></div>
     <p>The part <i>T v</i> is useful work against gravity and drag. The part <i>T v</i><sub>i</sub> is lost in the downwash. Eliminating <i>v</i><sub>i</sub> gives the equation the simulation solves for <i>v</i>. Here <i>P</i> is the power drawn from the battery and <i>η</i> the efficiency from battery to air:</p>
@@ -219,23 +232,23 @@
       </table>
     </div>
 
-    <h3>4. Thinner air</h3>
+    <h3>5. Thinner air</h3>
     <p>Air density falls by about half every 5 km. As a rule of thumb:</p>
     <div class="eq"><math display="block"><mi>ρ</mi><mo>(</mo><mi>h</mi><mo>)</mo><mo>&asymp;</mo><msub><mi>ρ</mi><mn>0</mn></msub><msup><mi>e</mi><mrow><mo>&minus;</mo><mi>h</mi><mo>/</mo><mi>H</mi></mrow></msup><mo>,</mo><mspace width="1.5em"></mspace><mi>H</mi><mo>&asymp;</mo><mn>7.5</mn><mtext>&nbsp;km</mtext></math></div>
     <p>The simulation uses the International Standard Atmosphere, which also follows the temperature layers. Thin air means less drag, but also less air to push against. Hover power grows with 1/√<i>ρ</i>.</p>
 
-    <h3>5. The ceiling</h3>
+    <h3>6. The ceiling</h3>
     <p>The object stops climbing at the density <i>ρ</i><sub>c</sub> where all of its power is needed to hover:</p>
     <div class="eq"><math display="block"><mi>η</mi><mi>P</mi><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><msub><mi>ρ</mi><mi>c</mi></msub><mi>A</mi></mrow></msqrt></mfrac><mspace width="1em"></mspace><mo>&rArr;</mo><mspace width="1em"></mspace><msub><mi>ρ</mi><mi>c</mi></msub><mo>=</mo><msub><mi>ρ</mi><mn>0</mn></msub><msup><mrow><mo>(</mo><mfrac><msub><mi>P</mi><mn>0</mn></msub><mi>P</mi></mfrac><mo>)</mo></mrow><mn>2</mn></msup></math></div>
     <p><i>P</i><sub>0</sub> is the battery power needed to hover at sea level. With the rule of thumb for the density, the ceiling height is:</p>
     <div class="eq"><math display="block"><msub><mi>h</mi><mi>c</mi></msub><mo>&asymp;</mo><mn>2</mn><mi>H</mi><mi>ln</mi><mfrac><mi>P</mi><msub><mi>P</mi><mn>0</mn></msub></mfrac></math></div>
     <p>Example: 500 W gives 2 · 7.5 km · ln(500 / 87) ≈ 26 km. The simulation says 25.6 km. Every doubling of power adds roughly 9 to 10 km. The shape does not appear in this formula. That is why objects with the same propellers reach the same height.</p>
 
-    <h3>6. The battery sets the time</h3>
+    <h3>7. The battery sets the time</h3>
     <div class="eq"><math display="block"><mi>t</mi><mo>=</mo><mfrac><mi>E</mi><mi>P</mi></mfrac></math></div>
     <p>At 500 W the battery lasts 2 hours, at 10 kW only 6 minutes. If the climb takes longer than that, the object never reaches its ceiling. This is the falling right side of the chart. The best power is the one where the battery runs empty just as the object arrives at its ceiling. Below it, energy is wasted hovering at the top. Above it, the ceiling is out of reach, and a low-drag shape helps because it climbs faster.</p>
 
-    <h3>7. Where the energy goes</h3>
+    <h3>8. Where the energy goes</h3>
     <div class="eq"><math display="block"><mi>E</mi><mo>=</mo><munder><mrow><mi>m</mi><mi>g</mi><mi>h</mi></mrow><mtext>height</mtext></munder><mo>+</mo><munder><mrow><mo>&int;</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mi>d</mi><mi>t</mi></mrow><mtext>downwash</mtext></munder><mo>+</mo><munder><mrow><mo>&int;</mo><mi>D</mi><mi>v</mi><mi>d</mi><mi>t</mi></mrow><mtext>drag</mtext></munder><mo>+</mo><munder><mrow><mo>(</mo><mn>1</mn><mo>&minus;</mo><mi>η</mi><mo>)</mo><mi>E</mi></mrow><mtext>motor and propeller losses</mtext></munder></math></div>
     <p>The table column "Battery turned into height" is the first term divided by <i>E</i>:</p>
     <div class="eq"><math display="block"><msub><mi>η</mi><mi>h</mi></msub><mo>=</mo><mfrac><mrow><mi>m</mi><mi>g</mi><mi>h</mi></mrow><mi>E</mi></mfrac></math></div>
@@ -255,7 +268,7 @@
     <p>The steps multiply, for example 0.97 · 0.95 · 0.85 · 0.60 ≈ 0.47. The propeller is the largest loss, the motor the second. Small propellers do worse than large ones, because air flows less cleanly over small, fast blades. Realistic totals are 35 to 55 % for a small drone and up to about 65 % with large, slow, well-matched propellers. The default of 50 % is on the good side for 12.7 cm propellers.</p>
     <p>This efficiency compares the real drive with the ideal propeller from part 2. Even at 100 % the downwash loss <i>T v</i><sub>i</sub> remains, because pushing air down is how a propeller makes thrust.</p>
 
-    <h3>8. How to improve it</h3>
+    <h3>9. How to improve it</h3>
     <ul>
       <li><b>Larger propellers.</b> Hover power falls with 1/diameter. Doubling the diameter halves it and lifts the ceiling by about 9 km. Try 25 cm for the drop.</li>
       <li><b>Better efficiency <i>η</i>.</b> It raises the ceiling like extra power, without draining the battery faster.</li>
@@ -434,6 +447,10 @@ function computeRuns() {
   const p = power(), e = eta();
   runs = SHAPES.map(s => simulate(p, s.cdA(), s.disk(), e, 2000));
   $('powerOut').textContent = fmtPower(p);
+  const thrust0 = Math.cbrt(2 * density(0) * mainDisk()) * Math.pow(p * e, 2 / 3), weight0 = MASS * G0;
+  $('liftOut').textContent = 'At your setting of ' + fmtPower(p) + ' (cube, drone and ball): thrust at standstill ' +
+    thrust0.toFixed(1) + ' N, weight ' + weight0.toFixed(1) + ' N. ' + (thrust0 > weight0
+      ? 'It lifts off and starts with ' + ((thrust0 - weight0) / MASS).toFixed(1) + ' m/s².' : 'It stays on the ground.');
   $('rows').innerHTML = SHAPES.map((s, i) => {
     const r = runs[i];
     let top = fmtKm(r.max), tTop = '–', hover = '–';
