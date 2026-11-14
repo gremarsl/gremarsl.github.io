@@ -220,14 +220,53 @@
     <p>The simulation reaches only a few percent of that. A propeller has to pay for staying in the air every second, even when it gains no height.</p>
 
     <h3>2. Why hovering costs power</h3>
-    <p>A propeller makes thrust by pushing air downward. The thrust <i>T</i> equals the momentum it gives to the air each second. Momentum theory treats the propellers as a disk of area <i>A</i>. Air passes through the disk at the speed <i>v</i><sub>i</sub> and ends up at twice that speed, <i>w</i> = 2<i>v</i><sub>i</sub>, further below. With the air density <i>ρ</i>, the air mass per second and the thrust are:</p>
-    <div class="eq"><math display="block"><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mo>=</mo><mi>ρ</mi><mi>A</mi><msub><mi>v</mi><mi>i</mi></msub><mo>,</mo><mspace width="1.5em"></mspace><mi>T</mi><mo>=</mo><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mi>w</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup></math></div>
-    <p>The power is the kinetic energy given to that air each second:</p>
-    <div class="eq"><math display="block"><mi>P</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mover><mi>m</mi><mo>&#x2D9;</mo></mover><msup><mi>w</mi><mn>2</mn></msup><mo>=</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub></math></div>
-    <p>To hover, the thrust must equal the weight, <i>T</i> = <i>m g</i>. That fixes the air speed and the power:</p>
-    <div class="eq"><math display="block"><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt><mo>,</mo><mspace width="1.5em"></mspace><msub><mi>P</mi><mtext>hover</mtext></msub><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></msqrt></mfrac></math></div>
+    <p>A propeller holds the object up by pushing air down. The steps below lead from that idea to the power needed to hover.</p>
+
+    <p><b>Step 1. Forces on the object.</b> The propeller pushes the air down. The air pushes back on the propeller with the same force, upward. That reaction is the thrust <i>T</i>. The push down acts on the air, not on the object. So only two forces act on the object, the thrust up and the weight down, and for hovering they must be equal:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mi>m</mi><mi>g</mi></math></div>
+    <svg viewBox="0 0 520 190" role="img" aria-label="Left: thrust up and weight down on the object. Right: the propeller pushes the air down." style="width: 100%; max-width: 520px; height: auto; color: var(--fg)" font-size="12" fill="currentColor" stroke="none" text-anchor="middle">
+      <text x="125" y="16" font-weight="600" font-size="13">Forces on the object</text>
+      <rect x="95" y="80" width="60" height="30" style="fill: var(--neutral)"></rect>
+      <g stroke="currentColor" fill="currentColor"><line x1="125" y1="78" x2="125" y2="44" stroke-width="2"></line><polygon points="125,34 119,45 131,45"></polygon></g>
+      <g stroke="currentColor" fill="currentColor"><line x1="125" y1="112" x2="125" y2="146" stroke-width="2"></line><polygon points="125,156 119,145 131,145"></polygon></g>
+      <text x="137" y="54" text-anchor="start">Thrust T: air pushes up</text>
+      <text x="137" y="140" text-anchor="start">Weight m g</text>
+      <text x="125" y="182">Balanced: it hovers</text>
+      <text x="395" y="16" font-weight="600" font-size="13">Force on the air</text>
+      <line x1="355" y1="56" x2="435" y2="56" stroke="currentColor" stroke-width="3"></line>
+      <text x="441" y="60" text-anchor="start">Propeller</text>
+      <rect x="365" y="68" width="60" height="38" fill="none" stroke="currentColor" stroke-dasharray="4 3"></rect>
+      <text x="395" y="91">air</text>
+      <g stroke="currentColor" fill="currentColor"><line x1="395" y1="110" x2="395" y2="146" stroke-width="2"></line><polygon points="395,156 389,145 401,145"></polygon></g>
+      <text x="407" y="134" text-anchor="start">Push T: down</text>
+      <text x="395" y="182">Not balanced: the air speeds up</text>
+    </svg>
+    <p><b>Step 2. Force on the air.</b> The object does not accelerate, but the air does. Each bit of air starts at rest and leaves at the speed <i>w</i>. Apply <i>F</i> = <i>m a</i> to the air: a mass <i>m</i><sub>air</sub> that gains the speed <i>w</i> in the time <i>t</i> has the acceleration <i>a</i> = <i>w</i> / <i>t</i>.</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><msub><mi>m</mi><mtext>air</mtext></msub><mi>a</mi><mo>=</mo><msub><mi>m</mi><mtext>air</mtext></msub><mfrac><mi>w</mi><mi>t</mi></mfrac><mo>=</mo><mfrac><msub><mi>m</mi><mtext>air</mtext></msub><mi>t</mi></mfrac><mi>w</mi><mo>=</mo><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mi>w</mi></math></div>
+    <p>Here <i>ṁ</i> = <i>m</i><sub>air</sub> / <i>t</i> is the mass of air pushed down per second, in kg/s. The dot means "per second". So "mass flow times speed" is still <i>F</i> = <i>m a</i>, written for a stream of air. The units fit: kg/s · m/s = kg·m/s² = N.</p>
+
+    <p><b>Step 3. How much air per second.</b> The propellers sweep a disk of area <i>A</i>. Air of density <i>ρ</i> passes through it at the speed <i>v</i><sub>i</sub>:</p>
+    <div class="eq"><math display="block"><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mo>=</mo><mi>ρ</mi><mi>A</mi><msub><mi>v</mi><mi>i</mi></msub></math></div>
+    <p><b>Step 4. Energy and power.</b> The air that was pushed down now moves, so it carries kinetic energy <i>E</i>. The power <i>P</i> is that energy per second:</p>
+    <div class="eq"><math display="block"><mi>E</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msub><mi>m</mi><mtext>air</mtext></msub><msup><mi>w</mi><mn>2</mn></msup><mo>,</mo><mspace width='1.5em'></mspace><mi>P</mi><mo>=</mo><mfrac><mi>E</mi><mi>t</mi></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mfrac><msub><mi>m</mi><mtext>air</mtext></msub><mi>t</mi></mfrac><msup><mi>w</mi><mn>2</mn></msup><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mover><mi>m</mi><mo>&#x2D9;</mo></mover><msup><mi>w</mi><mn>2</mn></msup></math></div>
+    <p><b>Step 5. Speed at the disk and far below.</b> The disk pushes with the force <i>T</i> on air that moves through it at <i>v</i><sub>i</sub>. Force times speed is power, so the disk delivers <i>T v</i><sub>i</sub>. That must equal the power from step 4. With <i>T</i> = <i>ṁ w</i> from step 2:</p>
+    <div class="eq"><math display="block"><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mover><mi>m</mi><mo>&#x2D9;</mo></mover><msup><mi>w</mi><mn>2</mn></msup><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>T</mi><mi>w</mi><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><mi>w</mi><mo>=</mo><mn>2</mn><msub><mi>v</mi><mi>i</mi></msub></math></div>
+    <p>The air is still speeding up after it has passed the disk. Far below, it moves twice as fast as at the disk.</p>
+
+    <p><b>Step 6. Thrust from the air speed.</b> Put steps 3 and 5 into step 2:</p>
+    <div class="eq"><math display="block"><mi>T</mi><mo>=</mo><mover><mi>m</mi><mo>&#x2D9;</mo></mover><mi>w</mi><mo>=</mo><mi>ρ</mi><mi>A</mi><msub><mi>v</mi><mi>i</mi></msub><mo>&sdot;</mo><mn>2</mn><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup></math></div>
+    <p><b>Step 7. Air speed for hovering.</b> The thrust needed is the weight (step 1). Set the two equal and solve for <i>v</i><sub>i</sub>:</p>
+    <div class="eq"><math display="block"><mi>m</mi><mi>g</mi><mo>=</mo><mn>2</mn><mi>ρ</mi><mi>A</mi><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><msubsup><mi>v</mi><mi>i</mi><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac><mspace width='1em'></mspace><mo>&rArr;</mo><mspace width='1em'></mspace><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt></math></div>
+    <p><b>Step 8. Power for hovering.</b> Use <i>P</i> = <i>T v</i><sub>i</sub> from step 5 with <i>T</i> = <i>m g</i>:</p>
+    <div class="eq"><math display="block"><msub><mi>P</mi><mtext>hover</mtext></msub><mo>=</mo><mi>T</mi><msub><mi>v</mi><mi>i</mi></msub><mo>=</mo><mi>m</mi><mi>g</mi><mo>&sdot;</mo><msqrt><mfrac><mrow><mi>m</mi><mi>g</mi></mrow><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></mfrac></msqrt><mo>=</mo><mfrac><msup><mrow><mo>(</mo><mi>m</mi><mi>g</mi><mo>)</mo></mrow><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msup><msqrt><mrow><mn>2</mn><mi>ρ</mi><mi>A</mi></mrow></msqrt></mfrac></math></div>
+    <p><b>In numbers.</b> Two 12.7 cm propellers have <i>A</i> = 0.0253 m². At sea level <i>ρ</i> = 1.225 kg/m³ and the weight is 4.9 N.</p>
+    <ul>
+      <li>Air speed at the disk: <i>v</i><sub>i</sub> = √(4.9 / (2 · 1.225 · 0.0253)) = 8.9 m/s. Far below: <i>w</i> = 17.8 m/s.</li>
+      <li>Air per second: <i>ṁ</i> = 1.225 · 0.0253 · 8.9 = 0.28 kg/s. That is about 225 litres of air every second.</li>
+      <li>Check of the thrust: <i>ṁ w</i> = 0.28 kg/s · 17.8 m/s = 4.9 N, the weight.</li>
+      <li>Power: <i>T v</i><sub>i</sub> = 4.9 N · 8.9 m/s = 43.6 W in the air. At 50 % efficiency that is 87 W from the battery.</li>
+    </ul>
     <p>Thrust grows with the air speed, but power grows with its square. Moving a lot of air slowly is cheaper than moving a little air fast, so large propellers are efficient.</p>
-    <p>Example: two 12.7 cm propellers have <i>A</i> = 0.0253 m². At sea level (<i>ρ</i> = 1.225 kg/m³) the air passes through them at 8.9 m/s and hovering puts 43.6 W into the air. At 50 % efficiency that is 87 W from the battery.</p>
 
     <h3>3. Lift-off</h3>
     <p>Three forces act on the object. The thrust <i>T</i> of the propellers pushes up. The weight <i>m g</i> and the drag <i>D</i> pull down. Newton's second law gives the acceleration <i>a</i>:</p>
